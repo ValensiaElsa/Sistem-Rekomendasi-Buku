@@ -8,6 +8,6 @@ Penelitian menunjukkan bahwa kedua pendekatan ini memiliki kelebihan masing-masi
 
 # Referensi
 
-[1] M. R. Az Zayyad, "Sistem Rekomendasi Buku Menggunakan Metode Content-Based Filtering," Universitas Islam Indonesia, Yogyakarta, 2021. \[Online]. Available: [https://journal.iaunpg.ac.id/index.php/jitia/article/view/123](https://journal.iaunpg.ac.id/index.php/jitia/article/view/123).
+[1] M. R. Az Zayyad, "Sistem Rekomendasi Buku Menggunakan Metode Content-Based Filtering," Universitas Islam Indonesia, Yogyakarta, 2021. [Online]. Available: [https://dspace.uii.ac.id/bitstream/handle/123456789/35942/17523144%20Muhammad%20Rizqi%20Az%20Zayyad.pdf?sequence=1]([https://journal.iaunpg.ac.id/index.php/jitia/article/view/123](https://dspace.uii.ac.id/bitstream/handle/123456789/35942/17523144%20Muhammad%20Rizqi%20Az%20Zayyad.pdf?sequence=1)).
 
-[2] L. Dzumiroh, "Penerapan Metode Collaborative Filtering Menggunakan Rating Implisit pada Sistem Perekomendasi Pemilihan Film di Rental VCD," *Jurnal ITSMART*, vol. 1, no. 2, pp. 54-56, 2012. \[Online]. Available: [https://journal.uns.ac.id/itsmart](https://journal.uns.ac.id/itsmart).
+[2] L. Dzumiroh, "Penerapan Metode Collaborative Filtering Menggunakan Rating Implisit pada Sistem Perekomendasi Pemilihan Film di Rental VCD," *Jurnal ITSMART*, vol. 1, no. 2, pp. 54-56, 2012. [Online]. Available: [https://jurnal.uns.ac.id/itsmart/article/viewFile/590/542]([https://journal.uns.ac.id/itsmart](https://jurnal.uns.ac.id/itsmart/article/viewFile/590/542)).
