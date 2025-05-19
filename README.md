@@ -123,6 +123,28 @@ print(f"Jumlah baris duplikat: {jumlah_duplikat}")
 
 Namun, pada dataset ini, **tidak ditemukan duplikat**, yang berarti setiap entri dalam dataset adalah unik dan tidak ada baris yang terduplikasi.
 
+### Data Understanding untuk Users.csv
+*gambar head()*
+Berdasarkan pemeriksaan awal menggunakan fungsi head() pada dataset Users, ditemukan bahwa kolom Location menggabungkan informasi tentang kota, negara bagian, dan negara dalam satu kolom, seperti yang terlihat pada contoh "nyc, new york, usa". Meskipun kolom Location tidak digunakan dalam model rekomendasi berbasis Collaborative Filtering dan Content-Based Filtering, penting untuk melakukan pembersihan data terlebih dahulu. Pemisahan kolom Location menjadi City, State, dan Country dapat menjaga konsistensi data dan mempermudah pengelolaan data di masa depan, terutama jika terdapat perkembangan model yang memerlukan informasi lokasi.
+
+*gambar info()*
+Berdasarkan hasil pemeriksaan dengan menggunakan fungsi info() pada dataset Users, terdapat tiga kolom utama: User-ID, Location, dan Age. Kolom User-ID memiliki tipe data int64, yang sudah sesuai untuk mewakili ID pengguna. Kolom Age memiliki tipe data float64, yang juga sudah tepat karena usia bisa berupa angka desimal pada beberapa kasus.
+
+**Pengecekan Missing Value**
+*gambar*
+Berdasarkan hasil pemeriksaan terhadap nilai yang hilang (missing values) menggunakan fungsi isnull().sum() pada dataset Users, ditemukan bahwa kolom Age memiliki 110,762 entri yang kosong. Meskipun kolom Age tidak digunakan dalam model rekomendasi berbasis Content-Based Filtering dan Collaborative Filtering, penting untuk menangani nilai yang hilang pada kolom ini untuk menjaga konsistensi data. Salah satu cara untuk mengatasi masalah ini adalah dengan mengisi nilai yang hilang menggunakan nilai rata-rata (mean) dari kolom Age, yang dapat dilakukan dengan imputasi.
+
+**Pengecekan Invalid Data**
+*gambar*
+Berdasarkan hasil pengecekan data pada kolom Age, dapat dilihat bahwa bahwa terdapat nilai NaN (missing values) dalam data usia. Setelah disortir, terdapat berbagai rentang usia yang tercatat dalam dataset. Rentang usia ini bervariasi dari 0 hingga 244. Ada beberapa nilai usia yang lebih tinggi (lebih dari 80), yang bisa jadi merupakan entri yang tidak valid atau mungkin hasil kesalahan input.
+
+Untuk memastikan bahwa data ini valid dan konsisten, data usia akan dianalisis lebih lanjut melalui visualisasi pada tahap Exploratory Data Analysis (EDA). Dengan menggunakan grafik distribusi atau histogram, kita dapat mengeksplorasi lebih dalam pola distribusi usia, mengidentifikasi nilai yang tidak wajar, dan mengevaluasi apakah ada kebutuhan untuk melakukan penyesuaian atau imputasi pada nilai usia yang tidak valid.
+
+**Pengecekan Data Duplikat**
+Selanjutnya, kita memeriksa apakah ada data duplikat di dalam dataset. Berdasarkan hasil pemeriksaan terhadap duplikasi data menggunakan fungsi .duplicated() pada dataset users, ditemukan bahwa tidak ada baris duplikat dalam dataset tersebut.
+
+### Data Understanding untuk Ratings.csv
+
 ## Referensi
 
 \[1] M. R. Az Zayyad, "Sistem Rekomendasi Buku Menggunakan Metode Content-Based Filtering," Universitas Islam Indonesia, Yogyakarta, 2021. \[Online]. Available: [https://dspace.uii.ac.id/bitstream/handle/123456789/35942/17523144%20Muhammad%20Rizqi%20Az%20Zayyad.pdf?sequence=1](https://dspace.uii.ac.id/bitstream/handle/123456789/35942/17523144%20Muhammad%20Rizqi%20Az%20Zayyad.pdf?sequence=1).
