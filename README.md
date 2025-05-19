@@ -21,6 +21,90 @@ Berdasarkan rumusan masalah yang telah dipaparkan di atas, maka proyek penelitia
 - Menerapkan Content-Based Filtering: Menggunakan data tentang buku yang telah dibaca oleh pengguna, seperti genre, penulis, dan deskripsi, untuk memberikan rekomendasi berdasarkan kesamaan atribut antara buku yang telah disukai atau dibaca oleh pengguna dan buku lainnya, menggunakan teknik seperti cosine similarity atau TF-IDF.
 - Menerapkan Collaborative Filtering: Menggunakan data rating dan interaksi pengguna lain untuk merekomendasikan buku yang mungkin disukai pengguna berdasarkan preferensi serupa dari pengguna lain, serta mengatasi cold start problem dengan memanfaatkan data pengguna yang serupa meskipun pengguna baru belum memiliki banyak interaksi dengan sistem.
 
+## Data Understanding
+
+| Jenis | Keterangan |
+| ------ | ------ |
+| Title | [Book Recommendation Dataset](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset) |
+| Source | [Kaggle](https://www.kaggle.com) |
+| Maintainer | [Möbius](https://www.kaggle.com/arashnic) |
+| License | CC0: Public Domain |
+| Visibility | Publik |
+| Tags | Online Communities, Literature, Art, Recommender Systems, Culture and Humanities |
+| Usability | 10.00 |
+
+Dataset yang digunakan dalam proyek ini adalah [Book Recommendation Dataset](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset) yang diperoleh dari Kaggle. Dataset ini berisi data dari Book-Crossing community yang mengumpulkan informasi tentang buku-buku yang telah dibaca oleh pengguna dan rating yang diberikan oleh pengguna terhadap buku tersebut. Dataset ini terdiri dari tiga file utama: Users, Books, dan Ratings, yang digunakan untuk membangun sistem rekomendasi buku berbasis content-based filtering dan collaborative filtering. Dataset ini mencakup 278,858 pengguna (yang teranonimkan tetapi dengan data demografi) dan 1,149,780 rating (baik eksplisit maupun implisit) mengenai 271,379 buku
+
+### Variabel-variabel pada Book Recommendation dataset:
+## Data Understanding
+
+| Jenis      | Keterangan                                                                                    |
+| ---------- | --------------------------------------------------------------------------------------------- |
+| Title      | [Book-Crossing Dataset](https://www.kaggle.com/datasets/cedricdastugue/book-crossing-dataset) |
+| Source     | [Kaggle](https://www.kaggle.com)                                                              |
+| Maintainer | Cai-Nicolas Ziegler                                                                           |
+| License    | Unknown                                                                                       |
+| Visibility | Publik                                                                                        |
+| Tags       | Books, User Data, Recommender System                                                          |
+| Usability  | 8.0                                                                                           |
+
+Dataset yang digunakan dalam proyek ini adalah **Book-Crossing Dataset** yang diperoleh dari Kaggle. Dataset ini berisi data dari **Book-Crossing community** yang mengumpulkan informasi tentang buku-buku yang telah dibaca oleh pengguna dan rating yang diberikan oleh pengguna terhadap buku tersebut. Dataset ini terdiri dari tiga file utama: **Users**, **Books**, dan **Ratings**, yang digunakan untuk membangun sistem rekomendasi buku berbasis **content-based filtering** dan **collaborative filtering**. Dataset ini mencakup 278,858 pengguna (yang teranonimkan tetapi dengan data demografi) dan 1,149,780 rating (baik eksplisit maupun implisit) mengenai 271,379 buku.
+
+### Deskripsi Data
+
+Dataset ini terdiri dari tiga file utama yang berfungsi untuk membangun sistem rekomendasi buku:
+
+1. **Users**: Menyediakan informasi demografis pengguna, termasuk ID pengguna, lokasi, dan usia (beberapa data kosong).
+2. **Books**: Menyediakan informasi tentang buku, termasuk ISBN, judul buku, penulis, penerbit, serta URL gambar sampul buku.
+3. **Ratings**: Berisi informasi tentang rating yang diberikan oleh pengguna terhadap buku-buku tertentu, baik yang eksplisit (1-10) maupun implisit (0).
+
+### Variabel-variabel pada Book-Crossing Dataset:
+
+#### Books Dataset:
+
+| # | Column              | Dtype  |
+| - | ------------------- | ------ |
+| 0 | ISBN                | object |
+| 1 | Book-Title          | object |
+| 2 | Book-Author         | object |
+| 3 | Year-Of-Publication | object |
+| 4 | Publisher           | object |
+| 5 | Image-URL-S         | object |
+| 6 | Image-URL-M         | object |
+| 7 | Image-URL-L         | object |
+
+- **ISBN**: Nomor ISBN yang digunakan untuk mengidentifikasi buku.
+- **Book-Title**: Judul buku.
+- **Book-Author**: Penulis buku (hanya penulis pertama jika ada lebih dari satu).
+- **Year-Of-Publication**: Tahun terbit buku.
+- **Publisher**: Penerbit buku.
+- **Image-URL-S, Image-URL-M, Image-URL-L**: URL gambar sampul buku dalam tiga ukuran berbeda (kecil, medium, besar).
+
+#### Users Dataset:
+
+| # | Column   | Dtype  |
+| - | -------- | ------ |
+| 0 | User-ID  | int64  |
+| 1 | Location | object |
+| 2 | Age      | float64  |
+
+- **User-ID**: ID pengguna yang telah dianonimkan.
+- **Location**: Lokasi pengguna (NULL jika tidak tersedia).
+- **Age**: Umur pengguna (NULL jika tidak tersedia).
+
+#### Ratings Dataset:
+
+| # | Column      | Dtype  |
+| - | ----------- | ------ |
+| 0 | User-ID     | int64  |
+| 1 | ISBN        | object |
+| 2 | Book-Rating | int64  |
+
+- **User-ID**: ID pengguna yang memberikan rating pada buku.
+- **ISBN**: ISBN buku yang diberi rating.
+- **Book-Rating**: Rating yang diberikan oleh pengguna, dengan rentang nilai 1-10 (nilai 0 menandakan rating implisit).
+
+
 ## Referensi
 
 \[1] M. R. Az Zayyad, "Sistem Rekomendasi Buku Menggunakan Metode Content-Based Filtering," Universitas Islam Indonesia, Yogyakarta, 2021. \[Online]. Available: [https://dspace.uii.ac.id/bitstream/handle/123456789/35942/17523144%20Muhammad%20Rizqi%20Az%20Zayyad.pdf?sequence=1](https://dspace.uii.ac.id/bitstream/handle/123456789/35942/17523144%20Muhammad%20Rizqi%20Az%20Zayyad.pdf?sequence=1).
