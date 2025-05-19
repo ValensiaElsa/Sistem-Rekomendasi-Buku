@@ -35,21 +35,6 @@ Berdasarkan rumusan masalah yang telah dipaparkan di atas, maka proyek penelitia
 
 Dataset yang digunakan dalam proyek ini adalah [Book Recommendation Dataset](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset) yang diperoleh dari Kaggle. Dataset ini berisi data dari Book-Crossing community yang mengumpulkan informasi tentang buku-buku yang telah dibaca oleh pengguna dan rating yang diberikan oleh pengguna terhadap buku tersebut. Dataset ini terdiri dari tiga file utama: Users, Books, dan Ratings, yang digunakan untuk membangun sistem rekomendasi buku berbasis content-based filtering dan collaborative filtering. Dataset ini mencakup 278,858 pengguna (yang teranonimkan tetapi dengan data demografi) dan 1,149,780 rating (baik eksplisit maupun implisit) mengenai 271,379 buku
 
-### Variabel-variabel pada Book Recommendation dataset:
-## Data Understanding
-
-| Jenis      | Keterangan                                                                                    |
-| ---------- | --------------------------------------------------------------------------------------------- |
-| Title      | [Book-Crossing Dataset](https://www.kaggle.com/datasets/cedricdastugue/book-crossing-dataset) |
-| Source     | [Kaggle](https://www.kaggle.com)                                                              |
-| Maintainer | Cai-Nicolas Ziegler                                                                           |
-| License    | Unknown                                                                                       |
-| Visibility | Publik                                                                                        |
-| Tags       | Books, User Data, Recommender System                                                          |
-| Usability  | 8.0                                                                                           |
-
-Dataset yang digunakan dalam proyek ini adalah **Book-Crossing Dataset** yang diperoleh dari Kaggle. Dataset ini berisi data dari **Book-Crossing community** yang mengumpulkan informasi tentang buku-buku yang telah dibaca oleh pengguna dan rating yang diberikan oleh pengguna terhadap buku tersebut. Dataset ini terdiri dari tiga file utama: **Users**, **Books**, dan **Ratings**, yang digunakan untuk membangun sistem rekomendasi buku berbasis **content-based filtering** dan **collaborative filtering**. Dataset ini mencakup 278,858 pengguna (yang teranonimkan tetapi dengan data demografi) dan 1,149,780 rating (baik eksplisit maupun implisit) mengenai 271,379 buku.
-
 ### Deskripsi Data
 
 Dataset ini terdiri dari tiga file utama yang berfungsi untuk membangun sistem rekomendasi buku:
@@ -58,8 +43,7 @@ Dataset ini terdiri dari tiga file utama yang berfungsi untuk membangun sistem r
 2. **Books**: Menyediakan informasi tentang buku, termasuk ISBN, judul buku, penulis, penerbit, serta URL gambar sampul buku.
 3. **Ratings**: Berisi informasi tentang rating yang diberikan oleh pengguna terhadap buku-buku tertentu, baik yang eksplisit (1-10) maupun implisit (0).
 
-### Variabel-variabel pada Book-Crossing Dataset:
-
+### Variabel-variabel pada Book Recommendation dataset:
 #### Books Dataset:
 
 | # | Column              | Dtype  |
