@@ -423,26 +423,13 @@ Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk 
 
   Dalam konteks ini, precision adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan jumlah total item yang direkomendasikan. Semakin tinggi precision, semakin sedikit item tidak relevan yang direkomendasikan oleh model.
   
-**Recall**
-
-  Recall mengukur kemampuan model dalam menemukan semua kasus positif yang sebenarnya (yaitu, mendeteksi semua individu yang benar-benar menderita anemia). Formula recall adalah:
+**Recall** mengukur proporsi data positif yang berhasil ditemukan oleh model
 
   $$
   \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
   $$
 
-  Recall tinggi menunjukkan bahwa model berhasil menangkap sebagian besar individu yang benar-benar menderita anemia, meskipun mungkin ada beberapa kesalahan (false negatives). Recall yang tinggi sangat diinginkan dalam kasus diagnosis medis, karena **lebih penting** untuk **menangkap semua pasien yang menderita anemia** (mencegah **false negatives**) daripada menghindari beberapa **false positives**.
-.
-
-
-* **Recall** mengukur proporsi data positif yang berhasil ditemukan oleh model.
-
-  $$
-  \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
-  $$
-
   Recall adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan total item relevan yang seharusnya direkomendasikan. Semakin tinggi recall, semakin banyak item relevan yang berhasil ditemukan oleh sistem.
-
 
 * **F1-score** merupakan harmonisasi rata-rata dari precision dan recall, memberikan ukuran keseimbangan antara keduanya.
 
