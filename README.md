@@ -415,7 +415,6 @@ Sebagai contoh hasil rekomendasi buku untuk pengguna dengan ID 248221 menunjukka
 Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk mengukur performa sistem rekomendasi buku berbasis kemiripan konten, yaitu **Precision**, **Recall**, dan **F1-score**. Metrik-metrik ini dipilih karena sesuai untuk mengukur kualitas model dalam tugas klasifikasi biner, yakni memprediksi apakah sebuah pasangan buku memiliki kemiripan tinggi (positif) atau tidak (negatif).
 
 #### **Formula Precision, Recall, dan F1-Score**
-- **Precission**
 **Precision** mengukur proporsi prediksi positif yang benar-benar relevan.
 
   $$
@@ -424,7 +423,6 @@ Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk 
 
    Dalam konteks ini, precision adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan jumlah total item yang direkomendasikan. Semakin tinggi precision, semakin sedikit item tidak relevan yang direkomendasikan oleh model.
 
-- **Recall**
 **Recall** mengukur proporsi data positif yang berhasil ditemukan oleh model
 
   $$
@@ -433,7 +431,6 @@ Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk 
 
   Recall adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan total item relevan yang seharusnya direkomendasikan. Semakin tinggi recall, semakin banyak item relevan yang berhasil ditemukan oleh sistem.
 
-- **F1-Score**
 **F1-score** merupakan harmonisasi rata-rata dari precision dan recall, memberikan ukuran keseimbangan antara keduanya:
 
   $$
