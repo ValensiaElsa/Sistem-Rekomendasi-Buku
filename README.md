@@ -289,7 +289,7 @@ Pada tahap modeling, kita akan menggunakan 2 pendekatan, yaitu **Content-Based F
 ### 1. Content-Based Filtering
 Pendekatan ini akan memberikan rekomendasi buku berdasarkan kesamaan konten antara buku yang telah dibaca oleh pengguna dan buku lainnya dalam dataset. Rekomendasi dihitung menggunakan **Cosine Similarity**, yang mengukur seberapa mirip dua buku berdasarkan fitur kontennya, seperti judul, penulis, dan penerbit.
 
-##### Proses Content-Based Filtering:
+#### Proses Content-Based Filtering:
 
 - **Normalisasi Data**:
    Untuk memastikan bahwa perhitungan kemiripan antar buku berdasarkan konten dilakukan secara adil, kita melakukan **normalisasi data** pada dataset buku. Proses normalisasi ini bertujuan untuk mengubah data menjadi skala yang seragam sehingga setiap fitur dapat diukur dengan cara yang setara.
