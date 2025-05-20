@@ -415,15 +415,15 @@ Sebagai contoh hasil rekomendasi buku untuk pengguna dengan ID 248221 menunjukka
 Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk mengukur performa sistem rekomendasi buku berbasis kemiripan konten, yaitu **Precision**, **Recall**, dan **F1-score**. Metrik-metrik ini dipilih karena sesuai untuk mengukur kualitas model dalam tugas klasifikasi biner, yakni memprediksi apakah sebuah pasangan buku memiliki kemiripan tinggi (positif) atau tidak (negatif).
 
 #### **Formula Precision, Recall, dan F1-Score**
-**Precision** mengukur proporsi prediksi positif yang benar-benar relevan.
+- **Precision** mengukur proporsi prediksi positif yang benar-benar relevan.
 
   $$
   \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
   $$
 
-  Dalam konteks ini, precision adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan jumlah total item yang direkomendasikan. Semakin tinggi precision, semakin sedikit item tidak relevan yang direkomendasikan oleh model.
+   Dalam konteks ini, precision adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan jumlah total item yang direkomendasikan. Semakin tinggi precision, semakin sedikit item tidak relevan yang direkomendasikan oleh model.
   
-**Recall** mengukur proporsi data positif yang berhasil ditemukan oleh model
+- **Recall** mengukur proporsi data positif yang berhasil ditemukan oleh model
 
   $$
   \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
@@ -431,13 +431,13 @@ Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk 
 
   Recall adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan total item relevan yang seharusnya direkomendasikan. Semakin tinggi recall, semakin banyak item relevan yang berhasil ditemukan oleh sistem.
 
-* **F1-score** merupakan harmonisasi rata-rata dari precision dan recall, memberikan ukuran keseimbangan antara keduanya.
+- **F1-score** merupakan harmonisasi rata-rata dari precision dan recall, memberikan ukuran keseimbangan antara keduanya:
 
   $$
-  \text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}  
+  \text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
   $$
 
-  F1-Score adalah rata-rata harmonik dari precision dan recall. F1 memberikan satu nilai tunggal yang mewakili keseimbangan antara keduanya, terutama berguna jika terjadi ketidakseimbangan antara jumlah positif dan negatif. F1-score penting untuk memastikan model tidak hanya akurat tapi juga tidak melewatkan rekomendasi penting.
+  F1-Score adalah rata-rata harmonik dari precision dan recall. F1 memberikan satu nilai tunggal yang mewakili keseimbangan antara keduanya, terutama berguna jika terjadi ketidakseimbangan antara jumlah positif dan negatif. F1-score penting untuk memastikan model tidak hanya akurat tapi juga tidak melewatkan rekomendasi penting..
 
 Sebelum menghitung ketiga metrik ini, perlu disiapkan data ground truth yang menjadi acuan evaluasi. Dalam proyek ini, data ground truth dibentuk berdasarkan nilai kemiripan antar buku yang dihitung menggunakan teknik cosine similarity. Setiap baris dan kolom mewakili judul buku, dan nilai dalam sel menunjukkan apakah dua buku tersebut dianggap mirip atau tidak. Nilai 1 menunjukkan bahwa dua buku dianggap mirip (similar), sementara nilai 0 berarti tidak mirip (not similar).
 
