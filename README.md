@@ -190,10 +190,11 @@ Berdasarkan hasil pemeriksaan menggunakan fungsi isnull(),sum() pada dataset rat
 
   ![Ratings Describe Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/ratings_describes.png)
 
-  Berdasarkan hasil deskripsi statistik dari dataset ratings, terdapat beberapa informasi penting yang perlu diperhatikan terkait dengan kolom Book-Rating. Kolom ini berisi nilai rating dari pengguna terhadap buku, dengan nilai minimum 0 dan maksimum 10. Nilai 0 menunjukkan bahwa rating tersebut bersifat implisit atau tidak ada rating yang diberikan untuk buku tertentu, yang biasanya digunakan untuk menandakan ketidaktertarikan atau tidak ada interaksi dengan buku tersebut.
+    Berdasarkan hasil deskripsi statistik dari dataset ratings, terdapat beberapa informasi penting yang perlu diperhatikan terkait dengan kolom Book-Rating. Kolom ini berisi nilai rating dari pengguna terhadap buku, dengan nilai minimum 0 dan maksimum 10. Nilai 0 menunjukkan bahwa rating tersebut bersifat implisit atau tidak ada rating yang diberikan untuk buku tertentu, yang biasanya digunakan untuk menandakan ketidaktertarikan atau tidak ada interaksi dengan buku tersebut.
 Oleh karena itu, untuk menjaga kualitas rekomendasi dan menghindari data yang tidak memberikan kontribusi, nilai 0 dalam kolom Book-Rating harus dihapus dari dataset. Hal ini akan memastikan bahwa hanya interaksi yang relevan, yakni yang memiliki rating lebih tinggi dari 0, yang digunakan dalam proses pembuatan model rekomendasi berbasis collaborative filtering.
 
 - **Pengecekan Data Duplikat**
+
   Berdasarkan hasil pemeriksaan terhadap data ratings, tidak ditemukan adanya baris duplikat pada dataset. Hal ini menandakan bahwa setiap entri pada data ratings adalah unik, yang penting untuk memastikan bahwa setiap interaksi pengguna dengan buku dihitung secara terpisah dan tidak terjadi redundansi dalam informasi yang diberikan kepada model rekomendasi.
 
 ## Exploratory Data Analysis (EDA)
