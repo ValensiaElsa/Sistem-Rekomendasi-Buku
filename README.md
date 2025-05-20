@@ -426,7 +426,7 @@ Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk 
 * **Recall** mengukur proporsi data positif yang berhasil ditemukan oleh model.
 
   $$
-  \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
+  \text{Recall} = \frac{\text{True Positives} + \text{False Negatives}}{\text{True Positives}}
   $$
 
   Recall adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan total item relevan yang seharusnya direkomendasikan. Semakin tinggi recall, semakin banyak item relevan yang berhasil ditemukan oleh sistem.
