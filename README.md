@@ -101,47 +101,47 @@ Kolom Year-Of-Publication saat ini bertipe data object, padahal seharusnya kolom
 
 Selain itu, beberapa kolom seperti Image-URL-S, Image-URL-M, dan Image-URL-L berisi URL gambar sampul buku dalam tiga ukuran berbeda (kecil, medium, dan besar). Kolom-kolom ini tidak relevan dalam konteks sistem rekomendasi berbasis content-based filtering dan collaborative filtering, sehingga sebaiknya dihapus agar tidak menambah kompleksitas data.
 
-**Pengecekan Missing Value**
+- **Pengecekan Missing Value**
 
-Langkah selanjutnya adalah memeriksa apakah ada data yang hilang (missing values) pada setiap fitur. Untuk pengecekan missing values, kode berikut digunakan:
-```python
-# Memeriksa missing value
-books.isnull().sum()
-```
+  Langkah selanjutnya adalah memeriksa apakah ada data yang hilang (missing values) pada setiap fitur. Untuk pengecekan missing values, kode berikut digunakan:
+  ```python
+  # Memeriksa missing value
+  books.isnull().sum()
+  ```
 
-![Missing Book Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/missing_books.png)
+  ![Missing Book Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/missing_books.png)
 
-Berdasarkan hasil pemeriksaan terhadap nilai yang hilang dalam dataset **Books.csv**, terdapat beberapa kolom yang memiliki nilai yang hilang (missing values). Kolom **Book-Author** memiliki 2 entri yang kosong, yang menunjukkan bahwa beberapa buku tidak memiliki informasi mengenai penulisnya. Hal yang sama berlaku pada kolom **Publisher**, yang juga memiliki 2 entri kosong, menandakan bahwa ada beberapa buku yang tidak tercatat penerbitnya. Meskipun jumlahnya relatif kecil, data yang hilang ini perlu ditangani, baik dengan imputasi atau penghapusan data, terutama karena kedua kolom tersebut berperan penting dalam proses rekomendasi berbasis konten. Selain itu, penting untuk memeriksa kolom mana saja yang kosong untuk mempermudah proses imputasi, agar kita dapat memilih metode imputasi yang tepat. Berdasarkan hasil pengecekan, missing value Book Author berada pada kolom 118033 dan 187689 dan missing value Publisher berada pada kolom 128890 dan 129037.
+  Berdasarkan hasil pemeriksaan terhadap nilai yang hilang dalam dataset **Books.csv**, terdapat beberapa kolom yang memiliki nilai yang hilang (missing values). Kolom **Book-Author** memiliki 2 entri yang kosong, yang menunjukkan bahwa beberapa buku tidak memiliki informasi mengenai penulisnya. Hal yang sama berlaku pada kolom **Publisher**, yang juga memiliki 2 entri kosong, menandakan bahwa ada beberapa buku yang tidak tercatat penerbitnya. Meskipun jumlahnya relatif kecil, data yang hilang ini perlu ditangani, baik dengan imputasi atau penghapusan data, terutama karena kedua kolom tersebut berperan penting dalam proses rekomendasi berbasis konten. Selain itu, penting untuk memeriksa kolom mana saja yang kosong untuk mempermudah proses imputasi, agar kita dapat memilih metode imputasi yang tepat. Berdasarkan hasil pengecekan, missing value Book Author berada pada kolom 118033 dan 187689 dan missing value Publisher berada pada kolom 128890 dan 129037.
 
-![Missing Author Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/missing_author.png)
+  ![Missing Author Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/missing_author.png)
 
-![Missing Publisher Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/missing_publisher.png)
+  ![Missing Publisher Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/missing_publisher.png)
 
-Kolom **Image-URL-S**, **Image-URL-M**, dan **Image-URL-L** memiliki sedikit atau tanpa nilai yang hilang. Kolom **Image-URL-S** dan **Image-URL-M** tidak memiliki entri yang kosong, sementara kolom **Image-URL-L** hanya memiliki 3 entri yang kosong. Namun, karena kolom gambar ini tidak relevan untuk sistem rekomendasi berbasis **content-based filtering** dan **collaborative filtering**, kolom-kolom ini akan dihapus dari dataset sehingga tidak perlu dilakukan penanganan.
+  Kolom **Image-URL-S**, **Image-URL-M**, dan **Image-URL-L** memiliki sedikit atau tanpa nilai yang hilang. Kolom **Image-URL-S** dan **Image-URL-M** tidak memiliki entri yang kosong, sementara kolom **Image-URL-L** hanya memiliki 3 entri yang kosong. Namun, karena kolom gambar ini tidak relevan untuk sistem rekomendasi berbasis **content-based filtering** dan **collaborative filtering**, kolom-kolom ini akan dihapus dari dataset sehingga tidak perlu dilakukan penanganan.
 
-**Pengecekan Invalid Data**
+- **Pengecekan Invalid Data**
 
-![Invalid Year Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/invalid_year.png)
+  ![Invalid Year Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/invalid_year.png)
 
-Dari hasil pemeriksaan pada kolom Year-Of-Publication, ditemukan dua entri yang tidak sesuai dengan format yang diharapkan, di mana kolom ini berisi nama penerbit seperti "DK Publishing Inc" dan "Gallimard", padahal kolom tersebut seharusnya hanya berisi tahun penerbitan buku. Kesalahan input ini menyebabkan data pada kolom lainnya, seperti Book-Title dan Book-Author, menjadi tergeser. Terdapat tiga entri pada kolom Book-Author di mana nama penulis tercampur dengan judul buku dalam satu kolom, yang jelas merupakan kesalahan format data. 
+  Dari hasil pemeriksaan pada kolom Year-Of-Publication, ditemukan dua entri yang tidak sesuai dengan format yang diharapkan, di mana kolom ini berisi nama penerbit seperti "DK Publishing Inc" dan "Gallimard", padahal kolom tersebut seharusnya hanya berisi tahun penerbitan buku. Kesalahan input ini menyebabkan data pada kolom lainnya, seperti Book-Title dan Book-Author, menjadi tergeser. Terdapat tiga entri pada kolom Book-Author di mana nama penulis tercampur dengan judul buku dalam satu kolom, yang jelas merupakan kesalahan format data. 
 
-![Invalid Year Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/invalid_year_proof.png)
+  ![Invalid Year Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/invalid_year_proof.png)
 
-Untuk memperbaiki hal ini, perlu dilakukan pemisahan antara nama penulis dan judul buku yang tercampur, serta memperbaiki nilai pada kolom Year-Of-Publication agar sesuai dengan format yang benar, sehingga dataset menjadi lebih konsisten dan siap untuk digunakan dalam analisis dan pengembangan sistem rekomendasi.
+  Untuk memperbaiki hal ini, perlu dilakukan pemisahan antara nama penulis dan judul buku yang tercampur, serta memperbaiki nilai pada kolom Year-Of-Publication agar sesuai dengan format yang benar, sehingga dataset menjadi lebih konsisten dan siap untuk digunakan dalam analisis dan pengembangan sistem rekomendasi.
 
-Selanjutnya, kita memeriksa apakah terdapat **karakter non-alfanumerik** pada kolom ISBN dalam data rating. Dari hasil pengecekan, menggunakan flag, ditemukan bahwa ada karakter non-alfanumerik yang tidak sesuai dengan format yang diharapkan, sehingga perlu dilakukan perbaikan pada data tersebut. Flag diatur menjadi 1 saat karakter non-alfanumerik ditemukan, yang menandakan bahwa ada masalah dalam data ISBN yang perlu diperbaiki.
+  Selanjutnya, kita memeriksa apakah terdapat **karakter non-alfanumerik** pada kolom ISBN dalam data rating. Dari hasil pengecekan, menggunakan flag, ditemukan bahwa ada karakter non-alfanumerik yang tidak sesuai dengan format yang diharapkan, sehingga perlu dilakukan perbaikan pada data tersebut. Flag diatur menjadi 1 saat karakter non-alfanumerik ditemukan, yang menandakan bahwa ada masalah dalam data ISBN yang perlu diperbaiki.
 
-**Pengecekan Data Duplikat**
+- **Pengecekan Data Duplikat**
 
-Selanjutnya, kita memeriksa apakah ada data duplikat di dalam dataset. Data duplikat dapat terjadi akibat kesalahan saat pengumpulan atau proses input data. Untuk pengecekan data duplikat, kode berikut digunakan:
+  Selanjutnya, kita memeriksa apakah ada data duplikat di dalam dataset. Data duplikat dapat terjadi akibat kesalahan saat pengumpulan atau proses input data. Untuk pengecekan data duplikat, kode berikut digunakan:
 
-```python
-# Memeriksa duplikasi data 
-jumlah_duplikat = books.duplicated().sum()
-print(f"Jumlah baris duplikat: {jumlah_duplikat}") 
-```
+  ```python
+  # Memeriksa duplikasi data 
+  jumlah_duplikat = books.duplicated().sum()
+  print(f"Jumlah baris duplikat: {jumlah_duplikat}") 
+  ```
 
-Namun, pada dataset ini, **tidak ditemukan duplikat**, yang berarti setiap entri dalam dataset adalah unik dan tidak ada baris yang terduplikasi.
+  Namun, pada dataset ini, **tidak ditemukan duplikat**, yang berarti setiap entri dalam dataset adalah unik dan tidak ada baris yang terduplikasi.
 
 ### Data Understanding untuk Users.csv
 
@@ -153,23 +153,23 @@ Berdasarkan pemeriksaan awal menggunakan fungsi head() pada dataset Users, ditem
 
 Berdasarkan hasil pemeriksaan dengan menggunakan fungsi info() pada dataset Users, terdapat tiga kolom utama: User-ID, Location, dan Age. Kolom User-ID memiliki tipe data int64, yang sudah sesuai untuk mewakili ID pengguna. Kolom Age memiliki tipe data float64, yang juga sudah tepat karena usia bisa berupa angka desimal pada beberapa kasus.
 
-**Pengecekan Missing Value**
+- **Pengecekan Missing Value**
 
-![Users Missing Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/missing_users.png)
+  ![Users Missing Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/missing_users.png)
 
-Berdasarkan hasil pemeriksaan terhadap nilai yang hilang (missing values) menggunakan fungsi isnull().sum() pada dataset Users, ditemukan bahwa kolom Age memiliki 110,762 entri yang kosong. Meskipun kolom Age tidak digunakan dalam model rekomendasi berbasis Content-Based Filtering dan Collaborative Filtering, penting untuk menangani nilai yang hilang pada kolom ini untuk menjaga konsistensi data. Salah satu cara untuk mengatasi masalah ini adalah dengan mengisi nilai yang hilang menggunakan nilai rata-rata (mean) dari kolom Age, yang dapat dilakukan dengan imputasi.
+  Berdasarkan hasil pemeriksaan terhadap nilai yang hilang (missing values) menggunakan fungsi isnull().sum() pada dataset Users, ditemukan bahwa kolom Age memiliki 110,762 entri yang kosong. Meskipun kolom Age tidak digunakan dalam model rekomendasi berbasis Content-Based Filtering dan Collaborative Filtering, penting untuk menangani nilai yang hilang pada kolom ini untuk menjaga konsistensi data. Salah satu cara untuk mengatasi masalah ini adalah dengan mengisi nilai yang hilang menggunakan nilai rata-rata (mean) dari kolom Age, yang dapat dilakukan dengan imputasi.
 
-**Pengecekan Invalid Data**
+- **Pengecekan Invalid Data**
 
-![Invalid Age Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/invalid_age.png)
+  ![Invalid Age Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/invalid_age.png)
 
-Berdasarkan hasil pengecekan data pada kolom Age, dapat dilihat bahwa bahwa terdapat nilai NaN (missing values) dalam data usia. Setelah disortir, terdapat berbagai rentang usia yang tercatat dalam dataset. Rentang usia ini bervariasi dari 0 hingga 244. Ada beberapa nilai usia yang lebih tinggi (lebih dari 80), yang bisa jadi merupakan entri yang tidak valid atau mungkin hasil kesalahan input.
+  Berdasarkan hasil pengecekan data pada kolom Age, dapat dilihat bahwa bahwa terdapat nilai NaN (missing values) dalam data usia. Setelah disortir, terdapat berbagai rentang usia yang tercatat dalam dataset. Rentang usia ini bervariasi dari 0 hingga 244. Ada beberapa nilai usia yang lebih tinggi (lebih dari 80), yang bisa jadi merupakan entri yang tidak valid atau mungkin hasil kesalahan input.
 
-Untuk memastikan bahwa data ini valid dan konsisten, data usia akan dianalisis lebih lanjut melalui visualisasi pada tahap Exploratory Data Analysis (EDA). Dengan menggunakan grafik distribusi atau histogram, kita dapat mengeksplorasi lebih dalam pola distribusi usia, mengidentifikasi nilai yang tidak wajar, dan mengevaluasi apakah ada kebutuhan untuk melakukan penyesuaian atau imputasi pada nilai usia yang tidak valid.
+  Untuk memastikan bahwa data ini valid dan konsisten, data usia akan dianalisis lebih lanjut melalui visualisasi pada tahap Exploratory Data Analysis (EDA). Dengan menggunakan grafik distribusi atau histogram, kita dapat mengeksplorasi lebih dalam pola distribusi usia, mengidentifikasi nilai yang tidak wajar, dan mengevaluasi apakah ada kebutuhan untuk melakukan penyesuaian atau imputasi pada nilai usia yang tidak valid.
 
-**Pengecekan Data Duplikat**
+- **Pengecekan Data Duplikat**
 
-Selanjutnya, kita memeriksa apakah ada data duplikat di dalam dataset. Berdasarkan hasil pemeriksaan terhadap duplikasi data menggunakan fungsi .duplicated() pada dataset users, ditemukan bahwa tidak ada baris duplikat dalam dataset tersebut.
+  Selanjutnya, kita memeriksa apakah ada data duplikat di dalam dataset. Berdasarkan hasil pemeriksaan terhadap duplikasi data menggunakan fungsi .duplicated() pada dataset users, ditemukan bahwa tidak ada baris duplikat dalam dataset tersebut.
 
 ### Data Understanding untuk Ratings.csv
 *gambar info()*
