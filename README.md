@@ -10,16 +10,16 @@ Penelitian telah menunjukkan bahwa kedua pendekatan ini memiliki keunggulan masi
 ### Problem Statements
 Berdasarkan uraian yang telah dipaparkan pada latar belakang diatas, maka dapat diambil sebuah rumusan masalah yang dirumuskan sebagai berikut:
 - Berdasarkan data mengenai pengguna, bagaimana membuat sistem rekomendasi buku yang dipersonalisasi menggunakan teknik content-based filtering?
-- Bagaimana cara memberikan rekomendasi buku yang relevan kepada pengguna baru (cold start problem) berdasarkan data rating dan interaksi pengguna lain yang serupa?
+- Bagaimana memberikan rekomendasi buku yang relevan kepada pengguna berdasarkan pola preferensi pengguna lain yang serupa
 
 ### Goals
 Berdasarkan rumusan masalah yang telah dipaparkan di atas, maka proyek penelitian ini memiliki tujuan, yaitu:
 - Menghasilkan rekomendasi buku yang dipersonalisasi untuk pengguna menggunakan teknik content-based filtering, dengan mempertimbangkan atribut seperti penulis dan penerbit buku yang telah dibaca.
-- Menghasilkan rekomendasi buku yang sesuai dengan preferensi pengguna baru, yang belum pernah dibaca sebelumnya, dengan menggunakan collaborative filtering, berdasarkan data rating dan interaksi pengguna lain yang memiliki pola serupa.
+- Membangun sistem rekomendasi buku yang dipersonalisasi untuk setiap pengguna dengan menggunakan Collaborative Filtering yang berbasis pada data rating dan interaksi pengguna lain dengan buku
 
 ### Solution Statements
 - Menerapkan Content-Based Filtering: Menggunakan data tentang buku yang telah dibaca oleh pengguna, seperti genre, penulis, dan deskripsi, untuk memberikan rekomendasi berdasarkan kesamaan atribut antara buku yang telah disukai atau dibaca oleh pengguna dan buku lainnya, menggunakan teknik seperti cosine similarity atau TF-IDF.
-- Menerapkan Collaborative Filtering: Menggunakan data rating dan interaksi pengguna lain untuk merekomendasikan buku yang mungkin disukai pengguna berdasarkan preferensi serupa dari pengguna lain, serta mengatasi cold start problem dengan memanfaatkan data pengguna yang serupa meskipun pengguna baru belum memiliki banyak interaksi dengan sistem.
+- Menerapkan Collaborative Filtering: Membangun sistem rekomendasi dengan memanfaatkan interaksi pengguna dengan buku (seperti rating atau preferensi eksplisit) untuk menganalisis pola kesamaan antar pengguna dan memberikan rekomendasi buku yang relevan berdasarkan kesamaan preferensi tersebut.
 
 ## Data Understanding
 
