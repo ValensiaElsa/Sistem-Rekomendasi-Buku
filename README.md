@@ -373,6 +373,35 @@ Rekomendasi ini berdasarkan pola preferensi pengguna lain yang serupa, tanpa per
 1. **Cold Start Problem**: Jika pengguna atau buku baru tidak memiliki banyak interaksi, model ini kesulitan memberikan rekomendasi yang akurat.
 2. **Sparsity**: Jika matriks interaksi sangat jarang (misalnya, hanya sebagian kecil pengguna yang memberi rating pada buku tertentu), ini dapat mempengaruhi akurasi rekomendasi.
 
+## Evaluasi
+### 1. **Evaluasi Model Content-Based Filtering**
+
+### 2. **Evaluasi Model Collaborative Filtering **
+
+Metrik yang digunakan dalam proyek ini untuk mengevaluasi performa model rekomendasi menggunakan Collaborative Filtering adalah **Root Mean Squared Error (RMSE)**. RMSE adalah metrik yang umum digunakan untuk mengukur kesalahan dalam prediksi yang dihasilkan oleh model, dan dalam konteks sistem rekomendasi, ini mengukur seberapa jauh prediksi rating yang diberikan oleh model dengan rating aktual yang diberikan oleh pengguna.
+
+#### **Formula RMSE**
+
+RMSE dihitung dengan rumus sebagai berikut:
+
+$$
+RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+$$
+
+Di mana:
+
+* $n$ adalah jumlah total prediksi yang dihitung,
+* $y_i$ adalah nilai aktual atau nilai rating yang diberikan pengguna,
+* $\hat{y}_i$ adalah nilai prediksi yang dihasilkan oleh model.
+
+Untuk menghitung nilai RMSE, pertama-tama, selisih antara nilai rating sebenarnya dan nilai rating yang diprediksi dihitung untuk setiap rating. Selanjutnya, selisih tersebut kemudian dikuadratkan. Pengkuadratan ini berfungsi untuk menghilangkan nilai negatif dan memberikan bobot lebih pada kesalahan yang lebih besar. Setelah itu, hasil kuadrat dari semua selisih dijumlahkan dan dirata-ratakan, yang menghasilkan Mean Squared Error (MSE). Terakhir, akar kuadrat dari MSE diambil, bertujuan untuk mengembalikan unit error ke skala asli dari nilai rating agar lebih mudah dipahami. RMSE memberikan ukuran kesalahan yang lebih besar ketika perbedaan antara nilai yang diprediksi dan nilai aktual lebih besar, sehingga **semakin rendah nilai RMSE, semakin baik kinerja model**.
+
+#### **Hasil Evaluasi RMSE**
+*gambar*
+Berdasarkan grafik yang ditampilkan, kita dapat melihat bahwa **RMSE untuk data pelatihan (train)** mengalami penurunan yang signifikan selama epoch pertama dan kemudian stabil pada nilai yang lebih rendah setelah beberapa epoch. Ini menunjukkan bahwa model mulai belajar dengan baik selama pelatihan dan kesalahan prediksi berkurang seiring berjalannya waktu.
+
+Namun, untuk **data pengujian (test)**, RMSE turun pada awalnya, tetapi kemudian tampaknya stabil pada tingkat yang sedikit lebih tinggi dibandingkan dengan data pelatihan. Hal ini mengindikasikan adanya sedikit overfitting pada model, di mana model mungkin terlalu menyesuaikan dirinya dengan data pelatihan dan kurang dapat generalisasi dengan baik ke data pengujian. Meskipun demikian, penurunan yang stabil pada kedua grafik (train dan test) menunjukkan bahwa model berhasil mempelajari pola yang berguna untuk memprediksi rating pengguna dengan cukup baik.
+
 ## Referensi
 
 \[1] M. R. Az Zayyad, "Sistem Rekomendasi Buku Menggunakan Metode Content-Based Filtering," Universitas Islam Indonesia, Yogyakarta, 2021. \[Online]. Available: [https://dspace.uii.ac.id/bitstream/handle/123456789/35942/17523144%20Muhammad%20Rizqi%20Az%20Zayyad.pdf?sequence=1](https://dspace.uii.ac.id/bitstream/handle/123456789/35942/17523144%20Muhammad%20Rizqi%20Az%20Zayyad.pdf?sequence=1).
