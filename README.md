@@ -170,8 +170,8 @@ Berdasarkan hasil pemeriksaan terhadap data ratings, tidak ditemukan adanya bari
   Berdasarkan analisis distribusi penulis, ditunjukkan bahwa Agatha Christie adalah penulis dengan jumlah buku terbanyak, melebihi 600 judul. Selain itu, terdapat juga beberapa penulis lain dengan lebih dari satu judul buku. Penulis dengan jumlah buku yang lebih banyak cenderung memiliki representasi konten yang lebih besar. Dalam content-based filtering, ini berarti pengguna yang menyukai karya penulis yang sangat produktif seperti Agatha Christie mungkin akan lebih sering direkomendasikan buku lain dari penulis yang sama atau yang memiliki kemiripan konten. Sementara itu, dalam collaborative filtering, popularitas penulis dengan banyak buku dapat tercermin dalam data interaksi pengguna, yang berpotensi menghasilkan rekomendasi yang lebih sering untuk karya-karya mereka.
 
   *gambar distribusi penerbit*
-  Visualisasi jumlah buku berdasarkan penerbit memperlihatkan Harlequin sebagai penerbit dengan jumlah buku terbanyak secara signifikan, diikuti oleh penurunan jumlah buku pada penerbit-penerbit berikutnya. Sama seperti penulis, dalam konteks sistem rekomendasi, dominasi Harlequin dapat berarti bahwa buku-buku dari penerbit ini memiliki representasi konten yang lebih besar untuk analisis content-based filtering. Selain itu, popularitas buku-buku dari penerbit-penerbit teratas ini dapat tercermin dalam data interaksi pengguna untuk collaborative filtering.
-
+  Dari visualisasi tersebut, dapat disimpulkan bahwa Harlequin adalah penerbit dengan jumlah buku terbanyak secara signifikan dibandingkan penerbit lain. Penerbit-penerbit berikutnya seperti Silhouette, Pocket, dan Ballantine Books memiliki jumlah buku yang relatif lebih seimbang namun jauh lebih sedikit dibanding Harlequin. Kondisi ini menunjukkan dominasi Harlequin dalam koleksi buku yang dapat mempengaruhi fokus analisis dan sistem rekomendasi, khususnya pada content-based filtering dan pola interaksi pengguna dalam collaborative filtering.
+ 
 - **Analisis Distribusi Data Numerik**
   *gambar distribusi umur*
   Distribusi umur pengguna menunjukkan adanya potensi data yang tidak valid, terutama pada rentang umur mendekati 0 dan di atas 100 tahun. Keberadaan data umur yang invalid dapat mempengaruhi akurasi sistem rekomendasi jika umur digunakan sebagai fitur (meskipun dalam konteks Content-Based Filtering dan Collaborative Filtering tidak digunakan). Oleh karena itu, langkah-langkah penanganan data invalid perlu dilakukan. Mengingat jumlah data invalid yang signifikan, diputuskan untuk menerapkan metode imputasi dalam penanganan data ini dengan menggunakan nilai rata-rata (mean).
@@ -198,7 +198,7 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   Proses ini dilakukan dengan menentukan nama-nama kolom yang akan dihapus dan menggunakan parameter axis=1 untuk mengindikasikan penghapusan berdasarkan kolom, serta inplace=True untuk menerapkan perubahan langsung pada DataFrame. Penghapusan kolom URL gambar ini diperlukan karena informasi tersebut tidak relevan untuk pemodelan rekomendasi berbasis konten maupun kolaboratif, dapat mengurangi dimensi data yang tidak perlu, memfokuskan analisis pada fitur-fitur yang lebih bermakna dalam menentukan kemiripan buku atau preferensi pengguna, serta menyederhanakan proses pemodelan dengan menghilangkan potensi kompleksitas pemrosesan data gambar.
 
 - **Penanganan Missing Value**
-  Penanganan missing value merupakan langkah krusial dalam persiapan data untuk sistem rekomendasi. Dalam dataset **books**, teknik imputasi dengan nilai'Other' diterapkan pada kolom 'Book-Author' dan 'Publisher' untuk mengatasi nilai yang hilang pada baris-baris tertentu. Sementara itu, pada dataset **users**, teknik imputasi dengan nilai rata-rata (mean imputation) digunakan untuk mengisi nilai yang hilang (NaN) pada kolom 'Age' dengan nilai rata-rata usia dari seluruh pengguna.
+  Penanganan missing value merupakan langkah krusial dalam persiapan data untuk sistem rekomendasi. Dalam dataset **books**, teknik imputasi dengan nilai 'Other' diterapkan pada kolom 'Book-Author' dan 'Publisher' untuk mengatasi nilai yang hilang pada baris-baris tertentu. Sementara itu, pada dataset **users**, teknik imputasi dengan nilai rata-rata (mean imputation) digunakan untuk mengisi nilai yang hilang (NaN) pada kolom 'Age' dengan nilai rata-rata usia dari seluruh pengguna.
   Tindakan ini diperlukan untuk memastikan bahwa dataset bebas dari nilai yang hilang yang dapat mengganggu proses pemodelan algoritma rekomendasi. Imputasi memungkinkan untuk mempertahankan sebagian besar informasi dalam dataset dibandingkan dengan penghapusan baris, sekaligus menciptakan data yang lebih konsisten dan dapat diandalkan. Pengisian dengan nilai yang representatif menjaga informasi yang ada dan membuat model lebih stabil.
 
 - **Standarisasi Format**
@@ -206,24 +206,35 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
 
 - **Penanganan Invalid Data**
   Penanganan data tidak valid merupakan serangkaian proses krusial dalam mempersiapkan dataset sebelum digunakan untuk membangun sistem rekomendasi yang efektif. Tujuannya adalah untuk mengidentifikasi dan memperbaiki atau mengatasi data yang tidak akurat, tidak konsisten, atau tidak relevan, sehingga kualitas informasi yang digunakan dalam pelatihan model menjadi lebih baik dan menghasilkan rekomendasi yang lebih handal. Beberapa teknik spesifik diterapkan pada dataset books, users, dan ratings untuk mencapai tujuan ini.
+  
+  **Mengatasi Kesalahan Data yang Tergeser**
   Pada dataset books, langkah pertama adalah **pembaharuan data yang teridentifikasi atau explicit value replacement**.
   
   *gambar contoh kode*
   
-  Teknik ini melibatkan penggantian nilai-nilai spesifik yang diketahui salah atau tidak akurat dengan nilai yang benar. Pada baris-baris tertentu, informasi seperti nama penerbit, tahun publikasi, judul buku, atau nama penulis yang keliru diperbaiki secara manual berdasarkan data understanding yang sudah dilakukan sebelumnya. Tindakan ini penting untuk memastikan bahwa informasi dasar buku dalam dataset akurat dan dapat diandalkan.
+  Teknik ini melibatkan penggantian nilai-nilai spesifik yang diketahui salah atau tidak akurat dengan nilai yang benar. Pada baris-baris tertentu, informasi seperti nama penerbit, tahun publikasi, judul buku, atau nama penulis yang keliru diperbaiki secara manual berdasarkan data understanding yang sudah dilakukan sebelumnya. Tindakan ini penting untuk memastikan bahwa informasi dasar buku dalam dataset akurat dan dapat diandalkan. Berikut adalah hasil data setelah dilakukan perbaikan.
+  *gambar*
+  
+  **Mengubah Invalid Years pada "Years-of-Publication"**
   Selanjutnya, **konversi tipe data atau data type conversion** diterapkan pada kolom **'Year-Of-Publication'**. Mengubah tipe data menjadi integer memastikan bahwa tahun publikasi dapat diolah dengan benar dalam analisis numerik, seperti perhitungan usia buku atau pengelompokan berdasarkan periode publikasi, serta menghindari potensi kesalahan interpretasi jika kolom tersebut masih berupa string atau tipe data lainnya. Untuk mengatasi data tahun publikasi yang jelas-jelas tidak valid, seperti nilai 0 atau tahun yang jauh di masa depan (melebihi 2025), digunakan teknik imputasi dengan nilai mode atau **mode imputation**. Kode yang digunakan adalah sebagai berikut:
    ```python
    mode_year = books['Year-Of-Publication'].mode()[0]
    # Terapkan perubahan pada kolom 'Year-Of-Publication'
    books['Year-Of-Publication'] = books['Year-Of-Publication'].apply( lambda x:   mode_year if x == 0 or x > 2025 else x)
   ```
-  Untuk memastikan integritas kode International Standard Book Number (ISBN), diterapkan teknik **penghapusan karakter tidak valid atau invalid character removal**. Teknik ini melibatkan identifikasi dan penghilangan karakter-karakter selain huruf (A-Z, a-z) dan angka (0-9) dari setiap nilai dalam kolom 'ISBN' pada dataset books. Proses ini bertujuan untuk membersihkan kode ISBN dari karakter-karakter yang tidak sesuai dengan format standar. Penghapusan karakter tidak valid ini krusial karena beberapa alasan. Pertama, memastikan format ISBN yang benar adalah langkah penting untuk identifikasi buku yang akurat. ISBN adalah pengidentifikasi unik, dan karakter-karakter selain alfanumerik dapat mengganggu proses identifikasi dan pencocokan buku. Kedua, meningkatkan kualitas data dengan menghilangkan noise yang mungkin timbul akibat kesalahan input atau perbedaan format. Data yang bersih akan meminimalkan potensi kesalahan saat menghubungkan informasi buku antar dataset (books dan ratings). Ketiga, memfasilitasi matching data yang akurat berdasarkan kode ISBN. Sistem rekomendasi seringkali memerlukan penggabungan informasi dari berbagai sumber menggunakan ISBN sebagai kunci penghubung. Jika ISBN mengandung karakter yang tidak valid, proses matching bisa menjadi tidak efektif.
+   
+  **Menghapus Karakter Tidak Valid pada Kolom ISBN**
+  Untuk memastikan integritas kode International Standard Book Number (ISBN), diterapkan teknik **penghapusan karakter tidak valid atau invalid character removal**. Teknik ini melibatkan identifikasi dan penghilangan karakter-karakter selain huruf (A-Z, a-z) dan angka (0-9) dari setiap nilai dalam kolom 'ISBN' pada dataset books dan ratings. Proses ini bertujuan untuk membersihkan kode ISBN dari karakter-karakter yang tidak sesuai dengan format standar. Penghapusan karakter tidak valid ini krusial karena beberapa alasan. Pertama, memastikan format ISBN yang benar adalah langkah penting untuk identifikasi buku yang akurat. ISBN adalah pengidentifikasi unik, dan karakter-karakter selain alfanumerik dapat mengganggu proses identifikasi dan pencocokan buku. Kedua, meningkatkan kualitas data dengan menghilangkan noise yang mungkin timbul akibat kesalahan input atau perbedaan format. Data yang bersih akan meminimalkan potensi kesalahan saat menghubungkan informasi buku antar dataset (books dan ratings). Ketiga, memfasilitasi matching data yang akurat berdasarkan kode ISBN. Sistem rekomendasi seringkali memerlukan penggabungan informasi dari berbagai sumber menggunakan ISBN sebagai kunci penghubung. Jika ISBN mengandung karakter yang tidak valid, proses matching bisa menjadi tidak efektif.
 
-  Pada dataset **users**, penanganan data tidak valid berfokus pada kolom 'Age' dan 'Location'. Untuk kolom 'Age', digunakan teknik imputasi dengan nilai rata-rata atau **mean imputation** untuk mengganti nilai-nilai usia yang di luar batas wajar (kurang dari 10 atau lebih dari 80 tahun). Asumsi di balik ini adalah bahwa nilai-nilai ekstrem kemungkinan merupakan kesalahan input, dan menggantinya dengan nilai rata-rata usia pengguna secara keseluruhan akan mempertahankan distribusi usia yang lebih realistis dalam dataset. 
-  Sementara itu, pada kolom 'Location', diterapkan teknik **ekstraksi informasi atau information extraction** dan **pemisahan data atau data splitting**. Informasi lokasi yang awalnya mungkin berupa string gabungan (misalnya, "city, state, country") dipecah menjadi tiga kolom terpisah ('City', 'State', 'Country'). Teknik ekstraksi informasi dan pemisahan data pada kolom 'Location' di dataset users diterapkan dengan tujuan untuk mendapatkan informasi geografis yang lebih terstruktur dan spesifik mengenai pengguna. Alasan utama dilakukannya tahapan ini adalah untuk memungkinkan analisis preferensi pengguna berdasarkan lokasi geografis mereka. Informasi lokasi dalam format string gabungan (seperti "city, state, country") sulit untuk dianalisis secara langsung atau digunakan sebagai fitur dalam model rekomendasi. Dengan memecahnya menjadi kolom-kolom terpisah, kita mendapatkan data yang lebih granular dan mudah diolah.  Berikut adalah hasil setelah data Location dipisah menjadi City, State, dan Country.
+  **Mengubah Nilai Invalid Age**
+  Pada dataset **users**, penanganan data tidak valid dilakukan pada kolom 'Age' dan 'Location'. Untuk kolom 'Age', digunakan teknik imputasi dengan nilai rata-rata atau **mean imputation** untuk mengganti nilai-nilai usia yang di luar batas wajar (kurang dari 10 atau lebih dari 80 tahun). Asumsi di balik ini adalah bahwa nilai-nilai ekstrem kemungkinan merupakan kesalahan input, dan menggantinya dengan nilai rata-rata usia pengguna secara keseluruhan akan mempertahankan distribusi usia yang lebih realistis dalam dataset.
+
+  **Memisahkan Lokasi (City, State, Country)**
+  Pada kolom 'Location', diterapkan teknik **ekstraksi informasi atau information extraction** dan **pemisahan data atau data splitting**. Informasi lokasi yang awalnya mungkin berupa string gabungan (misalnya, "city, state, country") dipecah menjadi tiga kolom terpisah ('City', 'State', 'Country'). Teknik ekstraksi informasi dan pemisahan data pada kolom 'Location' di dataset users diterapkan dengan tujuan untuk mendapatkan informasi geografis yang lebih terstruktur dan spesifik mengenai pengguna. Alasan utama dilakukannya tahapan ini adalah untuk memungkinkan analisis preferensi pengguna berdasarkan lokasi geografis mereka. Informasi lokasi dalam format string gabungan (seperti "city, state, country") sulit untuk dianalisis secara langsung atau digunakan sebagai fitur dalam model rekomendasi. Dengan memecahnya menjadi kolom-kolom terpisah, kita mendapatkan data yang lebih granular dan mudah diolah.  Berikut adalah hasil setelah data Location dipisah menjadi City, State, dan Country.
   *gambar setelah proses*
 
-  Terakhir, pada dataset **ratings**, penanganan data tidak valid difokuskan pada kolom 'ISBN' dan 'Book-Rating'. Sama seperti pada dataset books, **penghapusan karakter tidak valid** diterapkan pada kolom 'ISBN' untuk memastikan konsistensi dan integritas kode buku yang digunakan untuk menghubungkan rating dengan informasi buku. Selain itu, diterapkan teknik **pemfilteran data atau data filtering** dengan menghapus baris-baris di mana nilai pada kolom 'Book-Rating' adalah 0. Proses ini dilakukan dengan memilih baris-baris di mana nilai 'Book-Rating' tidak sama dengan 0. Penghapusan rating 0 diperlukan karena nilai ini sering diartikan sebagai ketidaktertarikan atau tidak adanya rating eksplisit, sehingga dapat mengintroduksi noise dan mengaburkan sinyal preferensi pengguna yang sebenarnya dalam analisis collaborative filtering. Dengan memfokuskan data hanya pada rating positif, diharapkan model rekomendasi dapat mempelajari preferensi pengguna dengan lebih akurat dan menghasilkan rekomendasi yang lebih relevan.
+  **Menghapus Rating dengan Nilai 0**
+  Terakhir, penanganan invalid data 'Book-Rating' pada dataset **ratings** dilakukan dengan teknik **pemfilteran data atau data filtering** dengan menghapus baris-baris di mana nilai pada kolom 'Book-Rating' adalah 0. Proses ini dilakukan dengan memilih baris-baris di mana nilai 'Book-Rating' tidak sama dengan 0. Penghapusan rating 0 diperlukan karena nilai ini sering diartikan sebagai ketidaktertarikan atau tidak adanya rating eksplisit, sehingga dapat mengintroduksi noise dan mengaburkan sinyal preferensi pengguna yang sebenarnya dalam analisis collaborative filtering. Dengan memfokuskan data hanya pada rating positif, diharapkan model rekomendasi dapat mempelajari preferensi pengguna dengan lebih akurat dan menghasilkan rekomendasi yang lebih relevan.
 
   Secara keseluruhan, serangkaian teknik penanganan data tidak valid ini sangat penting untuk memastikan bahwa data yang digunakan dalam membangun sistem rekomendasi adalah data yang bersih, akurat, konsisten, dan relevan. Data yang berkualitas tinggi akan menghasilkan model rekomendasi yang lebih baik dalam memahami preferensi pengguna dan memberikan rekomendasi yang lebih tepat sasaran.
 
@@ -241,7 +252,7 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   dataset = pd.merge(dataset, users, on='User-ID', how='inner')
   ```
   Pertama, DataFrame books dan ratings digabungkan berdasarkan kolom 'ISBN' dengan metode 'inner', menghasilkan DataFrame dataset yang berisi hanya baris dengan nilai 'ISBN' yang sama di kedua DataFrame. Kemudian, DataFrame dataset ini digabungkan kembali dengan DataFrame users berdasarkan kolom 'User-ID' juga menggunakan metode 'inner'. Penggabungan ini bertujuan untuk mengintegrasikan informasi buku, rating pengguna, dan informasi pengguna ke dalam satu DataFrame yang komprehensif, yang esensial untuk membangun sistem rekomendasi yang efektif. Metode 'inner' memastikan hanya data yang lengkap dari ketiga sumber yang disertakan. Penggabungan dataset memungkinkan kita untuk mengintegrasikan informasi yang relevan dari berbagai sumber, yang esensial untuk pemodelan rekomendasi yang efektif. 
-  Setelah penggabungan, dilakukan pengambilan sampel (sampling) dengan menggunakan fungsi `dataset.sample(n=40000, random_state=42)` untuk memilih secara acak 40000 baris dari DataFrame dataset. Pengambilan sampel ini dilakukan untuk mengurangi beban komputasi selama tahap pengembangan dan eksperimen model, terutama ketika dataset terlalu besar. Penggunaan random_state memastikan hasil pengambilan sampel yang konsisten dan dapat direproduksi. Dengan demikian, penggabungan dataset menyediakan data terintegrasi yang diperlukan, sementara pengambilan sampel memungkinkan pengelolaan sumber daya komputasi yang lebih efisien dalam proses pengembangan sistem rekomendasi.
+  Setelah penggabungan, dilakukan pengambilan sampel (sampling) dengan menggunakan fungsi `dataset.sample(n=10000, random_state=42)` untuk memilih secara acak 10000 baris dari DataFrame dataset. Pengambilan sampel ini dilakukan untuk mengurangi beban komputasi selama tahap pengembangan dan eksperimen model, terutama ketika dataset terlalu besar. Penggunaan random_state memastikan hasil pengambilan sampel yang konsisten dan dapat direproduksi. Dengan demikian, penggabungan dataset menyediakan data terintegrasi yang diperlukan, sementara pengambilan sampel memungkinkan pengelolaan sumber daya komputasi yang lebih efisien dalam proses pengembangan sistem rekomendasi.
   Berikut adalah dataset setelah dilakukan penggabungan dan sampling:
   *gambar*
 
@@ -252,11 +263,12 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   Dalam mempersiapkan data untuk content-based filtering, langkah penting selanjutnya adalah **strukturisasi data** melalui pembuatan *pandas DataFrame* baru. Proses ini melibatkan pembentukan dictionary Python bernama `book_data` yang memetakan kunci-kunci seperti 'book_title', 'book_author', dan 'publisher' ke *list* data yang sesuai. Dictionary ini kemudian diubah menjadi *pandas DataFrame* dengan nama yang sama (`book_data`) menggunakan fungsi `pd.DataFrame()`. Pembuatan DataFrame ini bertujuan untuk mengorganisir fitur-fitur konten buku ke dalam struktur tabular yang efisien dan mudah diakses. Struktur ini memfasilitasi tahapan selanjutnya dalam content-based filtering, di mana fitur-fitur seperti judul dan penulis akan dianalisis lebih lanjut untuk mengekstrak representasi numerik yang dapat digunakan dalam algoritma perbandingan kemiripan antar buku dan menghasilkan rekomendasi yang relevan berdasarkan preferensi pengguna terhadap konten buku.
   *gambar hasil*
 - **Menghapus Duplikasi DataFrame Baru**
-  Dalam mempersiapkan data untuk content-based filtering, langkah penting selanjutnya adalah penghapusan duplikasi dari DataFrame book_data. Proses ini diawali dengan mengidentifikasi jumlah baris duplikat, yang dalam kasus ini ditemukan sebanyak **12553 baris**. Kemudian, fungsi `.drop_duplicates()` digunakan dengan fokus pada kolom 'book_title' sebagai subset pertimbangan duplikasi. Penghapusan duplikasi berdasarkan judul buku ini krusial untuk memastikan bahwa setiap buku direpresentasikan secara unik dalam data fitur konten, meskipun mungkin memiliki penulis atau penerbit yang berbeda untuk edisi yang berbeda. Tindakan ini mencegah representasi berlebihan buku yang sama, mengurangi potensi bias dalam perhitungan kemiripan konten, meningkatkan efisiensi pemrosesan data, dan pada akhirnya menghasilkan rekomendasi yang lebih beragam dan relevan bagi pengguna.
-- **TF-IDF**
+  Dalam mempersiapkan data untuk content-based filtering, langkah penting selanjutnya adalah penghapusan duplikasi dari DataFrame book_data.  Hal ini dapat terjadi karena satu buku dapat memiliki beberapa entri akibat adanya rating berbeda pada dataset yang telah di-cleaning. Proses ini diawali dengan mengidentifikasi jumlah baris duplikat, yang dalam kasus ini ditemukan sebanyak **12553 baris**. Kemudian, fungsi `.drop_duplicates()` digunakan dengan fokus pada kolom 'book_title' sebagai subset pertimbangan duplikasi. Penghapusan duplikasi berdasarkan judul buku ini krusial untuk memastikan bahwa setiap buku direpresentasikan secara unik dalam data fitur konten, meskipun mungkin memiliki penulis atau penerbit yang berbeda untuk edisi yang berbeda. Tindakan ini mencegah representasi berlebihan buku yang sama, mengurangi potensi bias dalam perhitungan kemiripan konten, meningkatkan efisiensi pemrosesan data, dan pada akhirnya menghasilkan rekomendasi yang lebih beragam dan relevan bagi pengguna.
+- **TF-IDF Vectorizer**
   Selanjutnya, tahapan persiapan data untuk content-based filtering adalah ekstraksi fitur menggunakan TF-IDF (Term Frequency-Inverse Document Frequency). Proses ini dimulai dengan menginisialisasi TfidfVectorizer yang bertugas mengubah teks menjadi representasi numerik. Kemudian, vectorizer ini dilatih pada kolom 'book_title' dari DataFrame book_data untuk mempelajari kosakata unik dan menghitung bobot IDF setiap kata, yang mencerminkan pentingnya kata tersebut dalam keseluruhan koleksi judul. Setelah itu, `book_data['book_title']` ditransformasi menjadi tfidf_matrix, sebuah matriks numerik berukuran 25969 baris dan 21623 kolom. Tahapan TF-IDF ini harus dilakukan untuk mengubah data teks menjadi format numerik yang dapat diproses oleh algoritma, menangkap pentingnya kata kunci dengan memberikan bobot lebih tinggi pada kata-kata spesifik yang deskriptif, serta menjadi dasar untuk perhitungan kemiripan konten antar buku menggunakan metrik seperti cosine similarity. Dengan demikian, TF-IDF memungkinkan sistem untuk secara objektif mengukur kesamaan konten buku dan merekomendasikan buku berdasarkan relevansi tematik.
-- **Cosine Similarity**
-  Tahapan selanjutnya adalah pengukuran kemiripan antar item menggunakan Cosine Similarity. Prosesnya melibatkan perhitungan cosine_similarity dari tfidf_matrix yang telah dihasilkan sebelumnya, menggunakan fungsi `cosine_similarity` dari library scikit-learn. Perhitungan ini menghasilkan sebuah matriks cosine_sim di mana setiap elemen merepresentasikan tingkat kemiripan kosinus antara setiap pasangan buku berdasarkan fitur-fitur yang diekstraksi dari judulnya. Tahapan ini sangat penting karena cosine similarity merupakan metrik efektif untuk mengukur kemiripan konten antara vektor-vektor berdimensi tinggi seperti representasi TF-IDF. Matriks kemiripan yang dihasilkan ini menjadi fondasi utama bagi sistem rekomendasi untuk mengidentifikasi buku-buku yang secara konten serupa dengan preferensi pengguna, sehingga memungkinkan rekomendasi yang relevan dan terpersonalisasi.
+- **Mengubah Tipe Data Matriks TF-IDF**
+  Selanjutnya, matriks TF-IDF yang merepresentasikan bobot fitur teks diubah tipe datanya menjadi float32. Konversi ini penting dilakukan karena bertujuan untuk mengoptimalkan efisiensi memori dan kecepatan komputasi saat memproses data, terutama karena matriks TF-IDF biasanya berukuran besar dan sparse. Dengan menggunakan tipe data float32, penggunaan ruang penyimpanan berkurang dibandingkan float64, sehingga mempercepat operasi matematika dan pemrosesan algoritma tanpa mengorbankan akurasi yang signifikan. Langkah ini penting dalam pipeline content-based filtering untuk menjaga performa sistem tetap responsif dan scalable saat menangani dataset besar.
+  
 
 ### Persiapan Colaborative Filtering
 - **Penghapusan Kolom untuk Menyederhanakan Dataset**
@@ -289,35 +301,35 @@ Pada tahap modeling, kita akan menggunakan 2 pendekatan, yaitu **Content-Based F
 ### 1. Content-Based Filtering
 Pendekatan ini akan memberikan rekomendasi buku berdasarkan kesamaan konten antara buku yang telah dibaca oleh pengguna dan buku lainnya dalam dataset. Rekomendasi dihitung menggunakan **Cosine Similarity**, yang mengukur seberapa mirip dua buku berdasarkan fitur kontennya, seperti judul, penulis, dan penerbit.
 
-#### Proses Content-Based Filtering:
+#### Proses Content-Based Filtering
 
-- **Normalisasi Data**:
-   Untuk memastikan bahwa perhitungan kemiripan antar buku berdasarkan konten dilakukan secara adil, kita melakukan **normalisasi data** pada dataset buku. Proses normalisasi ini bertujuan untuk mengubah data menjadi skala yang seragam sehingga setiap fitur dapat diukur dengan cara yang setara.
-
-- **Perhitungan Cosine Similarity**:
+- **Perhitungan Cosine Similarity**
 
    * Dengan menggunakan **Cosine Similarity**, kita menghitung tingkat kemiripan antara buku yang satu dengan buku lainnya. Cosine similarity mengukur sejauh mana dua buku memiliki kemiripan berdasarkan fitur teks seperti judul dan penulis. Semakin tinggi nilai cosine similarity, semakin mirip dua buku tersebut.
    * Fungsi `cosine_similarity(normalized_df, normalized_df)` digunakan untuk menghitung matriks kemiripan antara buku dalam dataset. Hasilnya adalah matriks berbentuk **DataFrame** yang menunjukkan kemiripan antar semua buku yang ada.
 
-- **Menyusun Matrix Cosine Similarity**:
+- **Menyusun Matrix Cosine Similarity**
 
    * Matriks cosine similarity yang dihasilkan kemudian disusun menjadi **DataFrame** agar mudah dianalisis dan digunakan untuk mencari buku-buku yang paling mirip dengan buku tertentu. Kolom dan indeks pada DataFrame ini adalah judul buku, dan nilai-nilai di dalamnya menunjukkan tingkat kemiripan antar buku.
+     *gambar*
+     Dengan menggunakan cosine similarity, sistem berhasil mengukur tingkat kemiripan antara satu judul buku dengan judul lainnya. Matriks kesamaan yang dihasilkan berukuran (10000, 10000), yang menunjukkan bahwa terdapat perhitungan kemiripan di antara 10.000 judul buku, baik pada sumbu X maupun Y. Ukuran ini berarti setiap judul dibandingkan dengan semua judul lainnya untuk mengetahui sejauh mana kemiripannya. Namun, karena ukuran data yang besar, tidak semua hasil dapat ditampilkan secara langsung. Oleh karena itu, hanya ditampilkan sebagian data, yaitu 10 judul buku secara vertikal dan 5 judul buku secara horizontal. Hasil kemiripan antar judul ini nantinya digunakan untuk merekomendasikan buku-buku lain yang serupa dengan buku yang pernah dibaca atau dibeli oleh pengguna.
 
-- **Fungsi Rekomendasi Buku**:
+- **Fungsi Rekomendasi Buku**
 
-   * Fungsi `book_recommendations()` digunakan untuk mengambil judul buku yang paling mirip dengan buku yang diberikan sebagai input. Fungsi ini menerima nama buku sebagai parameter, menghitung kesamaan berdasarkan cosine similarity, dan mengembalikan **Top-N rekomendasi buku**.
+   * Fungsi book_recommendation dibuat untuk menghasilkan rekomendasi buku berbasis konten, dengan menampilkan daftar judul buku beserta nama penulis yang memiliki kemiripan dengan buku yang sebelumnya pernah dibaca atau dibeli oleh pengguna. Sesuai dengan konsep sistem rekomendasi, output dari fungsi ini berupa Top-N rekomendasi, yang jumlahnya dapat diatur melalui parameter k.
    * Dalam model ini, kita memilih **5 buku teratas** dengan nilai similarity terbesar, yang dianggap paling mirip dengan buku yang dicari.
+   * Dalam implementasinya, fungsi ini memanfaatkan argpartition() untuk mengekstrak sejumlah nilai kemiripan tertinggi dari matriks similarity. Nilai-nilai tersebut kemudian diurutkan berdasarkan bobot kemiripan dari yang paling tinggi ke rendah dan disimpan dalam variabel closest. Untuk menghindari duplikasi dalam hasil, judul buku yang dijadikan acuan (input) akan dihapus dari daftar rekomendasi agar tidak muncul kembali dalam hasil rekomendasi yang diberikan.
 
 #### Output Rekomendasi
 
 Ketika pengguna memilih **buku tertentu**, sistem akan mencari buku-buku dengan **kemiripan tertinggi** terhadap buku tersebut berdasarkan judul, penulis, dan penerbit. Rekomendasi yang dihasilkan akan mencakup 5 buku yang paling mirip dengan buku yang dipilih.
 
-Misalnya, jika pengguna memilih buku **"Harry Potter and the Sorcerer's Stone"**, maka sistem akan memberikan rekomendasi seperti berikut:
+Misalnya, jika pengguna memilih buku **"Harry Potter and the Prisoner of Azkaban (Book 3)"**, maka sistem akan memberikan rekomendasi seperti berikut:
 gambar
 
-Rekomendasi ini didasarkan pada kesamaan penulis atau elemen lain yang relevan dalam buku-buku tersebut.
+Rekomendasi ini didasarkan pada kesamaan penulis atau elemen lain yang relevan dalam buku-buku tersebut. Berdasarkan output diatas, sistem berhasil merekomendasikan 5 judul buku teratas dengan kategori nama penulis (book_author) yaitu 'J.K. Rowling' dan memiliki judul yang mirip (masih dalam satu rangkaian series Harry Potter)
 
-#### Kelebihan dan Kekurangan Content-Based Filtering:
+#### Kelebihan dan Kekurangan Content-Based Filtering
 
 **Kelebihan:**
 
@@ -334,34 +346,42 @@ Rekomendasi ini didasarkan pada kesamaan penulis atau elemen lain yang relevan d
 ### 2. Collaborative Filtering
 Pada tahap **Collaborative Filtering**, kita membangun sistem rekomendasi dengan memanfaatkan **interaksi pengguna** dengan item (dalam hal ini buku). **Collaborative Filtering** bekerja dengan memprediksi preferensi pengguna terhadap buku yang belum mereka baca, berdasarkan pola interaksi pengguna lain yang memiliki kesamaan preferensi.
 
-#### Proses Collaborative Filtering:
+#### Proses Collaborative Filtering
 
-- **Matrix Factorization dengan Embedding**:
+- **Model Embedding untuk Pengguna dan Buku**
 
-   * Model Collaborative Filtering menggunakan teknik **Matrix Factorization** dengan **embedding** untuk **pengguna** dan **buku**.
-   * Setiap pengguna dan buku direpresentasikan dalam bentuk vektor embedding berdimensi rendah. Vektor-vektor ini dipelajari selama pelatihan untuk menangkap pola interaksi antar pengguna dan buku.
-   * Prediksi rating dihitung dengan **dot product** antara **user embedding** dan **book embedding**, ditambah dengan bias masing-masing pengguna dan buku.
+  * Model menggunakan teknik **embedding** untuk merepresentasikan **pengguna** dan **buku** dalam bentuk vektor berdimensi rendah. Embedding ini berfungsi sebagai representasi numerik yang dapat menangkap pola preferensi pengguna dan karakteristik buku yang kompleks secara efisien. Setiap pengguna dan buku memiliki vektor embedding yang dipelajari selama proses pelatihan. 
+  * Selain embedding, model juga menyertakan **bias** untuk masing-masing pengguna dan buku guna mengakomodasi preferensi individual.
+  * Untuk mengurangi risiko overfitting, dropout dengan rate 0.2 diterapkan pada embedding.
 
-- **Training Model dengan Data Interaksi**:
+- **Perhitungan Prediksi Rating**
+  
+  * Prediksi rating dihitung dengan melakukan **dot product** antara embedding pengguna dan buku.
+  * Hasil dot product ini ditambahkan dengan bias pengguna dan bias buku.
+  * Nilai akhir prediksi kemudian diolah melalui fungsi aktivasi **sigmoid** untuk menghasilkan skor dalam rentang 0 hingga 1.
 
-   * Model dilatih menggunakan data interaksi pengguna dengan buku, yang terdiri dari **User-ID** dan **ISBN** dari buku yang telah diberi rating oleh pengguna, serta rating yang diberikan.
-   * Bias pengguna dan buku juga diperhitungkan dalam proses ini untuk menangani variasi individual dalam preferensi pengguna dan buku.
+- **Pelatihan Model**
+  
+  * Model dilatih menggunakan data interaksi yang berisi pasangan **User-ID** dan **ISBN buku**, serta rating yang diberikan pengguna.
+  * Penggunaan regularisasi L2 dan **dropout** bertujuan untuk mencegah overfitting dan meningkatkan kemampuan generalisasi model.
+  * Model dioptimasi dengan fungsi loss **binary crossentropy** dan optimizer **Adam** dengan learning rate 1e-4.
+  * Pelatihan dilakukan selama 50 epoch dengan batch size 64 dan menggunakan data validasi untuk memonitor performa.
 
-- **Prediksi Rating**:
+- **Fungsi Rekomendasi**
+  
+  * Setelah model dilatih, proses rekomendasi dimulai dengan memilih satu pengguna secara acak dari dataset. Dari pengguna ini, diidentifikasi buku-buku yang sudah diberi rating dan buku yang belum pernah dinilai.
+  * Buku-buku yang belum dinilai di-encode sesuai dengan format embedding, kemudian dibuat array input gabungan antara user yang sudah di-encode dan buku-buku yang belum dinilai.
+  * Model kemudian memprediksi rating untuk setiap buku yang belum pernah dinilai tersebut. Dari hasil prediksi ini, diambil 10 buku dengan prediksi rating tertinggi sebagai rekomendasi. Selain itu, untuk memberikan konteks preferensi pengguna, juga ditampilkan 5 buku dengan rating tertinggi yang sudah pernah dinilai oleh pengguna. Semua rekomendasi buku dan buku yang sudah dinilai ini ditampilkan lengkap dengan judul dan pengarangnya, sehingga memberikan gambaran rekomendasi yang relevan dan personal untuk pengguna tersebut.
 
-   * Setelah model dilatih, kita dapat memprediksi rating untuk buku yang belum dinilai oleh pengguna, menggunakan **user embedding** dan **book embedding** yang telah dipelajari.
-   * Rekomendasi **Top-N** diberikan berdasarkan **rating tertinggi** yang diprediksi untuk buku-buku yang belum dinilai oleh pengguna.
-#### Output Rekomendasi:
+#### Output Rekomendasi
 
 Setelah pelatihan, model dapat memberikan **Top-N rekomendasi buku** berdasarkan prediksi rating. Misalnya, jika pengguna menyukai buku **"Harry Potter"**, sistem akan merekomendasikan buku serupa berdasarkan pola preferensi pengguna lain yang juga menyukai **"Harry Potter"** dan buku-buku sejenis.
 
-Sebagai contoh user (sesuaikan gambar) menyukai buku **"Harry Potter"**, sistem bisa memberikan rekomendasi seperti:
+Sebagai contoh hasil rekomendasi buku untuk pengguna dengan ID 248221 menunjukkan bahwa model berhasil menangkap preferensi pengguna yang menyukai karya sastra dan buku fiksi dengan narasi mendalam serta tema yang kuat, seperti terlihat dari buku-buku yang telah dinilai tinggi seperti Year of Wonders dan Their Eyes Were Watching God. Rekomendasi yang diberikan konsisten dengan pola tersebut, menghadirkan buku-buku yang memiliki nilai historis, emosional, dan hiburan berkualitas, seperti The Pillars of the Earth, The Lovely Bones, dan The Hobbit. Hal ini mengindikasikan bahwa model mampu memberikan rekomendasi yang personal dan relevan dengan minat pengguna, berkat pemetaan pola interaksi yang efektif melalui embedding pengguna dan buku. Rekomendasi ini tidak hanya berfokus pada satu genre, tetapi memberikan variasi yang seimbang antara bacaan fiksi dan non-fiksi, sehingga dapat memenuhi kebutuhan hiburan sekaligus literasi berkualitas bagi pengguna.
 
 *gambar*
 
-Rekomendasi ini berdasarkan pola preferensi pengguna lain yang serupa, tanpa perlu mempertimbangkan atribut buku seperti genre atau penulis, tetapi hanya berdasarkan interaksi pengguna dengan buku.
-
-#### Kelebihan dan Kekurangan Collaborative Filtering:
+#### Kelebihan dan Kekurangan Collaborative Filtering
 
 **Kelebihan**:
 
@@ -375,6 +395,50 @@ Rekomendasi ini berdasarkan pola preferensi pengguna lain yang serupa, tanpa per
 
 ## Evaluasi
 ### 1. **Evaluasi Model Content-Based Filtering**
+
+Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk mengukur performa sistem rekomendasi buku berbasis kemiripan konten, yaitu **Precision**, **Recall**, dan **F1-score**. Metrik-metrik ini dipilih karena sesuai untuk mengukur kualitas model dalam tugas klasifikasi biner, yakni memprediksi apakah sebuah pasangan buku memiliki kemiripan tinggi (positif) atau tidak (negatif).
+
+#### **Formula Precision, Recall, dan F1-Score**
+* **Precision** mengukur proporsi prediksi positif yang benar-benar relevan.
+
+  $$
+  \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
+  $$
+
+  Dalam konteks ini, precision adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan jumlah total item yang direkomendasikan. Semakin tinggi precision, semakin sedikit item tidak relevan yang direkomendasikan oleh model.
+
+* **Recall** mengukur proporsi data positif yang berhasil ditemukan oleh model.
+
+  $$
+  \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
+  $$
+
+  Recall adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan total item relevan yang seharusnya direkomendasikan. Semakin tinggi recall, semakin banyak item relevan yang berhasil ditemukan oleh sistem.
+
+* **F1-score** merupakan harmonisasi rata-rata dari precision dan recall, memberikan ukuran keseimbangan antara keduanya.
+
+  $$
+  F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+  $$
+
+  F1-Score adalah rata-rata harmonik dari precision dan recall. F1 memberikan satu nilai tunggal yang mewakili keseimbangan antara keduanya, terutama berguna jika terjadi ketidakseimbangan antara jumlah positif dan negatif. F1-score penting untuk memastikan model tidak hanya akurat tapi juga tidak melewatkan rekomendasi penting.
+
+Sebelum menghitung ketiga metrik ini, perlu disiapkan data ground truth yang menjadi acuan evaluasi. Dalam proyek ini, data ground truth dibentuk berdasarkan nilai kemiripan antar buku yang dihitung menggunakan teknik cosine similarity. Setiap baris dan kolom mewakili judul buku, dan nilai dalam sel menunjukkan apakah dua buku tersebut dianggap mirip atau tidak. Nilai 1 menunjukkan bahwa dua buku dianggap mirip (similar), sementara nilai 0 berarti tidak mirip (not similar).
+
+Agar bisa memutuskan apakah dua buku dianggap mirip, digunakan ambang batas (threshold) dengan nilai 0.5. Nilai threshold ini ditentukan berdasarkan kebutuhan dan karakteristik data setelah mengamati hasil rekomendasi sebelumnya. Proses pembuatan ground truth dilakukan dengan fungsi np.where() dari library NumPy, yang menghasilkan matriks berisi nilai 1 jika similarity ≥ threshold, dan 0 jika sebaliknya. Matriks ini kemudian diubah ke dalam bentuk DataFrame, dengan judul buku digunakan sebagai indeks pada baris dan kolom.
+
+Setelah ground truth terbentuk, langkah selanjutnya adalah mengevaluasi performa model menggunakan metrik precision, recall, dan f1-score. Fungsi precision_recall_fscore_support dari pustaka Scikit-learn digunakan untuk menghitung ketiga metrik tersebut. Evaluasi dilakukan pada keseluruhan data yang berjumlah 10.000 entri, yang telah dikonversi ke bentuk array 1 dimensi agar dapat dibandingkan secara langsung.
+
+Baik matriks similarity maupun ground truth kemudian diubah menjadi array 1 dimensi (flattened) agar mudah dibandingkan. Nilai prediksi dikonversi menjadi biner (0 atau 1) berdasarkan nilai threshold, lalu disimpan dalam array bernama predictions.
+
+Terakhir, fungsi `precision_recall_fscore_support` digunakan untuk menghitung tiga metrik evaluasi tersebut. Parameter average='binary' digunakan karena klasifikasi yang dilakukan bersifat biner, dan zero_division=1 digunakan untuk menghindari error pembagian dengan nol jika salah satu kelas tidak muncul dalam prediksi.
+
+Adapun hasil evaluasi yang diperoleh menunjukkan performa model sebagai berikut: *gambar*
+
+#### **Hasil Evaluasi**
+Pada hasil evaluasi, ketiga metrik menunjukkan nilai sempurna yaitu **1.00**. Ini berarti model berhasil memberikan semua rekomendasi buku yang benar-benar relevan (precision = 1.00), sekaligus tidak melewatkan buku yang relevan sama sekali (recall = 1.00). Nilai F1-score yang sempurna menunjukkan keseimbangan ideal antara precision dan recall.
+
+Nilai evaluasi ini mengindikasikan bahwa **sistem rekomendasi bekerja sangat baik** pada subset data yang diuji, menghasilkan rekomendasi yang sangat akurat dan komprehensif.
 
 ### 2. **Evaluasi Model Collaborative Filtering **
 
@@ -398,9 +462,7 @@ Untuk menghitung nilai RMSE, pertama-tama, selisih antara nilai rating sebenarny
 
 #### **Hasil Evaluasi RMSE**
 *gambar*
-Berdasarkan grafik yang ditampilkan, kita dapat melihat bahwa **RMSE untuk data pelatihan (train)** mengalami penurunan yang signifikan selama epoch pertama dan kemudian stabil pada nilai yang lebih rendah setelah beberapa epoch. Ini menunjukkan bahwa model mulai belajar dengan baik selama pelatihan dan kesalahan prediksi berkurang seiring berjalannya waktu.
-
-Namun, untuk **data pengujian (test)**, RMSE turun pada awalnya, tetapi kemudian tampaknya stabil pada tingkat yang sedikit lebih tinggi dibandingkan dengan data pelatihan. Hal ini mengindikasikan adanya sedikit overfitting pada model, di mana model mungkin terlalu menyesuaikan dirinya dengan data pelatihan dan kurang dapat generalisasi dengan baik ke data pengujian. Meskipun demikian, penurunan yang stabil pada kedua grafik (train dan test) menunjukkan bahwa model berhasil mempelajari pola yang berguna untuk memprediksi rating pengguna dengan cukup baik.
+Gambar grafik RMSE selama epoch menunjukkan performa model rekomendasi buku dalam proses pelatihan dan pengujian. Terlihat bahwa nilai RMSE pada data training menurun secara konsisten dari sekitar 0.31 ke sekitar 0.19, yang menandakan **model semakin mampu mempelajari pola interaksi pengguna dan buku dengan baik**. Namun, pada data testing, RMSE relatif stabil di kisaran 0.31 tanpa penurunan signifikan, yang mengindikasikan model mengalami **sedikit overfitting**—mampu menyesuaikan dengan data pelatihan namun kurang optimal dalam generalisasi ke data baru. Meski demikian, **perbedaan nilai RMSE yang tidak terlalu besar** tetap **menunjukkan bahwa model memiliki kemampuan prediksi yang cukup baik**. Untuk meningkatkan generalisasi, langkah seperti regularisasi lebih kuat, penyesuaian dropout, atau peningkatan jumlah data pelatihan bisa dipertimbangkan. Secara keseluruhan, model sudah menunjukkan performa yang memuaskan dengan potensi perbaikan di masa depan.
 
 ## Referensi
 
