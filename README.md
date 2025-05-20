@@ -424,7 +424,10 @@ Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk 
   Dalam konteks ini, precision adalah rasio antara jumlah item relevan yang berhasil direkomendasikan dengan jumlah total item yang direkomendasikan. Semakin tinggi precision, semakin sedikit item tidak relevan yang direkomendasikan oleh model.
 
 * **Recall** mengukur proporsi data positif yang berhasil ditemukan oleh model.
-  
+
+  $$
+  \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
+  $$
   $$
   \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
   $$
