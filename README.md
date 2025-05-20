@@ -199,10 +199,10 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
 
 - **Penanganan Missing Value**
   Penanganan missing value merupakan langkah krusial dalam persiapan data untuk sistem rekomendasi. Dalam dataset **books**, teknik imputasi dengan nilai'Other' diterapkan pada kolom 'Book-Author' dan 'Publisher' untuk mengatasi nilai yang hilang pada baris-baris tertentu. Sementara itu, pada dataset **users**, teknik imputasi dengan nilai rata-rata (mean imputation) digunakan untuk mengisi nilai yang hilang (NaN) pada kolom 'Age' dengan nilai rata-rata usia dari seluruh pengguna.
-  Tindakan ini diperlukan untuk memastikan bahwa dataset bebas dari nilai yang hilang yang dapat mengganggu proses pemodelan algoritma rekomendasi. Imputasi memungkinkan untuk mempertahankan sebagian besar informasi dalam dataset dibandingkan dengan penghapusan baris, sekaligus menciptakan data yang lebih konsisten dan dapat diandalkan untuk analisis dan pengembangan sistem rekomendasi, baik yang berbasis konten maupun kolaboratif. Dengan mengisi kekosongan dengan nilai yang representatif, diharapkan model rekomendasi yang dihasilkan akan lebih akurat dan robust.
+  Tindakan ini diperlukan untuk memastikan bahwa dataset bebas dari nilai yang hilang yang dapat mengganggu proses pemodelan algoritma rekomendasi. Imputasi memungkinkan untuk mempertahankan sebagian besar informasi dalam dataset dibandingkan dengan penghapusan baris, sekaligus menciptakan data yang lebih konsisten dan dapat diandalkan. Pengisian dengan nilai yang representatif menjaga informasi yang ada dan membuat model lebih stabil.
 
 - **Standarisasi Format**
-  Dalam tahapan persiapan data, standarisasi format diterapkan pada kolom ISBN yang terdapat baik dalam dataset books maupun ratings. Proses ini melibatkan pengubahan seluruh karakter dalam kolom 'ISBN' menjadi huruf kapital menggunakan fungsi `.str.upper()` pada kedua dataset. Tujuan utama dari standarisasi ini adalah untuk menciptakan format kode ISBN yang konsisten di seluruh data. Dengan format yang seragam, potensi kesalahan atau kesulitan dalam menghubungkan informasi buku antara dataset books dan ratings dapat diminimalkan. Konsistensi ini sangat penting untuk operasi penggabungan data (merging atau joining) berdasarkan kode buku, yang menjadi landasan untuk analisis preferensi pengguna terhadap berbagai buku dan pengembangan model rekomendasi yang akurat.
+  Dalam tahapan persiapan data, standarisasi format diterapkan pada kolom ISBN yang terdapat baik dalam dataset books maupun ratings. Proses ini melibatkan pengubahan seluruh karakter dalam kolom 'ISBN' menjadi huruf kapital menggunakan fungsi `.str.upper()` pada kedua dataset. Standarisasi format penting untuk menjaga konsistensi dalam penggabungan data, terutama saat menggunakan ISBN sebagai kunci penghubung antar dataset. Dengan mengubah ISBN menjadi format seragam, kita menghindari masalah kesalahan pencocokan data antara dataset books dan ratings yang disebabkan oleh perbedaan format penulisan. Konsistensi ini sangat penting untuk operasi penggabungan data (merging atau joining) berdasarkan ISBN.
 
 - **Penanganan Invalid Data**
   Penanganan data tidak valid merupakan serangkaian proses krusial dalam mempersiapkan dataset sebelum digunakan untuk membangun sistem rekomendasi yang efektif. Tujuannya adalah untuk mengidentifikasi dan memperbaiki atau mengatasi data yang tidak akurat, tidak konsisten, atau tidak relevan, sehingga kualitas informasi yang digunakan dalam pelatihan model menjadi lebih baik dan menghasilkan rekomendasi yang lebih handal. Beberapa teknik spesifik diterapkan pada dataset books, users, dan ratings untuk mencapai tujuan ini.
@@ -240,8 +240,8 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   dataset = pd.merge(books, ratings, on='ISBN', how='inner')
   dataset = pd.merge(dataset, users, on='User-ID', how='inner')
   ```
-  Pertama, DataFrame books dan ratings digabungkan berdasarkan kolom 'ISBN' dengan metode 'inner', menghasilkan DataFrame dataset yang berisi hanya baris dengan nilai 'ISBN' yang sama di kedua DataFrame. Kemudian, DataFrame dataset ini digabungkan kembali dengan DataFrame users berdasarkan kolom 'User-ID' juga menggunakan metode 'inner'. Penggabungan ini bertujuan untuk mengintegrasikan informasi buku, rating pengguna, dan informasi pengguna ke dalam satu DataFrame yang komprehensif, yang esensial untuk membangun sistem rekomendasi yang efektif. Metode 'inner' memastikan hanya data yang lengkap dari ketiga sumber yang disertakan.
-  Setelah penggabungan, dilakukan pengambilan sampel (sampling) dengan menggunakan fungsi `dataset.sample(n=40000, random_state=42)` untuk memilih secara acak 40000 baris dari DataFrame dataset. Pengambilan sampel ini kemungkinan dilakukan untuk mengurangi beban komputasi selama tahap pengembangan dan eksperimen model, terutama dengan dataset yang berpotensi besar. Penggunaan random_state memastikan hasil pengambilan sampel yang konsisten dan dapat direproduksi. Dengan demikian, penggabungan dataset menyediakan data terintegrasi yang diperlukan, sementara pengambilan sampel memungkinkan pengelolaan sumber daya komputasi yang lebih efisien dalam proses pengembangan sistem rekomendasi.
+  Pertama, DataFrame books dan ratings digabungkan berdasarkan kolom 'ISBN' dengan metode 'inner', menghasilkan DataFrame dataset yang berisi hanya baris dengan nilai 'ISBN' yang sama di kedua DataFrame. Kemudian, DataFrame dataset ini digabungkan kembali dengan DataFrame users berdasarkan kolom 'User-ID' juga menggunakan metode 'inner'. Penggabungan ini bertujuan untuk mengintegrasikan informasi buku, rating pengguna, dan informasi pengguna ke dalam satu DataFrame yang komprehensif, yang esensial untuk membangun sistem rekomendasi yang efektif. Metode 'inner' memastikan hanya data yang lengkap dari ketiga sumber yang disertakan. Penggabungan dataset memungkinkan kita untuk mengintegrasikan informasi yang relevan dari berbagai sumber, yang esensial untuk pemodelan rekomendasi yang efektif. 
+  Setelah penggabungan, dilakukan pengambilan sampel (sampling) dengan menggunakan fungsi `dataset.sample(n=40000, random_state=42)` untuk memilih secara acak 40000 baris dari DataFrame dataset. Pengambilan sampel ini dilakukan untuk mengurangi beban komputasi selama tahap pengembangan dan eksperimen model, terutama ketika dataset terlalu besar. Penggunaan random_state memastikan hasil pengambilan sampel yang konsisten dan dapat direproduksi. Dengan demikian, penggabungan dataset menyediakan data terintegrasi yang diperlukan, sementara pengambilan sampel memungkinkan pengelolaan sumber daya komputasi yang lebih efisien dalam proses pengembangan sistem rekomendasi.
   Berikut adalah dataset setelah dilakukan penggabungan dan sampling:
   *gambar*
 
@@ -281,7 +281,97 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
 - **Membagi Data untuk Training dan Validasi**
   Selanjutnya, kita perlu membagi data menjadi training dan validasi. Namun sebelum itu, kita perlu **mengacak seluruh data** secara menyeluruh. Hal ini penting untuk dilakukan untuk memastikan bahwa saat data nanti dibagi, bagian-bagian data pelatihan dan pengujian memiliki campuran informasi yang merata. Jika tidak diacak, model bisa belajar pola yang salah karena data yang berdekatan mungkin memiliki karakteristik yang mirip.
   Selanjutnya, informasi yang akan menjadi masukan model dan informasi yang akan diprediksi model dikumpulkan. **ID pengguna dan ID buku** yang sudah diubah menjadi angka diambil untuk **input**. Untuk bagian yang akan **diprediksi**, gunakan nilai **rating buku**. Pada tahap ini, nilai rating ini juga diubah skalanya menjadi antara 0 dan 1 (disebut normalisasi) agar model lebih mudah mempelajarinya dan bekerja dengan stabil.
-  Terakhir, data dibagi menjadi dua bagian, 80% untuk data pelatihan dan 20% sisanya untuk data validasi. Pembagian ini penting untuk menguji seberapa baik model bisa bekerja pada data baru yang belum pernah dipelajarinya. Ini membantu kita melihat apakah model terlalu "menghafal" data pelatihan (yang disebut overfitting) atau apakah ia benar-benar bisa memahami pola dan memberikan rekomendasi yang akurat secara umum.
+  Terakhir, data dibagi menjadi dua bagian, 80% untuk data pelatihan dan 20% sisanya untuk data validasi. Data training akan digunakan untuk melatih model, sedangkan data testing akan digunakan untuk mengevaluasi kinerja model yang sudah dibangun. Pemisahan data ini penting untuk menghindari overfitting dan memastikan model dapat diuji pada data yang tidak digunakan selama proses pelatihan. Kita harus membagi data agar proses transformasi hanya dilakukan pada data latih saja. Data uji harus berperan sebagai data baru yang tidak terpengaruh oleh proses pelatihan, untuk menilai bagaimana model bekerja pada data yang belum pernah dilihat sebelumnya.
+
+## Modeling
+Pada tahap modeling, kita akan menggunakan 2 pendekatan, yaitu **Content-Based Filtering** dan **Collaborative Filtering** untuk membangun sistem rekomendasi buku. 
+
+### 1. Content-Based Filtering
+Pendekatan ini akan memberikan rekomendasi buku berdasarkan kesamaan konten antara buku yang telah dibaca oleh pengguna dan buku lainnya dalam dataset. Rekomendasi dihitung menggunakan **Cosine Similarity**, yang mengukur seberapa mirip dua buku berdasarkan fitur kontennya, seperti judul, penulis, dan penerbit.
+
+##### Proses Content-Based Filtering:
+
+- **Normalisasi Data**:
+   Untuk memastikan bahwa perhitungan kemiripan antar buku berdasarkan konten dilakukan secara adil, kita melakukan **normalisasi data** pada dataset buku. Proses normalisasi ini bertujuan untuk mengubah data menjadi skala yang seragam sehingga setiap fitur dapat diukur dengan cara yang setara.
+
+- **Perhitungan Cosine Similarity**:
+
+   * Dengan menggunakan **Cosine Similarity**, kita menghitung tingkat kemiripan antara buku yang satu dengan buku lainnya. Cosine similarity mengukur sejauh mana dua buku memiliki kemiripan berdasarkan fitur teks seperti judul dan penulis. Semakin tinggi nilai cosine similarity, semakin mirip dua buku tersebut.
+   * Fungsi `cosine_similarity(normalized_df, normalized_df)` digunakan untuk menghitung matriks kemiripan antara buku dalam dataset. Hasilnya adalah matriks berbentuk **DataFrame** yang menunjukkan kemiripan antar semua buku yang ada.
+
+- **Menyusun Matrix Cosine Similarity**:
+
+   * Matriks cosine similarity yang dihasilkan kemudian disusun menjadi **DataFrame** agar mudah dianalisis dan digunakan untuk mencari buku-buku yang paling mirip dengan buku tertentu. Kolom dan indeks pada DataFrame ini adalah judul buku, dan nilai-nilai di dalamnya menunjukkan tingkat kemiripan antar buku.
+
+- **Fungsi Rekomendasi Buku**:
+
+   * Fungsi `book_recommendations()` digunakan untuk mengambil judul buku yang paling mirip dengan buku yang diberikan sebagai input. Fungsi ini menerima nama buku sebagai parameter, menghitung kesamaan berdasarkan cosine similarity, dan mengembalikan **Top-N rekomendasi buku**.
+   * Dalam model ini, kita memilih **5 buku teratas** dengan nilai similarity terbesar, yang dianggap paling mirip dengan buku yang dicari.
+
+#### Output Rekomendasi
+
+Ketika pengguna memilih **buku tertentu**, sistem akan mencari buku-buku dengan **kemiripan tertinggi** terhadap buku tersebut berdasarkan judul, penulis, dan penerbit. Rekomendasi yang dihasilkan akan mencakup 5 buku yang paling mirip dengan buku yang dipilih.
+
+Misalnya, jika pengguna memilih buku **"Harry Potter and the Sorcerer's Stone"**, maka sistem akan memberikan rekomendasi seperti berikut:
+gambar
+
+Rekomendasi ini didasarkan pada kesamaan penulis atau elemen lain yang relevan dalam buku-buku tersebut.
+
+#### Kelebihan dan Kekurangan Content-Based Filtering:
+
+**Kelebihan:**
+
+1. **Personalisasi yang kuat**: Rekomendasi didasarkan pada preferensi pengguna sebelumnya. Jika pengguna menyukai buku dengan genre tertentu atau penulis tertentu, sistem akan terus merekomendasikan buku dalam kategori yang sama.
+2. **Tidak membutuhkan data pengguna lain**: Berbeda dengan **Collaborative Filtering**, Content-Based Filtering tidak bergantung pada data interaksi pengguna lain. Ini membuat sistem ini lebih cocok untuk sistem yang baru diluncurkan atau untuk item-item baru yang belum banyak diinteraksikan oleh pengguna.
+3. **Rekomendasi dapat dipahami dan lebih transparan**: Pengguna dapat memahami alasan mengapa sebuah buku direkomendasikan, karena rekomendasi didasarkan pada kesamaan fitur yang jelas seperti judul dan penulis.
+
+**Kekurangan:**
+
+1. **Sangat terbatas pada konten yang ada**: Content-Based Filtering hanya dapat merekomendasikan buku-buku yang memiliki kemiripan dengan buku yang sudah ada. Ini berarti, jika pengguna hanya tertarik pada satu genre atau penulis tertentu, rekomendasi bisa menjadi monoton dan kurang bervariasi.
+2. **Kesulitan dalam menangani data teks yang kompleks**: Jika deskripsi atau konten buku sangat kompleks dan beragam, TF-IDF dan metode lain mungkin tidak menangkap makna atau semantik yang lebih dalam, yang bisa mengurangi kualitas rekomendasi.
+3. **Tidak memanfaatkan data interaksi pengguna lain**: Sistem ini tidak bisa mengungkapkan pola atau rekomendasi yang lebih luas berdasarkan preferensi kolektif dari pengguna lain, yang bisa mengarah pada hasil yang lebih generalis dan lebih sedikit inovatif dalam hal penemuan buku baru.
+
+### 2. Collaborative Filtering
+Pada tahap **Collaborative Filtering**, kita membangun sistem rekomendasi dengan memanfaatkan **interaksi pengguna** dengan item (dalam hal ini buku). **Collaborative Filtering** bekerja dengan memprediksi preferensi pengguna terhadap buku yang belum mereka baca, berdasarkan pola interaksi pengguna lain yang memiliki kesamaan preferensi.
+
+#### Proses Collaborative Filtering:
+
+- **Matrix Factorization dengan Embedding**:
+
+   * Model Collaborative Filtering menggunakan teknik **Matrix Factorization** dengan **embedding** untuk **pengguna** dan **buku**.
+   * Setiap pengguna dan buku direpresentasikan dalam bentuk vektor embedding berdimensi rendah. Vektor-vektor ini dipelajari selama pelatihan untuk menangkap pola interaksi antar pengguna dan buku.
+   * Prediksi rating dihitung dengan **dot product** antara **user embedding** dan **book embedding**, ditambah dengan bias masing-masing pengguna dan buku.
+
+- **Training Model dengan Data Interaksi**:
+
+   * Model dilatih menggunakan data interaksi pengguna dengan buku, yang terdiri dari **User-ID** dan **ISBN** dari buku yang telah diberi rating oleh pengguna, serta rating yang diberikan.
+   * Bias pengguna dan buku juga diperhitungkan dalam proses ini untuk menangani variasi individual dalam preferensi pengguna dan buku.
+
+- **Prediksi Rating**:
+
+   * Setelah model dilatih, kita dapat memprediksi rating untuk buku yang belum dinilai oleh pengguna, menggunakan **user embedding** dan **book embedding** yang telah dipelajari.
+   * Rekomendasi **Top-N** diberikan berdasarkan **rating tertinggi** yang diprediksi untuk buku-buku yang belum dinilai oleh pengguna.
+#### Output Rekomendasi:
+
+Setelah pelatihan, model dapat memberikan **Top-N rekomendasi buku** berdasarkan prediksi rating. Misalnya, jika pengguna menyukai buku **"Harry Potter"**, sistem akan merekomendasikan buku serupa berdasarkan pola preferensi pengguna lain yang juga menyukai **"Harry Potter"** dan buku-buku sejenis.
+
+Sebagai contoh user (sesuaikan gambar) menyukai buku **"Harry Potter"**, sistem bisa memberikan rekomendasi seperti:
+
+*gambar*
+
+Rekomendasi ini berdasarkan pola preferensi pengguna lain yang serupa, tanpa perlu mempertimbangkan atribut buku seperti genre atau penulis, tetapi hanya berdasarkan interaksi pengguna dengan buku.
+
+#### Kelebihan dan Kekurangan Collaborative Filtering:
+
+**Kelebihan**:
+
+1. **Personalisasi Tinggi**: Collaborative Filtering menghasilkan rekomendasi yang sangat personal, karena mempelajari pola interaksi pengguna dengan buku lain, dan memberikan rekomendasi berdasarkan preferensi pengguna serupa.
+2. **Tidak Memerlukan Fitur Konten**: Berbeda dengan **Content-Based Filtering**, sistem ini tidak memerlukan informasi eksplisit tentang konten buku (seperti genre atau penulis), hanya membutuhkan data rating atau interaksi pengguna.
+
+**Kekurangan**:
+
+1. **Cold Start Problem**: Jika pengguna atau buku baru tidak memiliki banyak interaksi, model ini kesulitan memberikan rekomendasi yang akurat.
+2. **Sparsity**: Jika matriks interaksi sangat jarang (misalnya, hanya sebagian kecil pengguna yang memberi rating pada buku tertentu), ini dapat mempengaruhi akurasi rekomendasi.
 
 ## Referensi
 
