@@ -92,14 +92,15 @@ Dataset ini terdiri dari tiga file utama yang berfungsi untuk membangun sistem r
 - **Book-Rating**: Rating yang diberikan oleh pengguna, dengan rentang nilai 1-10 (nilai 0 menandakan rating implisit).
 
 ### Data Understanding untuk Book.csv
+- **Pengecekan Informasi Awal**
+  
+  ![Book Info Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/books_info.png)
 
-![Book Info Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/books_info.png)
+  Berdasarkan hasil pemanggilan fungsi books.info(), dataset Books.csv terdiri dari 271,360 entri dengan 8 kolom. Semua kolom memiliki nilai yang non-null, kecuali pada kolom Book-Author dan Publisher, yang memiliki beberapa nilai kosong. Kolom-kolom ini menyimpan informasi penting mengenai buku, seperti ISBN, Book-Title, Book-Author, Year-Of-Publication, dan Publisher, yang akan digunakan dalam proses rekomendasi.
 
-Berdasarkan hasil pemanggilan fungsi books.info(), dataset Books.csv terdiri dari 271,360 entri dengan 8 kolom. Semua kolom memiliki nilai yang non-null, kecuali pada kolom Book-Author dan Publisher, yang memiliki beberapa nilai kosong. Kolom-kolom ini menyimpan informasi penting mengenai buku, seperti ISBN, Book-Title, Book-Author, Year-Of-Publication, dan Publisher, yang akan digunakan dalam proses rekomendasi.
+  Kolom Year-Of-Publication saat ini bertipe data object, padahal seharusnya kolom ini bertipe data int64 untuk merepresentasikan tahun terbit buku. Oleh karena itu, tipe data pada kolom ini perlu diubah menjadi int agar dapat digunakan dengan benar dalam analisis dan model prediksi.
 
-Kolom Year-Of-Publication saat ini bertipe data object, padahal seharusnya kolom ini bertipe data int64 untuk merepresentasikan tahun terbit buku. Oleh karena itu, tipe data pada kolom ini perlu diubah menjadi int agar dapat digunakan dengan benar dalam analisis dan model prediksi.
-
-Selain itu, beberapa kolom seperti Image-URL-S, Image-URL-M, dan Image-URL-L berisi URL gambar sampul buku dalam tiga ukuran berbeda (kecil, medium, dan besar). Kolom-kolom ini tidak relevan dalam konteks sistem rekomendasi berbasis content-based filtering dan collaborative filtering, sehingga sebaiknya dihapus agar tidak menambah kompleksitas data.
+  Selain itu, beberapa kolom seperti Image-URL-S, Image-URL-M, dan Image-URL-L berisi URL gambar sampul buku dalam tiga ukuran berbeda (kecil, medium, dan besar). Kolom-kolom ini tidak relevan dalam konteks sistem rekomendasi berbasis content-based filtering dan collaborative filtering, sehingga sebaiknya dihapus agar tidak menambah kompleksitas data.
 
 - **Pengecekan Missing Value**
 
@@ -144,14 +145,15 @@ Selain itu, beberapa kolom seperti Image-URL-S, Image-URL-M, dan Image-URL-L ber
   Namun, pada dataset ini, **tidak ditemukan duplikat**, yang berarti setiap entri dalam dataset adalah unik dan tidak ada baris yang terduplikasi.
 
 ### Data Understanding untuk Users.csv
+- **Pengecekan Informasi Awal**
+  
+  ![Users Head Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/users_head.png)
 
-![Users Head Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/users_head.png)
+  Berdasarkan pemeriksaan awal menggunakan fungsi head() pada dataset Users, ditemukan bahwa kolom Location menggabungkan informasi tentang kota, negara bagian, dan negara dalam satu kolom, seperti yang terlihat pada contoh "nyc, new york, usa". Meskipun kolom Location tidak digunakan dalam model rekomendasi berbasis Collaborative Filtering dan Content-Based Filtering, penting untuk melakukan pembersihan data terlebih dahulu. Pemisahan kolom Location menjadi City, State, dan Country dapat menjaga konsistensi data dan mempermudah pengelolaan data di masa depan, terutama jika terdapat perkembangan model yang memerlukan informasi lokasi.
 
-Berdasarkan pemeriksaan awal menggunakan fungsi head() pada dataset Users, ditemukan bahwa kolom Location menggabungkan informasi tentang kota, negara bagian, dan negara dalam satu kolom, seperti yang terlihat pada contoh "nyc, new york, usa". Meskipun kolom Location tidak digunakan dalam model rekomendasi berbasis Collaborative Filtering dan Content-Based Filtering, penting untuk melakukan pembersihan data terlebih dahulu. Pemisahan kolom Location menjadi City, State, dan Country dapat menjaga konsistensi data dan mempermudah pengelolaan data di masa depan, terutama jika terdapat perkembangan model yang memerlukan informasi lokasi.
+  ![Users Info Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/users_info.png)
 
-![Users Info Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/users_info.png)
-
-Berdasarkan hasil pemeriksaan dengan menggunakan fungsi info() pada dataset Users, terdapat tiga kolom utama: User-ID, Location, dan Age. Kolom User-ID memiliki tipe data int64, yang sudah sesuai untuk mewakili ID pengguna. Kolom Age memiliki tipe data float64, yang juga sudah tepat karena usia bisa berupa angka desimal pada beberapa kasus.
+  Berdasarkan hasil pemeriksaan dengan menggunakan fungsi info() pada dataset Users, terdapat tiga kolom utama: User-ID, Location, dan Age. Kolom User-ID memiliki tipe data int64, yang sudah sesuai untuk mewakili ID pengguna. Kolom Age memiliki tipe data float64, yang juga sudah tepat karena usia bisa berupa angka desimal pada beberapa kasus.
 
 - **Pengecekan Missing Value**
 
@@ -172,12 +174,12 @@ Berdasarkan hasil pemeriksaan dengan menggunakan fungsi info() pada dataset User
   Selanjutnya, kita memeriksa apakah ada data duplikat di dalam dataset. Berdasarkan hasil pemeriksaan terhadap duplikasi data menggunakan fungsi .duplicated() pada dataset users, ditemukan bahwa tidak ada baris duplikat dalam dataset tersebut.
 
 ### Data Understanding untuk Ratings.csv
+- **Pengecekan Informasi Awal**
+  ![Ratings Info Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/ratings_info.png)
 
-![Ratings Info Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/ratings_info.png)
+  Berdasarkan hasil pemeriksaan dataset ratings menggunakan fungsi info(), dataset ini terdiri dari 1.149.780 entri dengan 3 kolom, yaitu User-ID, ISBN, dan Book-Rating. Semua kolom memiliki jumlah data yang tidak hilang (non-null), artinya tidak ada missing value dalam dataset ratings, yang sangat baik untuk kelancaran proses analisis dan model prediksi.
 
-Berdasarkan hasil pemeriksaan dataset ratings menggunakan fungsi info(), dataset ini terdiri dari 1.149.780 entri dengan 3 kolom, yaitu User-ID, ISBN, dan Book-Rating. Semua kolom memiliki jumlah data yang tidak hilang (non-null), artinya tidak ada missing value dalam dataset ratings, yang sangat baik untuk kelancaran proses analisis dan model prediksi.
-
-Tipe data pada kolom User-ID dan Book-Rating sudah sesuai dengan tipe data yang diharapkan, yaitu int64 untuk data numerik, sedangkan kolom ISBN bertipe object. Untuk kolom ISBN, meskipun bertipe object, ini adalah tipe data yang sesuai karena ISBN bersifat alfanumerik dan terdiri dari karakter yang dapat berbeda.
+  Tipe data pada kolom User-ID dan Book-Rating sudah sesuai dengan tipe data yang diharapkan, yaitu int64 untuk data numerik, sedangkan kolom ISBN bertipe object. Untuk kolom ISBN, meskipun bertipe object, ini adalah tipe data yang sesuai karena ISBN bersifat alfanumerik dan terdiri dari karakter yang dapat berbeda.
 
 - **Pengecekan Missing Value**
   
@@ -201,24 +203,24 @@ Oleh karena itu, untuk menjaga kualitas rekomendasi dan menghindari data yang ti
 ## Exploratory Data Analysis (EDA)
 ### Univariate Analysis
 - **Analisis Distribusi Data Kategorikal**
-  *gambar distribusi penulis*
+  ![Distribusi Penulis Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_penulis.png)
   Berdasarkan analisis distribusi penulis, ditunjukkan bahwa Agatha Christie adalah penulis dengan jumlah buku terbanyak, melebihi 600 judul. Selain itu, terdapat juga beberapa penulis lain dengan lebih dari satu judul buku. Penulis dengan jumlah buku yang lebih banyak cenderung memiliki representasi konten yang lebih besar. Dalam content-based filtering, ini berarti pengguna yang menyukai karya penulis yang sangat produktif seperti Agatha Christie mungkin akan lebih sering direkomendasikan buku lain dari penulis yang sama atau yang memiliki kemiripan konten. Sementara itu, dalam collaborative filtering, popularitas penulis dengan banyak buku dapat tercermin dalam data interaksi pengguna, yang berpotensi menghasilkan rekomendasi yang lebih sering untuk karya-karya mereka.
 
-  *gambar distribusi penerbit*
+  ![Distribusi Penerbit Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_penerbit.png)
   Dari visualisasi tersebut, dapat disimpulkan bahwa Harlequin adalah penerbit dengan jumlah buku terbanyak secara signifikan dibandingkan penerbit lain. Penerbit-penerbit berikutnya seperti Silhouette, Pocket, dan Ballantine Books memiliki jumlah buku yang relatif lebih seimbang namun jauh lebih sedikit dibanding Harlequin. Kondisi ini menunjukkan dominasi Harlequin dalam koleksi buku yang dapat mempengaruhi fokus analisis dan sistem rekomendasi, khususnya pada content-based filtering dan pola interaksi pengguna dalam collaborative filtering.
  
 - **Analisis Distribusi Data Numerik**
-  *gambar distribusi umur*
+  ![Distribusi Umur Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_umur.png)
   Distribusi umur pengguna menunjukkan adanya potensi data yang tidak valid, terutama pada rentang umur mendekati 0 dan di atas 100 tahun. Keberadaan data umur yang invalid dapat mempengaruhi akurasi sistem rekomendasi jika umur digunakan sebagai fitur (meskipun dalam konteks Content-Based Filtering dan Collaborative Filtering tidak digunakan). Oleh karena itu, langkah-langkah penanganan data invalid perlu dilakukan. Mengingat jumlah data invalid yang signifikan, diputuskan untuk menerapkan metode imputasi dalam penanganan data ini dengan menggunakan nilai rata-rata (mean).
   
-  *gambar distribusi rating*
+  ![Distribusi Rating Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_rating.png)
   Visualisasi distribusi rating buku memperjelas dominasi rating 0 dalam dataset, yang mengindikasikan sejumlah besar interaksi implisit atau tidak adanya rating eksplisit. Nilai 0 harus dihapus untuk memfokuskan analisis pada preferensi pengguna yang terungkap melalui rating positif (1 hingga 10). Penghapusan ini akan menghasilkan dataset yang lebih kecil namun berpotensi lebih relevan untuk mengidentifikasi preferensi pengguna yang sebenarnya dalam pengembangan sistem rekomendasi berbasis collaborative filtering.
 
 ### Bivariate Analysis
-*gambar most rated book*
+![Most Rated Book Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/most_rated_book.png)
 Visualisasi Buku yang Paling Banyak Diberikan Rating mengidentifikasi 'Wild Animus' sebagai buku yang menerima rating terbanyak secara signifikan, diikuti oleh 'The Lovely Bones: A Novel'. Buku-buku dengan jumlah rating tinggi ini mengindikasikan popularitas yang besar di kalangan pengguna dan dapat menjadi rekomendasi yang kuat dalam sistem. Data ini penting karena buku-buku populer sering kali memiliki banyak rating positif, menjadikannya kandidat yang baik untuk direkomendasikan kepada pengguna lain.
 
-*gambar*
+![Distribusi Pengguna Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_pengguna.png)
 Visualisasi pengguna yang memberikan rating terbanyak menunjukkan bahwa pengguna dengan ID 11676 secara signifikan memberikan rating untuk jumlah buku yang jauh lebih banyak dibandingkan pengguna lain dalam dataset. Pengguna-pengguna aktif seperti ini sangat berharga untuk pengembangan model collaborative filtering karena menyediakan data preferensi yang kaya dan beragam. Rating dari pengguna dengan banyak interaksi dapat membantu algoritma dalam mengidentifikasi pola kesamaan antar pengguna dan meningkatkan kualitas rekomendasi. 
 
 ## Data Preparation
