@@ -424,25 +424,28 @@ Pendekatan ini akan memberikan rekomendasi buku berdasarkan kesamaan konten anta
 
    * Dengan menggunakan **Cosine Similarity**, kita menghitung tingkat kemiripan antara buku yang satu dengan buku lainnya. Cosine similarity mengukur sejauh mana dua buku memiliki kemiripan berdasarkan fitur teks seperti judul dan penulis. Semakin tinggi nilai cosine similarity, semakin mirip dua buku tersebut.
    * Fungsi `cosine_similarity(normalized_df, normalized_df)` digunakan untuk menghitung matriks kemiripan antara buku dalam dataset. Hasilnya adalah matriks berbentuk **DataFrame** yang menunjukkan kemiripan antar semua buku yang ada.
-
+  
 - **Menyusun Matrix Cosine Similarity**
 
    * Matriks cosine similarity yang dihasilkan kemudian disusun menjadi **DataFrame** agar mudah dianalisis dan digunakan untuk mencari buku-buku yang paling mirip dengan buku tertentu. Kolom dan indeks pada DataFrame ini adalah judul buku, dan nilai-nilai di dalamnya menunjukkan tingkat kemiripan antar buku.
-     *gambar*
+   * 
+     ![Cosine Similarity Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/cosine_similarity.png)
+     
      Dengan menggunakan cosine similarity, sistem berhasil mengukur tingkat kemiripan antara satu judul buku dengan judul lainnya. Matriks kesamaan yang dihasilkan berukuran (10000, 10000), yang menunjukkan bahwa terdapat perhitungan kemiripan di antara 10.000 judul buku, baik pada sumbu X maupun Y. Ukuran ini berarti setiap judul dibandingkan dengan semua judul lainnya untuk mengetahui sejauh mana kemiripannya. Namun, karena ukuran data yang besar, tidak semua hasil dapat ditampilkan secara langsung. Oleh karena itu, hanya ditampilkan sebagian data, yaitu 10 judul buku secara vertikal dan 5 judul buku secara horizontal. Hasil kemiripan antar judul ini nantinya digunakan untuk merekomendasikan buku-buku lain yang serupa dengan buku yang pernah dibaca atau dibeli oleh pengguna.
 
 - **Fungsi Rekomendasi Buku**
 
-   * Fungsi book_recommendation dibuat untuk menghasilkan rekomendasi buku berbasis konten, dengan menampilkan daftar judul buku beserta nama penulis yang memiliki kemiripan dengan buku yang sebelumnya pernah dibaca atau dibeli oleh pengguna. Sesuai dengan konsep sistem rekomendasi, output dari fungsi ini berupa Top-N rekomendasi, yang jumlahnya dapat diatur melalui parameter k.
+   * Fungsi book_recommendation dibuat untuk menghasilkan rekomendasi buku berbasis konten, dengan menampilkan daftar judul buku beserta nama penulis yang memiliki kemiripan dengan buku yang sebelumnya pernah dibaca atau dibeli oleh pengguna. Sesuai dengan konsep sistem rekomendasi, output dari fungsi ini berupa **Top-N rekomendasi**, yang jumlahnya dapat diatur melalui parameter k.
    * Dalam model ini, kita memilih **5 buku teratas** dengan nilai similarity terbesar, yang dianggap paling mirip dengan buku yang dicari.
-   * Dalam implementasinya, fungsi ini memanfaatkan argpartition() untuk mengekstrak sejumlah nilai kemiripan tertinggi dari matriks similarity. Nilai-nilai tersebut kemudian diurutkan berdasarkan bobot kemiripan dari yang paling tinggi ke rendah dan disimpan dalam variabel closest. Untuk menghindari duplikasi dalam hasil, judul buku yang dijadikan acuan (input) akan dihapus dari daftar rekomendasi agar tidak muncul kembali dalam hasil rekomendasi yang diberikan.
+   * Dalam implementasinya, fungsi ini memanfaatkan `argpartition()` untuk mengekstrak sejumlah nilai kemiripan tertinggi dari matriks similarity. Nilai-nilai tersebut kemudian diurutkan berdasarkan bobot kemiripan dari yang paling tinggi ke rendah dan disimpan dalam variabel `closest`. Untuk menghindari duplikasi dalam hasil, judul buku yang dijadikan acuan (input) akan dihapus dari daftar rekomendasi agar tidak muncul kembali dalam hasil rekomendasi yang diberikan.
 
 #### Output Rekomendasi
 
 Ketika pengguna memilih **buku tertentu**, sistem akan mencari buku-buku dengan **kemiripan tertinggi** terhadap buku tersebut berdasarkan judul, penulis, dan penerbit. Rekomendasi yang dihasilkan akan mencakup 5 buku yang paling mirip dengan buku yang dipilih.
 
-Misalnya, jika pengguna memilih buku **"Harry Potter and the Prisoner of Azkaban (Book 3)"**, maka sistem akan memberikan rekomendasi seperti berikut:
-gambar
+Misalnya, jika pengguna memilih buku **"Harry Potter und der Stein der Weisen"**, maka sistem akan memberikan rekomendasi seperti berikut:
+
+![Rekomendasi Content Based Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/rekomendasi_content_based.png)
 
 Rekomendasi ini didasarkan pada kesamaan penulis atau elemen lain yang relevan dalam buku-buku tersebut. Berdasarkan output diatas, sistem berhasil merekomendasikan 5 judul buku teratas dengan kategori nama penulis (book_author) yaitu 'J.K. Rowling' dan memiliki judul yang mirip (masih dalam satu rangkaian series Harry Potter)
 
@@ -483,6 +486,13 @@ Pada tahap **Collaborative Filtering**, kita membangun sistem rekomendasi dengan
   * Penggunaan regularisasi L2 dan **dropout** bertujuan untuk mencegah overfitting dan meningkatkan kemampuan generalisasi model.
   * Model dioptimasi dengan fungsi loss **binary crossentropy** dan optimizer **Adam** dengan learning rate 1e-4.
   * Pelatihan dilakukan selama 50 epoch dengan batch size 64 dan menggunakan data validasi untuk memonitor performa.
+    ```python
+    model.compile(
+    loss = tf.keras.losses.BinaryCrossentropy(),
+    optimizer=keras.optimizers.Adam(learning_rate=1e-4),
+    metrics=[tf.keras.metrics.RootMeanSquaredError()]
+    )
+    ```
 
 - **Fungsi Rekomendasi**
   
@@ -494,9 +504,9 @@ Pada tahap **Collaborative Filtering**, kita membangun sistem rekomendasi dengan
 
 Setelah pelatihan, model dapat memberikan **Top-N rekomendasi buku** berdasarkan prediksi rating. Misalnya, jika pengguna menyukai buku **"Harry Potter"**, sistem akan merekomendasikan buku serupa berdasarkan pola preferensi pengguna lain yang juga menyukai **"Harry Potter"** dan buku-buku sejenis.
 
-Sebagai contoh hasil rekomendasi buku untuk pengguna dengan ID 248221 menunjukkan bahwa model berhasil menangkap preferensi pengguna yang menyukai karya sastra dan buku fiksi dengan narasi mendalam serta tema yang kuat, seperti terlihat dari buku-buku yang telah dinilai tinggi seperti Year of Wonders dan Their Eyes Were Watching God. Rekomendasi yang diberikan konsisten dengan pola tersebut, menghadirkan buku-buku yang memiliki nilai historis, emosional, dan hiburan berkualitas, seperti The Pillars of the Earth, The Lovely Bones, dan The Hobbit. Hal ini mengindikasikan bahwa model mampu memberikan rekomendasi yang personal dan relevan dengan minat pengguna, berkat pemetaan pola interaksi yang efektif melalui embedding pengguna dan buku. Rekomendasi ini tidak hanya berfokus pada satu genre, tetapi memberikan variasi yang seimbang antara bacaan fiksi dan non-fiksi, sehingga dapat memenuhi kebutuhan hiburan sekaligus literasi berkualitas bagi pengguna.
+Sebagai contoh hasil rekomendasi buku untuk pengguna dengan ID 146230, tampak bahwa model berhasil memahami preferensi pengguna yang cenderung menyukai buku-buku dengan tema keluarga, pendidikan, dan nilai-nilai kehidupan sehari-hari, seperti terlihat dari buku-buku yang diberi rating tinggi seperti Winnie the Pooh and His Friends, Emphasis Art, dan Beautiful Junk. Berdasarkan pola tersebut, sistem merekomendasikan buku-buku seperti The Power of Myth, The Re-Enchantment of Everyday Life, hingga Basic for Home Computers, yang menunjukkan kecenderungan pada materi reflektif, edukatif, dan bermakna. Model mampu menyarankan pilihan yang tidak semata-mata populer, melainkan selaras dengan jenis bacaan yang menstimulasi pemikiran dan memberikan nilai praktis atau filosofis. Dengan memanfaatkan pendekatan collaborative filtering, rekomendasi ini mencerminkan keberhasilan sistem dalam menangkap pola kesamaan antar pengguna dan memberikan saran bacaan yang lebih personal, bervariasi, serta tetap relevan dengan preferensi pengguna.
 
-*gambar*
+![Rekomendasi Colaborative Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/rekomendasi_colaborative.png)
 
 #### Kelebihan dan Kekurangan Collaborative Filtering
 
@@ -540,17 +550,19 @@ Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk 
 
   F1-Score adalah rata-rata harmonik dari precision dan recall. F1 memberikan satu nilai tunggal yang mewakili keseimbangan antara keduanya, terutama berguna jika terjadi ketidakseimbangan antara jumlah positif dan negatif. F1-score penting untuk memastikan model tidak hanya akurat tapi juga tidak melewatkan rekomendasi penting..
 
-Sebelum menghitung ketiga metrik ini, perlu disiapkan data ground truth yang menjadi acuan evaluasi. Dalam proyek ini, data ground truth dibentuk berdasarkan nilai kemiripan antar buku yang dihitung menggunakan teknik cosine similarity. Setiap baris dan kolom mewakili judul buku, dan nilai dalam sel menunjukkan apakah dua buku tersebut dianggap mirip atau tidak. Nilai 1 menunjukkan bahwa dua buku dianggap mirip (similar), sementara nilai 0 berarti tidak mirip (not similar).
+Sebelum menghitung ketiga metrik ini, perlu disiapkan data `ground_truth` yang menjadi acuan evaluasi. Dalam proyek ini, data `ground_truth` dibentuk berdasarkan nilai kemiripan antar buku yang dihitung menggunakan teknik cosine similarity. Setiap baris dan kolom mewakili judul buku, dan nilai dalam sel menunjukkan apakah dua buku tersebut dianggap mirip atau tidak. Nilai 1 menunjukkan bahwa dua buku dianggap mirip (similar), sementara nilai 0 berarti tidak mirip (not similar).
 
-Agar bisa memutuskan apakah dua buku dianggap mirip, digunakan ambang batas (threshold) dengan nilai 0.5. Nilai threshold ini ditentukan berdasarkan kebutuhan dan karakteristik data setelah mengamati hasil rekomendasi sebelumnya. Proses pembuatan ground truth dilakukan dengan fungsi np.where() dari library NumPy, yang menghasilkan matriks berisi nilai 1 jika similarity ≥ threshold, dan 0 jika sebaliknya. Matriks ini kemudian diubah ke dalam bentuk DataFrame, dengan judul buku digunakan sebagai indeks pada baris dan kolom.
+Agar bisa memutuskan apakah dua buku dianggap mirip, digunakan ambang batas (threshold) dengan nilai 0.5. Nilai threshold ini ditentukan berdasarkan kebutuhan dan karakteristik data setelah mengamati hasil rekomendasi sebelumnya. Proses pembuatan ground truth dilakukan dengan fungsi `np.where()` dari library NumPy, yang menghasilkan matriks berisi nilai 1 jika similarity ≥ threshold, dan 0 jika sebaliknya. Matriks ini kemudian diubah ke dalam bentuk DataFrame, dengan judul buku digunakan sebagai indeks pada baris dan kolom.
 
 Setelah ground truth terbentuk, langkah selanjutnya adalah mengevaluasi performa model menggunakan metrik precision, recall, dan f1-score. Fungsi precision_recall_fscore_support dari pustaka Scikit-learn digunakan untuk menghitung ketiga metrik tersebut. Evaluasi dilakukan pada keseluruhan data yang berjumlah 10.000 entri, yang telah dikonversi ke bentuk array 1 dimensi agar dapat dibandingkan secara langsung.
 
 Baik matriks similarity maupun ground truth kemudian diubah menjadi array 1 dimensi (flattened) agar mudah dibandingkan. Nilai prediksi dikonversi menjadi biner (0 atau 1) berdasarkan nilai threshold, lalu disimpan dalam array bernama predictions.
 
-Terakhir, fungsi `precision_recall_fscore_support` digunakan untuk menghitung tiga metrik evaluasi tersebut. Parameter average='binary' digunakan karena klasifikasi yang dilakukan bersifat biner, dan zero_division=1 digunakan untuk menghindari error pembagian dengan nol jika salah satu kelas tidak muncul dalam prediksi.
+Terakhir, fungsi `precision_recall_fscore_support` digunakan untuk menghitung tiga metrik evaluasi tersebut. Parameter `average='binary'` digunakan karena klasifikasi yang dilakukan bersifat biner, dan `zero_division=1` digunakan untuk menghindari error pembagian dengan nol jika salah satu kelas tidak muncul dalam prediksi.
 
-Adapun hasil evaluasi yang diperoleh menunjukkan performa model sebagai berikut: *gambar*
+Adapun hasil evaluasi yang diperoleh menunjukkan performa model sebagai berikut: 
+
+![Evaluasi Content Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/evaluasi_content.png)
 
 #### **Hasil Evaluasi**
 Pada hasil evaluasi, ketiga metrik menunjukkan nilai sempurna yaitu **1.00**. Ini berarti model berhasil memberikan semua rekomendasi buku yang benar-benar relevan (precision = 1.00), sekaligus tidak melewatkan buku yang relevan sama sekali (recall = 1.00). Nilai F1-score yang sempurna menunjukkan keseimbangan ideal antara precision dan recall.
@@ -578,7 +590,9 @@ Di mana:
 Untuk menghitung nilai RMSE, pertama-tama, selisih antara nilai rating sebenarnya dan nilai rating yang diprediksi dihitung untuk setiap rating. Selanjutnya, selisih tersebut kemudian dikuadratkan. Pengkuadratan ini berfungsi untuk menghilangkan nilai negatif dan memberikan bobot lebih pada kesalahan yang lebih besar. Setelah itu, hasil kuadrat dari semua selisih dijumlahkan dan dirata-ratakan, yang menghasilkan Mean Squared Error (MSE). Terakhir, akar kuadrat dari MSE diambil, bertujuan untuk mengembalikan unit error ke skala asli dari nilai rating agar lebih mudah dipahami. RMSE memberikan ukuran kesalahan yang lebih besar ketika perbedaan antara nilai yang diprediksi dan nilai aktual lebih besar, sehingga **semakin rendah nilai RMSE, semakin baik kinerja model**.
 
 #### **Hasil Evaluasi RMSE**
-*gambar*
+
+![Evaluasi RMSE Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/evaluasi_rmse.png)
+
 Gambar grafik RMSE selama epoch menunjukkan performa model rekomendasi buku dalam proses pelatihan dan pengujian. Terlihat bahwa nilai RMSE pada data training menurun secara konsisten dari sekitar 0.31 ke sekitar 0.19, yang menandakan **model semakin mampu mempelajari pola interaksi pengguna dan buku dengan baik**. Namun, pada data testing, RMSE relatif stabil di kisaran 0.31 tanpa penurunan signifikan, yang mengindikasikan model mengalami **sedikit overfitting**—mampu menyesuaikan dengan data pelatihan namun kurang optimal dalam generalisasi ke data baru. Meski demikian, **perbedaan nilai RMSE yang tidak terlalu besar** tetap **menunjukkan bahwa model memiliki kemampuan prediksi yang cukup baik**. Untuk meningkatkan generalisasi, langkah seperti regularisasi lebih kuat, penyesuaian dropout, atau peningkatan jumlah data pelatihan bisa dipertimbangkan. Secara keseluruhan, model sudah menunjukkan performa yang memuaskan dengan potensi perbaikan di masa depan.
 
 ## Referensi
