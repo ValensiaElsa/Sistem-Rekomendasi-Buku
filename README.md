@@ -311,6 +311,7 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   ![Penanganan Lokasi Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/penanganan_lokasi.png)
 
   **Menghapus Rating dengan Nilai 0**
+  
   Terakhir, penanganan invalid data 'Book-Rating' pada dataset **ratings** dilakukan dengan teknik **pemfilteran data atau data filtering** dengan menghapus baris-baris di mana nilai pada kolom 'Book-Rating' adalah 0. Proses ini dilakukan dengan memilih baris-baris di mana nilai 'Book-Rating' tidak sama dengan 0.
   ```python
   ratings = ratings[ratings['Book-Rating'] != 0]
@@ -321,6 +322,7 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   Secara keseluruhan, serangkaian teknik penanganan data tidak valid ini sangat penting untuk memastikan bahwa data yang digunakan dalam membangun sistem rekomendasi adalah data yang bersih, akurat, konsisten, dan relevan. Data yang berkualitas tinggi akan menghasilkan model rekomendasi yang lebih baik dalam memahami preferensi pengguna dan memberikan rekomendasi yang lebih tepat sasaran.
 
 - **Penghapusan Baris Duplikat**
+  
   Sebagai langkah terakhir dalam pembersihan data, dilakukan pengecekan dan penghapusan baris-baris duplikat. Proses ini melibatkan identifikasi baris-baris yang memiliki nilai identik di seluruh kolom dalam dataset menggunakan fungsi `duplicated().sum()`. Meskipun pada tahap data understanding tidak ditemukan adanya baris duplikat, berbagai operasi pemrosesan data yang telah dilakukan (seperti imputasi, standardisasi, atau pemisahan data) berpotensi menimbulkan duplikasi. Berdasarkan pengecekan terdapat beberapa baris duplikat pada dataset.
   
   ![Duplikasi Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/duplikasi.png)
@@ -328,32 +330,47 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   Setelah baris duplikat teridentifikasi, baris-baris tersebut dihapus dengan fungsi `drop_duplicates()`. Tahapan ini diperlukan karena keberadaan baris duplikat dapat mengganggu integritas data dengan merepresentasikan entitas yang sama berulang kali, yang dapat menciptakan bias dalam pemodelan sistem rekomendasi dengan memberikan bobot berlebih pada pola yang sebenarnya tidak unik. Selain itu, penghapusan duplikat meningkatkan efisiensi pemrosesan dengan mengurangi ukuran dataset yang tidak perlu dan memastikan keakuratan metrik evaluasi model dengan mencegah perhitungan ganda entitas yang sama. Dengan dataset yang bebas dari baris duplikat, model rekomendasi yang dibangun akan lebih handal dan mampu memberikan rekomendasi yang lebih akurat dan representatif, terutama setelah melalui berbagai transformasi data.
 
 - **Merging Dataset dan Sampling**
+  
   Tahapan persiapan data selanjutnya melibatkan penggabungan dataset (merging) dan pengambilan sampel (sampling). Proses penggabungan dilakukan dengan menggunakan fungsi pd.merge() sebanyak dua kali.
   ```python
   dataset = pd.merge(books, ratings, on='ISBN', how='inner')
   dataset = pd.merge(dataset, users, on='User-ID', how='inner')
   ```
-  Pertama, DataFrame books dan ratings digabungkan berdasarkan kolom 'ISBN' dengan metode 'inner', menghasilkan DataFrame dataset yang berisi hanya baris dengan nilai 'ISBN' yang sama di kedua DataFrame. Kemudian, DataFrame dataset ini digabungkan kembali dengan DataFrame users berdasarkan kolom 'User-ID' juga menggunakan metode 'inner'. Penggabungan ini bertujuan untuk mengintegrasikan informasi buku, rating pengguna, dan informasi pengguna ke dalam satu DataFrame yang komprehensif, yang esensial untuk membangun sistem rekomendasi yang efektif. Metode 'inner' memastikan hanya data yang lengkap dari ketiga sumber yang disertakan. Penggabungan dataset memungkinkan kita untuk mengintegrasikan informasi yang relevan dari berbagai sumber, yang esensial untuk pemodelan rekomendasi yang efektif. 
+  Pertama, DataFrame books dan ratings digabungkan berdasarkan kolom 'ISBN' dengan metode 'inner', menghasilkan DataFrame dataset yang berisi hanya baris dengan nilai 'ISBN' yang sama di kedua DataFrame. Kemudian, DataFrame dataset ini digabungkan kembali dengan DataFrame users berdasarkan kolom 'User-ID' juga menggunakan metode 'inner'. Penggabungan ini bertujuan untuk mengintegrasikan informasi buku, rating pengguna, dan informasi pengguna ke dalam satu DataFrame yang komprehensif, yang esensial untuk membangun sistem rekomendasi yang efektif. Metode 'inner' memastikan hanya data yang lengkap dari ketiga sumber yang disertakan. Penggabungan dataset memungkinkan kita untuk mengintegrasikan informasi yang relevan dari berbagai sumber, yang esensial untuk pemodelan rekomendasi yang efektif.
+  
   Setelah penggabungan, dilakukan pengambilan sampel (sampling) dengan menggunakan fungsi `dataset.sample(n=10000, random_state=42)` untuk memilih secara acak 10000 baris dari DataFrame dataset. Pengambilan sampel ini dilakukan untuk mengurangi beban komputasi selama tahap pengembangan dan eksperimen model, terutama ketika dataset terlalu besar. Penggunaan random_state memastikan hasil pengambilan sampel yang konsisten dan dapat direproduksi. Dengan demikian, penggabungan dataset menyediakan data terintegrasi yang diperlukan, sementara pengambilan sampel memungkinkan pengelolaan sumber daya komputasi yang lebih efisien dalam proses pengembangan sistem rekomendasi.
-  Berikut adalah dataset setelah dilakukan penggabungan dan sampling:
-  *gambar*
+  Berikut adalah struktur dataset setelah dilakukan penggabungan dan sampling:
+  
+  ![Data Clean Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/data_clean.png)
 
 ### Persiapan Content-Based Filtering
 - **Konversi dalam Bentuk List**
+  
   Dalam mempersiapkan data untuk pembangunan sistem rekomendasi berbasis content-based filtering, salah satu teknik konversi tipe data krusial dilakukan dengan mengubah kolom-kolom kunci dari DataFrame menjadi format list Python. Proses ini mencakup konversi kolom 'Book-Title', 'Book-Author', 'Publisher', dan 'ISBN' dari pandas Series menjadi list terpisah menggunakan fungsi `tolist()`, yang masing-masing disimpan dalam variabel book_title, book_author, publisher, dan isbn. Tahapan ini sangat diperlukan karena banyak teknik pemrosesan teks dan pembuatan matriks fitur yang menjadi inti dari content-based filtering (seperti TF-IDF) mengharapkan input dalam format list Python. Konversi ini memastikan kompatibilitas data dengan berbagai library dan algoritma yang akan digunakan untuk mengekstrak fitur konten buku, sehingga memfasilitasi analisis kemiripan antar buku secara efisien.
 - **Membuat DataFrame Baru**
+  
   Dalam mempersiapkan data untuk content-based filtering, langkah penting selanjutnya adalah **strukturisasi data** melalui pembuatan *pandas DataFrame* baru. Proses ini melibatkan pembentukan dictionary Python bernama `book_data` yang memetakan kunci-kunci seperti 'book_title', 'book_author', dan 'publisher' ke *list* data yang sesuai. Dictionary ini kemudian diubah menjadi *pandas DataFrame* dengan nama yang sama (`book_data`) menggunakan fungsi `pd.DataFrame()`. Pembuatan DataFrame ini bertujuan untuk mengorganisir fitur-fitur konten buku ke dalam struktur tabular yang efisien dan mudah diakses. Struktur ini memfasilitasi tahapan selanjutnya dalam content-based filtering, di mana fitur-fitur seperti judul dan penulis akan dianalisis lebih lanjut untuk mengekstrak representasi numerik yang dapat digunakan dalam algoritma perbandingan kemiripan antar buku dan menghasilkan rekomendasi yang relevan berdasarkan preferensi pengguna terhadap konten buku.
-  *gambar hasil*
+  
+  ![List Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/list.png)
+  
 - **Menghapus Duplikasi DataFrame Baru**
+  
   Dalam mempersiapkan data untuk content-based filtering, langkah penting selanjutnya adalah penghapusan duplikasi dari DataFrame book_data.  Hal ini dapat terjadi karena satu buku dapat memiliki beberapa entri akibat adanya rating berbeda pada dataset yang telah di-cleaning. Proses ini diawali dengan mengidentifikasi jumlah baris duplikat, yang dalam kasus ini ditemukan sebanyak **12553 baris**. Kemudian, fungsi `.drop_duplicates()` digunakan dengan fokus pada kolom 'book_title' sebagai subset pertimbangan duplikasi. Penghapusan duplikasi berdasarkan judul buku ini krusial untuk memastikan bahwa setiap buku direpresentasikan secara unik dalam data fitur konten, meskipun mungkin memiliki penulis atau penerbit yang berbeda untuk edisi yang berbeda. Tindakan ini mencegah representasi berlebihan buku yang sama, mengurangi potensi bias dalam perhitungan kemiripan konten, meningkatkan efisiensi pemrosesan data, dan pada akhirnya menghasilkan rekomendasi yang lebih beragam dan relevan bagi pengguna.
 - **TF-IDF Vectorizer**
-  Selanjutnya, tahapan persiapan data untuk content-based filtering adalah ekstraksi fitur menggunakan TF-IDF (Term Frequency-Inverse Document Frequency). Proses ini dimulai dengan menginisialisasi TfidfVectorizer yang bertugas mengubah teks menjadi representasi numerik. Kemudian, vectorizer ini dilatih pada kolom 'book_title' dari DataFrame book_data untuk mempelajari kosakata unik dan menghitung bobot IDF setiap kata, yang mencerminkan pentingnya kata tersebut dalam keseluruhan koleksi judul. Setelah itu, `book_data['book_title']` ditransformasi menjadi tfidf_matrix, sebuah matriks numerik berukuran 25969 baris dan 21623 kolom. Tahapan TF-IDF ini harus dilakukan untuk mengubah data teks menjadi format numerik yang dapat diproses oleh algoritma, menangkap pentingnya kata kunci dengan memberikan bobot lebih tinggi pada kata-kata spesifik yang deskriptif, serta menjadi dasar untuk perhitungan kemiripan konten antar buku menggunakan metrik seperti cosine similarity. Dengan demikian, TF-IDF memungkinkan sistem untuk secara objektif mengukur kesamaan konten buku dan merekomendasikan buku berdasarkan relevansi tematik.
+  
+  Selanjutnya, tahapan persiapan data untuk content-based filtering adalah ekstraksi fitur menggunakan TF-IDF (Term Frequency-Inverse Document Frequency). Proses ini dimulai dengan menginisialisasi TfidfVectorizer yang bertugas mengubah teks menjadi representasi numerik. Kemudian, vectorizer ini dilatih pada kolom 'book_title' dari DataFrame book_data untuk mempelajari kosakata unik dan menghitung bobot IDF setiap kata, yang mencerminkan pentingnya kata tersebut dalam keseluruhan koleksi judul. Setelah itu, `book_data['book_title']` ditransformasi menjadi tfidf_matrix, sebuah matriks numerik berukuran 25969 baris dan 21623 kolom. Berikut adalah gambar vektor tf-idf dalam bentuk matriks
+  
+  ![Matriks TF IDF Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/matriks_tf_idf.png)
+  
+  Tahapan TF-IDF ini harus dilakukan untuk mengubah data teks menjadi format numerik yang dapat diproses oleh algoritma, menangkap pentingnya kata kunci dengan memberikan bobot lebih tinggi pada kata-kata spesifik yang deskriptif, serta menjadi dasar untuk perhitungan kemiripan konten antar buku menggunakan metrik seperti cosine similarity. Dengan demikian, TF-IDF memungkinkan sistem untuk secara objektif mengukur kesamaan konten buku dan merekomendasikan buku berdasarkan relevansi tematik.
 - **Mengubah Tipe Data Matriks TF-IDF**
+  
   Selanjutnya, matriks TF-IDF yang merepresentasikan bobot fitur teks diubah tipe datanya menjadi float32. Konversi ini penting dilakukan karena bertujuan untuk mengoptimalkan efisiensi memori dan kecepatan komputasi saat memproses data, terutama karena matriks TF-IDF biasanya berukuran besar dan sparse. Dengan menggunakan tipe data float32, penggunaan ruang penyimpanan berkurang dibandingkan float64, sehingga mempercepat operasi matematika dan pemrosesan algoritma tanpa mengorbankan akurasi yang signifikan. Langkah ini penting dalam pipeline content-based filtering untuk menjaga performa sistem tetap responsif dan scalable saat menangani dataset besar.
   
 
 ### Persiapan Colaborative Filtering
 - **Penghapusan Kolom untuk Menyederhanakan Dataset**
+  
   Dalam tahapan persiapan data, dilakukan pemilihan fitur melalui penghapusan kolom untuk menyederhanakan dataset. Proses ini menghapus kolom-kolom **'Year-Of-Publication', 'Publisher', 'Age', 'City', 'State', dan 'Country'** dari DataFrame utama. Tindakan ini diperlukan untuk mengurangi kompleksitas data dan memfokuskan dataset pada fitur-fitur yang dianggap paling relevan untuk tujuan sistem rekomendasi yang akan dibangun. Dengan mengurangi dimensi data, proses komputasi untuk pelatihan model dapat menjadi lebih efisien dan berpotensi meningkatkan kinerja model dengan menghindari noise atau informasi yang tidak perlu sehingga menghasilkan rekomendasi yang lebih tepat sasaran.
 *gambar setelah hapus*
 - **Encoding Data**
