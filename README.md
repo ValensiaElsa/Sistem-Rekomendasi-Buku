@@ -203,30 +203,40 @@ Oleh karena itu, untuk menjaga kualitas rekomendasi dan menghindari data yang ti
 ## Exploratory Data Analysis (EDA)
 ### Univariate Analysis
 - **Analisis Distribusi Data Kategorikal**
+  
   ![Distribusi Penulis Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_penulis.png)
+  
   Berdasarkan analisis distribusi penulis, ditunjukkan bahwa Agatha Christie adalah penulis dengan jumlah buku terbanyak, melebihi 600 judul. Selain itu, terdapat juga beberapa penulis lain dengan lebih dari satu judul buku. Penulis dengan jumlah buku yang lebih banyak cenderung memiliki representasi konten yang lebih besar. Dalam content-based filtering, ini berarti pengguna yang menyukai karya penulis yang sangat produktif seperti Agatha Christie mungkin akan lebih sering direkomendasikan buku lain dari penulis yang sama atau yang memiliki kemiripan konten. Sementara itu, dalam collaborative filtering, popularitas penulis dengan banyak buku dapat tercermin dalam data interaksi pengguna, yang berpotensi menghasilkan rekomendasi yang lebih sering untuk karya-karya mereka.
 
   ![Distribusi Penerbit Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_penerbit.png)
+  
   Dari visualisasi tersebut, dapat disimpulkan bahwa Harlequin adalah penerbit dengan jumlah buku terbanyak secara signifikan dibandingkan penerbit lain. Penerbit-penerbit berikutnya seperti Silhouette, Pocket, dan Ballantine Books memiliki jumlah buku yang relatif lebih seimbang namun jauh lebih sedikit dibanding Harlequin. Kondisi ini menunjukkan dominasi Harlequin dalam koleksi buku yang dapat mempengaruhi fokus analisis dan sistem rekomendasi, khususnya pada content-based filtering dan pola interaksi pengguna dalam collaborative filtering.
  
 - **Analisis Distribusi Data Numerik**
+  
   ![Distribusi Umur Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_umur.png)
+  
   Distribusi umur pengguna menunjukkan adanya potensi data yang tidak valid, terutama pada rentang umur mendekati 0 dan di atas 100 tahun. Keberadaan data umur yang invalid dapat mempengaruhi akurasi sistem rekomendasi jika umur digunakan sebagai fitur (meskipun dalam konteks Content-Based Filtering dan Collaborative Filtering tidak digunakan). Oleh karena itu, langkah-langkah penanganan data invalid perlu dilakukan. Mengingat jumlah data invalid yang signifikan, diputuskan untuk menerapkan metode imputasi dalam penanganan data ini dengan menggunakan nilai rata-rata (mean).
   
   ![Distribusi Rating Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_rating.png)
+  
   Visualisasi distribusi rating buku memperjelas dominasi rating 0 dalam dataset, yang mengindikasikan sejumlah besar interaksi implisit atau tidak adanya rating eksplisit. Nilai 0 harus dihapus untuk memfokuskan analisis pada preferensi pengguna yang terungkap melalui rating positif (1 hingga 10). Penghapusan ini akan menghasilkan dataset yang lebih kecil namun berpotensi lebih relevan untuk mengidentifikasi preferensi pengguna yang sebenarnya dalam pengembangan sistem rekomendasi berbasis collaborative filtering.
 
 ### Bivariate Analysis
+
 ![Most Rated Book Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/most_rated_book.png)
+
 Visualisasi Buku yang Paling Banyak Diberikan Rating mengidentifikasi 'Wild Animus' sebagai buku yang menerima rating terbanyak secara signifikan, diikuti oleh 'The Lovely Bones: A Novel'. Buku-buku dengan jumlah rating tinggi ini mengindikasikan popularitas yang besar di kalangan pengguna dan dapat menjadi rekomendasi yang kuat dalam sistem. Data ini penting karena buku-buku populer sering kali memiliki banyak rating positif, menjadikannya kandidat yang baik untuk direkomendasikan kepada pengguna lain.
 
 ![Distribusi Pengguna Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_pengguna.png)
+
 Visualisasi pengguna yang memberikan rating terbanyak menunjukkan bahwa pengguna dengan ID 11676 secara signifikan memberikan rating untuk jumlah buku yang jauh lebih banyak dibandingkan pengguna lain dalam dataset. Pengguna-pengguna aktif seperti ini sangat berharga untuk pengembangan model collaborative filtering karena menyediakan data preferensi yang kaya dan beragam. Rating dari pengguna dengan banyak interaksi dapat membantu algoritma dalam mengidentifikasi pola kesamaan antar pengguna dan meningkatkan kualitas rekomendasi. 
 
 ## Data Preparation
 Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. Preparation yang dilakukan adalah sebagai berikut:
 
 - **Penghapusan Kolom yang Tidak Diperlukan (_dropping coloumns_)**
+  
   Tiga kolom yang berisi URL gambar buku, yaitu 'Image-URL-S', 'Image-URL-M', dan 'Image-URL-L', dihapus dari DataFrame books. Kode yang digunakan untuk drop kolom adalah sebagai berikut:
   ```python
   # Drop URL columns
@@ -235,24 +245,45 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   Proses ini dilakukan dengan menentukan nama-nama kolom yang akan dihapus dan menggunakan parameter axis=1 untuk mengindikasikan penghapusan berdasarkan kolom, serta inplace=True untuk menerapkan perubahan langsung pada DataFrame. Penghapusan kolom URL gambar ini diperlukan karena informasi tersebut tidak relevan untuk pemodelan rekomendasi berbasis konten maupun kolaboratif, dapat mengurangi dimensi data yang tidak perlu, memfokuskan analisis pada fitur-fitur yang lebih bermakna dalam menentukan kemiripan buku atau preferensi pengguna, serta menyederhanakan proses pemodelan dengan menghilangkan potensi kompleksitas pemrosesan data gambar.
 
 - **Penanganan Missing Value**
-  Penanganan missing value merupakan langkah krusial dalam persiapan data untuk sistem rekomendasi. Dalam dataset **books**, teknik imputasi dengan nilai 'Other' diterapkan pada kolom 'Book-Author' dan 'Publisher' untuk mengatasi nilai yang hilang pada baris-baris tertentu. Sementara itu, pada dataset **users**, teknik imputasi dengan nilai rata-rata (mean imputation) digunakan untuk mengisi nilai yang hilang (NaN) pada kolom 'Age' dengan nilai rata-rata usia dari seluruh pengguna.
+  
+  Penanganan missing value merupakan langkah krusial dalam persiapan data untuk sistem rekomendasi. Dalam dataset **books**, teknik imputasi dengan nilai 'Other' diterapkan pada kolom 'Book-Author' dan 'Publisher' untuk mengatasi nilai yang hilang pada baris-baris tertentu.
+  ```python
+  # Menetapkan nilai 'Other' pada kolom 'Book-Author' di baris 187689
+  books.loc[187689, 'Book-Author'] = 'Other'
+  ```
+  Sementara itu, pada dataset **users**, teknik imputasi dengan nilai rata-rata (mean imputation) digunakan untuk mengisi nilai yang hilang (NaN) pada kolom 'Age' dengan nilai rata-rata usia dari seluruh pengguna.
+  ```python
+  # Mengganti nilai NaN atau data yang tidak valid (misalnya nilai negatif) dengan rata-rata usia
+  users['Age'] = users['Age'].apply(lambda x: mean_age if pd.isna(x) else x)
+  ```
   Tindakan ini diperlukan untuk memastikan bahwa dataset bebas dari nilai yang hilang yang dapat mengganggu proses pemodelan algoritma rekomendasi. Imputasi memungkinkan untuk mempertahankan sebagian besar informasi dalam dataset dibandingkan dengan penghapusan baris, sekaligus menciptakan data yang lebih konsisten dan dapat diandalkan. Pengisian dengan nilai yang representatif menjaga informasi yang ada dan membuat model lebih stabil.
 
 - **Standarisasi Format**
+  
   Dalam tahapan persiapan data, standarisasi format diterapkan pada kolom ISBN yang terdapat baik dalam dataset books maupun ratings. Proses ini melibatkan pengubahan seluruh karakter dalam kolom 'ISBN' menjadi huruf kapital menggunakan fungsi `.str.upper()` pada kedua dataset. Standarisasi format penting untuk menjaga konsistensi dalam penggabungan data, terutama saat menggunakan ISBN sebagai kunci penghubung antar dataset. Dengan mengubah ISBN menjadi format seragam, kita menghindari masalah kesalahan pencocokan data antara dataset books dan ratings yang disebabkan oleh perbedaan format penulisan. Konsistensi ini sangat penting untuk operasi penggabungan data (merging atau joining) berdasarkan ISBN.
 
 - **Penanganan Invalid Data**
+  
   Penanganan data tidak valid merupakan serangkaian proses krusial dalam mempersiapkan dataset sebelum digunakan untuk membangun sistem rekomendasi yang efektif. Tujuannya adalah untuk mengidentifikasi dan memperbaiki atau mengatasi data yang tidak akurat, tidak konsisten, atau tidak relevan, sehingga kualitas informasi yang digunakan dalam pelatihan model menjadi lebih baik dan menghasilkan rekomendasi yang lebih handal. Beberapa teknik spesifik diterapkan pada dataset books, users, dan ratings untuk mencapai tujuan ini.
   
   **Mengatasi Kesalahan Data yang Tergeser**
+  
   Pada dataset books, langkah pertama adalah **pembaharuan data yang teridentifikasi atau explicit value replacement**.
   
-  *gambar contoh kode*
+  ```python
+  # Memperbarui informasi di baris 209538
+  books.loc[209538, 'Publisher'] = 'DK Publishing Inc'
+  books.loc[209538, 'Year-Of-Publication'] = 2000
+  books.loc[209538, 'Book-Title'] = 'DK Readers: Creating the X-Men, How It All Began (Level 4: Proficient Readers)'
+  books.loc[209538, 'Book-Author'] = 'Michael Teitelbaum'
+  ```
   
   Teknik ini melibatkan penggantian nilai-nilai spesifik yang diketahui salah atau tidak akurat dengan nilai yang benar. Pada baris-baris tertentu, informasi seperti nama penerbit, tahun publikasi, judul buku, atau nama penulis yang keliru diperbaiki secara manual berdasarkan data understanding yang sudah dilakukan sebelumnya. Tindakan ini penting untuk memastikan bahwa informasi dasar buku dalam dataset akurat dan dapat diandalkan. Berikut adalah hasil data setelah dilakukan perbaikan.
-  *gambar*
+
+  ![Penanganan Data Geser Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/data_geser.png)
   
   **Mengubah Invalid Years pada "Years-of-Publication"**
+  
   Selanjutnya, **konversi tipe data atau data type conversion** diterapkan pada kolom **'Year-Of-Publication'**. Mengubah tipe data menjadi integer memastikan bahwa tahun publikasi dapat diolah dengan benar dalam analisis numerik, seperti perhitungan usia buku atau pengelompokan berdasarkan periode publikasi, serta menghindari potensi kesalahan interpretasi jika kolom tersebut masih berupa string atau tipe data lainnya. Untuk mengatasi data tahun publikasi yang jelas-jelas tidak valid, seperti nilai 0 atau tahun yang jauh di masa depan (melebihi 2025), digunakan teknik imputasi dengan nilai mode atau **mode imputation**. Kode yang digunakan adalah sebagai berikut:
    ```python
    mode_year = books['Year-Of-Publication'].mode()[0]
@@ -261,24 +292,38 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   ```
    
   **Menghapus Karakter Tidak Valid pada Kolom ISBN**
-  Untuk memastikan integritas kode International Standard Book Number (ISBN), diterapkan teknik **penghapusan karakter tidak valid atau invalid character removal**. Teknik ini melibatkan identifikasi dan penghilangan karakter-karakter selain huruf (A-Z, a-z) dan angka (0-9) dari setiap nilai dalam kolom 'ISBN' pada dataset books dan ratings. Proses ini bertujuan untuk membersihkan kode ISBN dari karakter-karakter yang tidak sesuai dengan format standar. Penghapusan karakter tidak valid ini krusial karena beberapa alasan. Pertama, memastikan format ISBN yang benar adalah langkah penting untuk identifikasi buku yang akurat. ISBN adalah pengidentifikasi unik, dan karakter-karakter selain alfanumerik dapat mengganggu proses identifikasi dan pencocokan buku. Kedua, meningkatkan kualitas data dengan menghilangkan noise yang mungkin timbul akibat kesalahan input atau perbedaan format. Data yang bersih akan meminimalkan potensi kesalahan saat menghubungkan informasi buku antar dataset (books dan ratings). Ketiga, memfasilitasi matching data yang akurat berdasarkan kode ISBN. Sistem rekomendasi seringkali memerlukan penggabungan informasi dari berbagai sumber menggunakan ISBN sebagai kunci penghubung. Jika ISBN mengandung karakter yang tidak valid, proses matching bisa menjadi tidak efektif.
+  
+  Untuk memastikan integritas kode International Standard Book Number (ISBN), diterapkan teknik **penghapusan karakter tidak valid atau invalid character removal**. Teknik ini melibatkan identifikasi dan penghilangan karakter-karakter selain huruf (A-Z, a-z) dan angka (0-9) dari setiap nilai dalam kolom 'ISBN' pada dataset books dan ratings. Kode pembersihan adalah sebagai berikut
+  ```python
+  def clean_isbn(isbn):
+    return re.sub(r'[^A-Za-z0-9]', '', isbn)
+  ```
+  Proses ini bertujuan untuk membersihkan kode ISBN dari karakter-karakter yang tidak sesuai dengan format standar. Penghapusan karakter tidak valid ini krusial karena beberapa alasan. Pertama, memastikan format ISBN yang benar adalah langkah penting untuk identifikasi buku yang akurat. ISBN adalah pengidentifikasi unik, dan karakter-karakter selain alfanumerik dapat mengganggu proses identifikasi dan pencocokan buku. Kedua, meningkatkan kualitas data dengan menghilangkan noise yang mungkin timbul akibat kesalahan input atau perbedaan format. Data yang bersih akan meminimalkan potensi kesalahan saat menghubungkan informasi buku antar dataset (books dan ratings). Ketiga, memfasilitasi matching data yang akurat berdasarkan kode ISBN. Sistem rekomendasi seringkali memerlukan penggabungan informasi dari berbagai sumber menggunakan ISBN sebagai kunci penghubung. Jika ISBN mengandung karakter yang tidak valid, proses matching bisa menjadi tidak efektif.
 
   **Mengubah Nilai Invalid Age**
+  
   Pada dataset **users**, penanganan data tidak valid dilakukan pada kolom 'Age' dan 'Location'. Untuk kolom 'Age', digunakan teknik imputasi dengan nilai rata-rata atau **mean imputation** untuk mengganti nilai-nilai usia yang di luar batas wajar (kurang dari 10 atau lebih dari 80 tahun). Asumsi di balik ini adalah bahwa nilai-nilai ekstrem kemungkinan merupakan kesalahan input, dan menggantinya dengan nilai rata-rata usia pengguna secara keseluruhan akan mempertahankan distribusi usia yang lebih realistis dalam dataset.
 
   **Memisahkan Lokasi (City, State, Country)**
+  
   Pada kolom 'Location', diterapkan teknik **ekstraksi informasi atau information extraction** dan **pemisahan data atau data splitting**. Informasi lokasi yang awalnya mungkin berupa string gabungan (misalnya, "city, state, country") dipecah menjadi tiga kolom terpisah ('City', 'State', 'Country'). Teknik ekstraksi informasi dan pemisahan data pada kolom 'Location' di dataset users diterapkan dengan tujuan untuk mendapatkan informasi geografis yang lebih terstruktur dan spesifik mengenai pengguna. Alasan utama dilakukannya tahapan ini adalah untuk memungkinkan analisis preferensi pengguna berdasarkan lokasi geografis mereka. Informasi lokasi dalam format string gabungan (seperti "city, state, country") sulit untuk dianalisis secara langsung atau digunakan sebagai fitur dalam model rekomendasi. Dengan memecahnya menjadi kolom-kolom terpisah, kita mendapatkan data yang lebih granular dan mudah diolah.  Berikut adalah hasil setelah data Location dipisah menjadi City, State, dan Country.
-  *gambar setelah proses*
+  
+  ![Penanganan Lokasi Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/penanganan_lokasi.png)
 
   **Menghapus Rating dengan Nilai 0**
-  Terakhir, penanganan invalid data 'Book-Rating' pada dataset **ratings** dilakukan dengan teknik **pemfilteran data atau data filtering** dengan menghapus baris-baris di mana nilai pada kolom 'Book-Rating' adalah 0. Proses ini dilakukan dengan memilih baris-baris di mana nilai 'Book-Rating' tidak sama dengan 0. Penghapusan rating 0 diperlukan karena nilai ini sering diartikan sebagai ketidaktertarikan atau tidak adanya rating eksplisit, sehingga dapat mengintroduksi noise dan mengaburkan sinyal preferensi pengguna yang sebenarnya dalam analisis collaborative filtering. Dengan memfokuskan data hanya pada rating positif, diharapkan model rekomendasi dapat mempelajari preferensi pengguna dengan lebih akurat dan menghasilkan rekomendasi yang lebih relevan.
+  Terakhir, penanganan invalid data 'Book-Rating' pada dataset **ratings** dilakukan dengan teknik **pemfilteran data atau data filtering** dengan menghapus baris-baris di mana nilai pada kolom 'Book-Rating' adalah 0. Proses ini dilakukan dengan memilih baris-baris di mana nilai 'Book-Rating' tidak sama dengan 0.
+  ```python
+  ratings = ratings[ratings['Book-Rating'] != 0]
+  ratings = ratings.reset_index(drop = True)
+  ```
+  Penghapusan rating 0 diperlukan karena nilai ini sering diartikan sebagai ketidaktertarikan atau tidak adanya rating eksplisit, sehingga dapat mengintroduksi noise dan mengaburkan sinyal preferensi pengguna yang sebenarnya dalam analisis collaborative filtering. Dengan memfokuskan data hanya pada rating positif, diharapkan model rekomendasi dapat mempelajari preferensi pengguna dengan lebih akurat dan menghasilkan rekomendasi yang lebih relevan.
 
   Secara keseluruhan, serangkaian teknik penanganan data tidak valid ini sangat penting untuk memastikan bahwa data yang digunakan dalam membangun sistem rekomendasi adalah data yang bersih, akurat, konsisten, dan relevan. Data yang berkualitas tinggi akan menghasilkan model rekomendasi yang lebih baik dalam memahami preferensi pengguna dan memberikan rekomendasi yang lebih tepat sasaran.
 
 - **Penghapusan Baris Duplikat**
   Sebagai langkah terakhir dalam pembersihan data, dilakukan pengecekan dan penghapusan baris-baris duplikat. Proses ini melibatkan identifikasi baris-baris yang memiliki nilai identik di seluruh kolom dalam dataset menggunakan fungsi `duplicated().sum()`. Meskipun pada tahap data understanding tidak ditemukan adanya baris duplikat, berbagai operasi pemrosesan data yang telah dilakukan (seperti imputasi, standardisasi, atau pemisahan data) berpotensi menimbulkan duplikasi. Berdasarkan pengecekan terdapat beberapa baris duplikat pada dataset.
   
-  *gambar*
+  ![Duplikasi Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/duplikasi.png)
   
   Setelah baris duplikat teridentifikasi, baris-baris tersebut dihapus dengan fungsi `drop_duplicates()`. Tahapan ini diperlukan karena keberadaan baris duplikat dapat mengganggu integritas data dengan merepresentasikan entitas yang sama berulang kali, yang dapat menciptakan bias dalam pemodelan sistem rekomendasi dengan memberikan bobot berlebih pada pola yang sebenarnya tidak unik. Selain itu, penghapusan duplikat meningkatkan efisiensi pemrosesan dengan mengurangi ukuran dataset yang tidak perlu dan memastikan keakuratan metrik evaluasi model dengan mencegah perhitungan ganda entitas yang sama. Dengan dataset yang bebas dari baris duplikat, model rekomendasi yang dibangun akan lebih handal dan mampu memberikan rekomendasi yang lebih akurat dan representatif, terutama setelah melalui berbagai transformasi data.
 
