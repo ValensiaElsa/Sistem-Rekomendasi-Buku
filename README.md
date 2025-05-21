@@ -372,8 +372,9 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
 - **Penghapusan Kolom untuk Menyederhanakan Dataset**
   
   Dalam tahapan persiapan data, dilakukan pemilihan fitur melalui penghapusan kolom untuk menyederhanakan dataset. Proses ini menghapus kolom-kolom **'Year-Of-Publication', 'Publisher', 'Age', 'City', 'State', dan 'Country'** dari DataFrame utama. Tindakan ini diperlukan untuk mengurangi kompleksitas data dan memfokuskan dataset pada fitur-fitur yang dianggap paling relevan untuk tujuan sistem rekomendasi yang akan dibangun. Dengan mengurangi dimensi data, proses komputasi untuk pelatihan model dapat menjadi lebih efisien dan berpotensi meningkatkan kinerja model dengan menghindari noise atau informasi yang tidak perlu sehingga menghasilkan rekomendasi yang lebih tepat sasaran.
-*gambar setelah hapus*
+  
 - **Encoding Data**
+  
   Tahapan selanjutnya dalam persiapan data untuk model rekomendasi adalah encoding, khususnya melalui pemetaan ID ke integer. Proses ini dimulai dengan mengekstrak semua nilai unik dari kolom 'User-ID' dan 'ISBN' ke dalam list terpisah. Selanjutnya, dibuat kamus (dictionary) dua arah, satu untuk memetakan setiap 'User-ID' unik ke sebuah integer berurutan (user_to_user_encoded), dan satu lagi untuk memetakan integer tersebut kembali ke 'User-ID' aslinya (user_encoded_to_user). Proses yang sama juga diterapkan pada 'ISBN'. Encoding ID pengguna dan ISBN ini sangat penting karena algoritma machine learning memerlukan representasi numerik yang tidak dapat memproses ID yang bersifat kategorikal secara langsung. Selain itu, encoding ke integer yang berurutan dapat mengurangi kompleksitas data, membantu dalam pengindeksan, dan mempercepat operasi tertentu, terutama ketika ID ini digunakan sebagai indeks untuk lapisan embedding. Berikut contoh kode encode pada User-ID
   ```python
   # Mengubah userID menjadi list tanpa nilai yang sama
@@ -386,13 +387,30 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   user_encoded_to_user = {i: x for i, x in enumerate(user_ids)}
   ```
 - **Memetakan ‘User-ID’ dan ‘ISBN’ ke dataframe yang berkaitan**
-  Proses ini dilakukan dengan membuat kolom baru, 'user' dan 'book', di DataFrame df. Kolom 'user' dibuat dengan memetakan setiap 'User-ID' asli ke representasi integer yang telah di-encode menggunakan kamus user_to_user_encoded, sementara kolom 'book' dihasilkan dengan memetakan 'ISBN' asli ke integer yang di-encode menggunakan kamus book_to_book_encoded. Pemetaan ID ini sangat penting karena algoritma machine learning pada dasarnya memerlukan input numerik yang berurutan, dan ID asli seringkali tidak memenuhi kriteria tersebut.
+  
+  Proses ini dilakukan dengan membuat kolom baru, `user` dan `book`, di DataFrame df. Kolom `user` dibuat dengan memetakan setiap `User-ID` asli ke representasi integer yang telah di-encode menggunakan kamus user_to_user_encoded, sementara kolom `book` dihasilkan dengan memetakan `ISBN` asli ke integer yang di-encode menggunakan kamus book_to_book_encoded. Pemetaan ID ini sangat penting karena algoritma machine learning pada dasarnya memerlukan input numerik yang berurutan, dan ID asli seringkali tidak memenuhi kriteria tersebut.
 - **Mengecek jumlah user dan jumlah buku dan mengubah nilai rating menjadi float**
-   Selanjutnya, jumlah pengguna (num_users) dihitung dari ID pengguna yang sudah di-encode, dan jumlah buku (num_books) dihitung dari ID buku yang sudah di-encode. Langkah ini penting untuk memahami skala data dan menyediakan dimensi yang diperlukan untuk inisialisasi model, seperti ukuran lapisan embedding. Kemudian, dilakukan pemeriksaan dan penentuan nilai minimum (min_rating) serta nilai maksimum (max_rating) dari kolom 'Book-Rating'. Proses ini diawali dengan **mengubah tipe data kolom** 'Book-Rating' menjadi **float**, kemudian nilai minimum dan maksimum dari seluruh rating yang ada diambil. Penentuan rentang rating ini krusial untuk memahami distribusi data rating dan memastikan bahwa model memiliki informasi yang akurat mengenai batas-batas nilai yang mungkin diprediksi atau dianalisis.
+  
+   Selanjutnya, jumlah pengguna `(num_users)` dihitung dari ID pengguna yang sudah di-encode, dan jumlah buku `(num_books)` dihitung dari ID buku yang sudah di-encode. Langkah ini penting untuk memahami skala data dan menyediakan dimensi yang diperlukan untuk inisialisasi model, seperti ukuran lapisan embedding. Kemudian, dilakukan pemeriksaan dan penentuan nilai minimum `(min_rating)` serta nilai maksimum `(max_rating)` dari kolom `Book-Rating`. Proses ini diawali dengan **mengubah tipe data kolom** `Book-Rating` menjadi **float**, kemudian nilai minimum dan maksimum dari seluruh rating yang ada diambil.
+  ```python
+  # Nilai minimum rating
+  min_rating = min(df['Book-Rating'])
+
+  # Nilai maksimal rating
+  max_rating = max(df['Book-Rating'])
+  ```
+  Penentuan rentang rating ini krusial untuk memahami distribusi data rating dan memastikan bahwa model memiliki informasi yang akurat mengenai batas-batas nilai yang mungkin diprediksi atau dianalisis.
 - **Membagi Data untuk Training dan Validasi**
-  Selanjutnya, kita perlu membagi data menjadi training dan validasi. Namun sebelum itu, kita perlu **mengacak seluruh data** secara menyeluruh. Hal ini penting untuk dilakukan untuk memastikan bahwa saat data nanti dibagi, bagian-bagian data pelatihan dan pengujian memiliki campuran informasi yang merata. Jika tidak diacak, model bisa belajar pola yang salah karena data yang berdekatan mungkin memiliki karakteristik yang mirip.
+  
+  Selanjutnya, kita perlu membagi data menjadi training dan validasi. Namun sebelum itu, kita perlu **mengacak seluruh data** secara menyeluruh. Hal ini penting untuk dilakukan untuk memastikan bahwa saat data nanti dibagi, bagian-bagian data pelatihan dan pengujian memiliki campuran informasi yang merata. Jika tidak diacak, model bisa belajar pola yang salah karena data yang berdekatan mungkin memiliki karakteristik yang mirip. Berikut hasil acak data
+
+  ![Data Acak Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/data_acak.png)
+  
   Selanjutnya, informasi yang akan menjadi masukan model dan informasi yang akan diprediksi model dikumpulkan. **ID pengguna dan ID buku** yang sudah diubah menjadi angka diambil untuk **input**. Untuk bagian yang akan **diprediksi**, gunakan nilai **rating buku**. Pada tahap ini, nilai rating ini juga diubah skalanya menjadi antara 0 dan 1 (disebut normalisasi) agar model lebih mudah mempelajarinya dan bekerja dengan stabil.
-  Terakhir, data dibagi menjadi dua bagian, 80% untuk data pelatihan dan 20% sisanya untuk data validasi. Data training akan digunakan untuk melatih model, sedangkan data testing akan digunakan untuk mengevaluasi kinerja model yang sudah dibangun. Pemisahan data ini penting untuk menghindari overfitting dan memastikan model dapat diuji pada data yang tidak digunakan selama proses pelatihan. Kita harus membagi data agar proses transformasi hanya dilakukan pada data latih saja. Data uji harus berperan sebagai data baru yang tidak terpengaruh oleh proses pelatihan, untuk menilai bagaimana model bekerja pada data yang belum pernah dilihat sebelumnya.
+  
+  Terakhir, data dibagi menjadi dua bagian, 80% untuk data pelatihan dan 20% sisanya untuk data validasi. Data training akan digunakan untuk melatih model, sedangkan data testing akan digunakan untuk mengevaluasi kinerja model yang sudah dibangun. Pemisahan data ini penting untuk menghindari overfitting dan memastikan model dapat diuji pada data yang tidak digunakan selama proses pelatihan. Kita harus membagi data agar proses transformasi hanya dilakukan pada data latih saja. Data uji harus berperan sebagai data baru yang tidak terpengaruh oleh proses pelatihan, untuk menilai bagaimana model bekerja pada data yang belum pernah dilihat sebelumnya. Berikut adalah hasil split data
+
+  ![Data Split Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/data_split.png)
 
 ## Modeling
 Pada tahap modeling, kita akan menggunakan 2 pendekatan, yaitu **Content-Based Filtering** dan **Collaborative Filtering** untuk membangun sistem rekomendasi buku. 
