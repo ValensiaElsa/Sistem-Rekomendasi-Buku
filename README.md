@@ -428,10 +428,10 @@ Pendekatan ini akan memberikan rekomendasi buku berdasarkan kesamaan konten anta
 - **Menyusun Matrix Cosine Similarity**
 
    * Matriks cosine similarity yang dihasilkan kemudian disusun menjadi **DataFrame** agar mudah dianalisis dan digunakan untuk mencari buku-buku yang paling mirip dengan buku tertentu. Kolom dan indeks pada DataFrame ini adalah judul buku, dan nilai-nilai di dalamnya menunjukkan tingkat kemiripan antar buku.
-   * 
+     
      ![Cosine Similarity Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/cosine_similarity.png)
      
-     Dengan menggunakan cosine similarity, sistem berhasil mengukur tingkat kemiripan antara satu judul buku dengan judul lainnya. Matriks kesamaan yang dihasilkan berukuran (10000, 10000), yang menunjukkan bahwa terdapat perhitungan kemiripan di antara 10.000 judul buku, baik pada sumbu X maupun Y. Ukuran ini berarti setiap judul dibandingkan dengan semua judul lainnya untuk mengetahui sejauh mana kemiripannya. Namun, karena ukuran data yang besar, tidak semua hasil dapat ditampilkan secara langsung. Oleh karena itu, hanya ditampilkan sebagian data, yaitu 10 judul buku secara vertikal dan 5 judul buku secara horizontal. Hasil kemiripan antar judul ini nantinya digunakan untuk merekomendasikan buku-buku lain yang serupa dengan buku yang pernah dibaca atau dibeli oleh pengguna.
+   * Dengan menggunakan cosine similarity, sistem berhasil mengukur tingkat kemiripan antara satu judul buku dengan judul lainnya. Matriks kesamaan yang dihasilkan berukuran (10000, 10000), yang menunjukkan bahwa terdapat perhitungan kemiripan di antara 10.000 judul buku, baik pada sumbu X maupun Y. Ukuran ini berarti setiap judul dibandingkan dengan semua judul lainnya untuk mengetahui sejauh mana kemiripannya. Namun, karena ukuran data yang besar, tidak semua hasil dapat ditampilkan secara langsung. Oleh karena itu, hanya ditampilkan sebagian data, yaitu 10 judul buku secara vertikal dan 5 judul buku secara horizontal. Hasil kemiripan antar judul ini nantinya digunakan untuk merekomendasikan buku-buku lain yang serupa dengan buku yang pernah dibaca atau dibeli oleh pengguna.
 
 - **Fungsi Rekomendasi Buku**
 
