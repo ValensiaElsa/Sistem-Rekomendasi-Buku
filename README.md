@@ -255,17 +255,17 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
 
 - **Penanganan Missing Value**
   
-  Penanganan missing value merupakan langkah krusial dalam persiapan data untuk sistem rekomendasi. Dalam dataset **books**, teknik imputasi dengan nilai 'Other' diterapkan pada kolom 'Book-Author' dan 'Publisher' untuk mengatasi nilai yang hilang pada baris-baris tertentu.
+  Penanganan missing value merupakan langkah krusial dalam persiapan data untuk sistem rekomendasi. Dalam dataset **books**, teknik imputasi dengan nilai 'Other' diterapkan pada kolom `Book-Author` dan `Publisher` untuk mengatasi nilai yang hilang pada baris-baris tertentu.
   ```python
   # Menetapkan nilai 'Other' pada kolom 'Book-Author' di baris 187689
   books.loc[187689, 'Book-Author'] = 'Other'
   ```
-  Sementara itu, pada dataset **users**, teknik imputasi dengan nilai rata-rata (mean imputation) digunakan untuk mengisi nilai yang hilang (NaN) pada kolom 'Age' dengan nilai rata-rata usia dari seluruh pengguna.
+  Sementara itu, pada dataset **users**, teknik imputasi dengan nilai rata-rata (mean imputation) digunakan untuk mengisi nilai yang hilang (NaN) pada kolom `Age` dengan nilai rata-rata usia dari seluruh pengguna.
   ```python
   # Mengganti nilai NaN atau data yang tidak valid (misalnya nilai negatif) dengan rata-rata usia
   users['Age'] = users['Age'].apply(lambda x: mean_age if pd.isna(x) else x)
   ```
-  Tindakan ini diperlukan untuk memastikan bahwa dataset bebas dari nilai yang hilang yang dapat mengganggu proses pemodelan algoritma rekomendasi. Imputasi memungkinkan untuk mempertahankan sebagian besar informasi dalam dataset dibandingkan dengan penghapusan baris, sekaligus menciptakan data yang lebih konsisten dan dapat diandalkan. Pengisian dengan nilai yang representatif menjaga informasi yang ada dan membuat model lebih stabil.
+  Tahapan imputasi ini diperlukan untuk menjaga konsistensi dan kelengkapan dataset tanpa menghapus baris yang berpotensi menurunkan jumlah data yang tersedia. Imputasi dengan nilai yang representatif, seperti 'Other' untuk kolom kategorikal dan rata-rata untuk kolom numerik, memungkinkan model rekomendasi tetap berjalan stabil tanpa terpengaruh oleh missing value, serta membantu menciptakan dataset yang lebih koheren dan dapat diandalkan. Selain itu, dibandingkan dengan penghapusan baris yang mengandung nilai hilang, imputasi memungkinkan kita mempertahankan informasi yang lebih lengkap dalam dataset, yang pada gilirannya membuat model rekomendasi lebih akurasi dan efisien.
 
 - **Standarisasi Format**
   
