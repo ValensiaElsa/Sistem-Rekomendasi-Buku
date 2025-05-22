@@ -539,12 +539,12 @@ Sebagai contoh hasil rekomendasi buku untuk pengguna dengan ID 146230, tampak ba
 1. **Cold Start Problem**: Jika pengguna atau buku baru tidak memiliki banyak interaksi, model ini kesulitan memberikan rekomendasi yang akurat.
 2. **Sparsity**: Jika matriks interaksi sangat jarang (misalnya, hanya sebagian kecil pengguna yang memberi rating pada buku tertentu), ini dapat mempengaruhi akurasi rekomendasi.
 
-## Evaluasi
-### 1. **Evaluasi Model Content-Based Filtering**
+## Evaluation
+### 1. Evaluasi Model Content-Based Filtering
 
 Dalam model Content-Based Filtering, digunakan tiga metrik evaluasi utama untuk mengukur performa sistem rekomendasi buku berbasis kemiripan konten, yaitu **Precision**, **Recall**, dan **F1-score**. Metrik-metrik ini dipilih karena sesuai untuk mengukur kualitas model dalam tugas klasifikasi biner, yakni memprediksi apakah sebuah pasangan buku memiliki kemiripan tinggi (positif) atau tidak (negatif).
 
-#### **Formula Precision, Recall, dan F1-Score**
+#### Formula Precision, Recall, dan F1-Score
 **Precision** mengukur proporsi prediksi positif yang benar-benar relevan.
 
   $$
@@ -583,16 +583,16 @@ Adapun hasil evaluasi yang diperoleh menunjukkan performa model sebagai berikut:
 
 ![Evaluasi Content Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/evaluasi_content.png)
 
-#### **Hasil Evaluasi**
+#### Hasil Evaluasi
 Pada hasil evaluasi, ketiga metrik menunjukkan nilai sempurna yaitu **1.00**. Ini berarti model berhasil memberikan semua rekomendasi buku yang benar-benar relevan (precision = 1.00), sekaligus tidak melewatkan buku yang relevan sama sekali (recall = 1.00). Nilai F1-score yang sempurna menunjukkan keseimbangan ideal antara precision dan recall.
 
 Nilai evaluasi ini mengindikasikan bahwa **sistem rekomendasi bekerja sangat baik** pada subset data yang diuji, menghasilkan rekomendasi yang sangat akurat dan komprehensif.
 
-### 2. **Evaluasi Model Collaborative Filtering **
+### 2. Evaluasi Model Collaborative Filtering
 
 Metrik yang digunakan dalam proyek ini untuk mengevaluasi performa model rekomendasi menggunakan Collaborative Filtering adalah **Root Mean Squared Error (RMSE)**. RMSE adalah metrik yang umum digunakan untuk mengukur kesalahan dalam prediksi yang dihasilkan oleh model, dan dalam konteks sistem rekomendasi, ini mengukur seberapa jauh prediksi rating yang diberikan oleh model dengan rating aktual yang diberikan oleh pengguna.
 
-#### **Formula RMSE**
+#### Formula RMSE
 
 RMSE dihitung dengan rumus sebagai berikut:
 
@@ -608,11 +608,15 @@ Di mana:
 
 Untuk menghitung nilai RMSE, pertama-tama, selisih antara nilai rating sebenarnya dan nilai rating yang diprediksi dihitung untuk setiap rating. Selanjutnya, selisih tersebut kemudian dikuadratkan. Pengkuadratan ini berfungsi untuk menghilangkan nilai negatif dan memberikan bobot lebih pada kesalahan yang lebih besar. Setelah itu, hasil kuadrat dari semua selisih dijumlahkan dan dirata-ratakan, yang menghasilkan Mean Squared Error (MSE). Terakhir, akar kuadrat dari MSE diambil, bertujuan untuk mengembalikan unit error ke skala asli dari nilai rating agar lebih mudah dipahami. RMSE memberikan ukuran kesalahan yang lebih besar ketika perbedaan antara nilai yang diprediksi dan nilai aktual lebih besar, sehingga **semakin rendah nilai RMSE, semakin baik kinerja model**.
 
-#### **Hasil Evaluasi RMSE**
+#### Hasil Evaluasi RMSE
 
 ![Evaluasi RMSE Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/evaluasi_rmse.png)
 
 Gambar grafik RMSE selama epoch menunjukkan performa model rekomendasi buku dalam proses pelatihan dan pengujian. Terlihat bahwa nilai RMSE pada data training menurun secara konsisten dari sekitar 0.31 ke sekitar 0.19, yang menandakan **model semakin mampu mempelajari pola interaksi pengguna dan buku dengan baik**. Namun, pada data testing, RMSE relatif stabil di kisaran 0.31 tanpa penurunan signifikan, yang mengindikasikan model mengalami **sedikit overfitting**—mampu menyesuaikan dengan data pelatihan namun kurang optimal dalam generalisasi ke data baru. Meski demikian, **perbedaan nilai RMSE yang tidak terlalu besar** tetap **menunjukkan bahwa model memiliki kemampuan prediksi yang cukup baik**. Untuk meningkatkan generalisasi, langkah seperti regularisasi lebih kuat, penyesuaian dropout, atau peningkatan jumlah data pelatihan bisa dipertimbangkan. Secara keseluruhan, model sudah menunjukkan performa yang memuaskan dengan potensi perbaikan di masa depan.
+
+### Evaluasi Terhadap Business Understanding
+- Model Content-Based Filtering berhasil dibangun untuk memberikan rekomendasi buku yang relevan dan sesuai dengan preferensi pengguna dengan memanfaatkan atribut buku seperti judul, penulis, dan penerbit. Sistem ini menggunakan teknik Cosine Similarity dan TF-IDF untuk menghitung kemiripan antar buku berdasarkan atribut teks, memungkinkan sistem untuk memberikan rekomendasi berbasis kesamaan konten antara buku yang telah dibaca oleh pengguna dan buku lainnya.
+- Model Collaborative Filtering berhasil dibangun untuk memberikan rekomendasi buku yang relevan dengan memanfaatkan interaksi pengguna seperti rating dan preferensi eksplisit. Sistem ini menganalisis pola kesamaan antar pengguna dan memberikan rekomendasi berbasis kesamaan preferensi pengguna lain. Dengan menggunakan data rating dan interaksi pengguna lainnya, sistem dapat memberikan rekomendasi buku yang relevan berdasarkan pola preferensi kolektif, yang merupakan inti dari collaborative filtering.
 
 ## Referensi
 
