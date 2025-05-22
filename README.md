@@ -268,8 +268,14 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   Tahapan imputasi ini diperlukan untuk menjaga konsistensi dan kelengkapan dataset tanpa menghapus baris yang berpotensi menurunkan jumlah data yang tersedia. Imputasi dengan nilai yang representatif, seperti 'Other' untuk kolom kategorikal dan rata-rata untuk kolom numerik, memungkinkan model rekomendasi tetap berjalan stabil tanpa terpengaruh oleh missing value, serta membantu menciptakan dataset yang lebih koheren dan dapat diandalkan. Selain itu, dibandingkan dengan penghapusan baris yang mengandung nilai hilang, imputasi memungkinkan kita mempertahankan informasi yang lebih lengkap dalam dataset, yang pada gilirannya membuat model rekomendasi lebih akurasi dan efisien.
 
 - **Standarisasi Format**
-  
-  Dalam tahapan persiapan data, standarisasi format diterapkan pada kolom ISBN yang terdapat baik dalam dataset books maupun ratings. Proses ini melibatkan pengubahan seluruh karakter dalam kolom 'ISBN' menjadi huruf kapital menggunakan fungsi `.str.upper()` pada kedua dataset. Standarisasi format penting untuk menjaga konsistensi dalam penggabungan data, terutama saat menggunakan ISBN sebagai kunci penghubung antar dataset. Dengan mengubah ISBN menjadi format seragam, kita menghindari masalah kesalahan pencocokan data antara dataset books dan ratings yang disebabkan oleh perbedaan format penulisan. Konsistensi ini sangat penting untuk operasi penggabungan data (merging atau joining) berdasarkan ISBN.
+
+  Dalam tahapan persiapan data, standarisasi format diterapkan pada kolom **ISBN** yang terdapat pada kedua dataset, yaitu `books` dan `ratings`. Proses ini dilakukan dengan mengubah seluruh karakter dalam kolom **'ISBN'** menjadi huruf kapital menggunakan fungsi `.str.upper()`. Teknik ini diterapkan pada kedua dataset dengan kode berikut:
+
+  ```python
+  books['ISBN'] = books['ISBN'].str.upper()
+  ratings['ISBN'] = ratings['ISBN'].str.upper()
+  ```
+  Standarisasi format ISBN ini penting untuk menjaga **konsistensi** dalam penggabungan data, terutama saat menggunakan **ISBN** sebagai kunci penghubung antar dataset. Tanpa standarisasi, bisa terjadi kesalahan pencocokan data jika terdapat perbedaan dalam format penulisan ISBN, seperti huruf kapital vs huruf kecil, atau adanya spasi yang tidak konsisten. Dengan mengubah ISBN menjadi format yang seragam, kita menghindari masalah kesalahan pencocokan data yang dapat mengganggu proses **merging** atau **joining** dataset berdasarkan ISBN. Konsistensi ini sangat penting agar data yang digabungkan tetap **akurat** dan **dapat diandalkan**, yang pada akhirnya meningkatkan **kualitas dan stabilitas** model rekomendasi.
 
 - **Penanganan Invalid Data**
   
