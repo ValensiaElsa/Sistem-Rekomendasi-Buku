@@ -44,8 +44,8 @@ Dataset yang digunakan dalam proyek ini adalah [Book Recommendation Dataset](htt
 
 Dataset ini terdiri dari tiga file utama yang berfungsi untuk membangun sistem rekomendasi buku:
 
-1. **Users**: Menyediakan informasi demografis pengguna, termasuk ID pengguna, lokasi, dan usia (beberapa data kosong).
-2. **Books**: Menyediakan informasi tentang buku, termasuk ISBN, judul buku, penulis, penerbit, serta URL gambar sampul buku.
+1. **Books**: Menyediakan informasi tentang buku, termasuk ISBN, judul buku, penulis, penerbit, serta URL gambar sampul buku.
+2. **Users**: Menyediakan informasi demografis pengguna, termasuk ID pengguna, lokasi, dan usia.
 3. **Ratings**: Berisi informasi tentang rating yang diberikan oleh pengguna terhadap buku-buku tertentu, baik yang eksplisit (1-10) maupun implisit (0).
 
 ### Variabel-variabel pada Book Recommendation dataset:
