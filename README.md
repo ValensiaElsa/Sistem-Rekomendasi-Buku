@@ -205,32 +205,38 @@ Oleh karena itu, untuk menjaga kualitas rekomendasi dan menghindari data yang ti
 
 ## Exploratory Data Analysis (EDA)
 ### Univariate Analysis
-- **Analisis Distribusi Data Kategorikal**
+- **Analisis Distribusi Jumlah Buku berdasarkan Penulis**
   
   ![Distribusi Penulis Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_penulis.png)
   
   Berdasarkan analisis distribusi penulis, ditunjukkan bahwa Agatha Christie adalah penulis dengan jumlah buku terbanyak, melebihi 600 judul, diikuti oleh William Shakespeare dan Stephen King dengan jumlah buku mendekati 500-600 judul. Penulis lain seperti Ann M. Martin, Carolyn Keene, dan Isaac Asimov juga memiliki jumlah buku yang signifikan, sekitar 300-400 judul. Selain itu, terdapat juga beberapa penulis lain dengan lebih dari satu judul buku. Penulis dengan jumlah buku yang lebih banyak cenderung memiliki representasi konten yang lebih besar. Dalam content-based filtering, ini berarti pengguna yang menyukai karya penulis yang sangat produktif seperti Agatha Christie mungkin akan lebih sering direkomendasikan buku lain dari penulis yang sama atau yang memiliki kemiripan konten. Sementara itu, dalam collaborative filtering, popularitas penulis dengan banyak buku dapat tercermin dalam data interaksi pengguna, yang berpotensi menghasilkan rekomendasi yang lebih sering untuk karya-karya mereka.
 
+- **Analisis Distribusi Jumlah Buku berdasarkan Penerbit**
+
   ![Distribusi Penerbit Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_penerbit.png)
   
   Dari visualisasi tersebut, dapat disimpulkan bahwa Harlequin adalah penerbit dengan jumlah buku terbanyak secara signifikan dibandingkan penerbit lain. Penerbit-penerbit berikutnya seperti Silhouette, Pocket, dan Ballantine Books memiliki jumlah buku yang relatif lebih seimbang namun jauh lebih sedikit dibanding Harlequin. Kondisi ini menunjukkan dominasi Harlequin dalam koleksi buku yang dapat mempengaruhi fokus analisis dan sistem rekomendasi, khususnya pada content-based filtering dan pola interaksi pengguna dalam collaborative filtering.
  
-- **Analisis Distribusi Data Numerik**
+- **Analisis Distribusi Usia Pengguna**
   
   ![Distribusi Umur Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_umur.png)
   
   Distribusi umur pengguna menunjukkan adanya potensi data yang tidak valid, terutama pada rentang umur mendekati 0 dan di atas 100 tahun. Keberadaan data umur yang invalid dapat mempengaruhi akurasi sistem rekomendasi jika umur digunakan sebagai fitur (meskipun dalam konteks Content-Based Filtering dan Collaborative Filtering tidak digunakan). Oleh karena itu, langkah-langkah penanganan data invalid perlu dilakukan. Mengingat jumlah data invalid yang signifikan, diputuskan untuk menerapkan metode imputasi dalam penanganan data ini dengan menggunakan nilai rata-rata (mean).
+
+- **Analisis Distribusi Rating**
   
   ![Distribusi Rating Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_rating.png)
   
   Visualisasi distribusi rating buku memperjelas dominasi rating 0 dalam dataset, yang mengindikasikan sejumlah besar interaksi implisit atau tidak adanya rating eksplisit. Nilai 0 harus dihapus untuk memfokuskan analisis pada preferensi pengguna yang terungkap melalui rating positif (1 hingga 10). Penghapusan ini akan menghasilkan dataset yang lebih kecil namun berpotensi lebih relevan untuk mengidentifikasi preferensi pengguna yang sebenarnya dalam pengembangan sistem rekomendasi berbasis collaborative filtering.
 
-### Bivariate Analysis
+- **Analisis Distribusi Jumlah Buku dengan Rating Terbanyak**
 
 ![Most Rated Book Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/most_rated_book.png)
 
 Visualisasi Buku yang Paling Banyak Diberikan Rating mengidentifikasi 'Wild Animus' sebagai buku yang menerima rating terbanyak secara signifikan, diikuti oleh 'The Lovely Bones: A Novel'. Buku-buku dengan jumlah rating tinggi ini mengindikasikan popularitas yang besar di kalangan pengguna dan dapat menjadi rekomendasi yang kuat dalam sistem. Data ini penting karena buku-buku populer sering kali memiliki banyak rating positif, menjadikannya kandidat yang baik untuk direkomendasikan kepada pengguna lain.
 
+- **Analisis Distribusi User dengan Rating Terbanyak**
+  
 ![Distribusi Pengguna Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/distribusi_pengguna.png)
 
 Visualisasi pengguna yang memberikan rating terbanyak menunjukkan bahwa pengguna dengan ID 11676 secara signifikan memberikan rating untuk jumlah buku yang jauh lebih banyak dibandingkan pengguna lain dalam dataset. Pengguna-pengguna aktif seperti ini sangat berharga untuk pengembangan model collaborative filtering karena menyediakan data preferensi yang kaya dan beragam. Rating dari pengguna dengan banyak interaksi dapat membantu algoritma dalam mengidentifikasi pola kesamaan antar pengguna dan meningkatkan kualitas rekomendasi. 
