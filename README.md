@@ -251,7 +251,7 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   # Drop URL columns
   books.drop(['Image-URL-S', 'Image-URL-M', 'Image-URL-L'], axis=1, inplace=True)
   ```
-  Proses ini dilakukan dengan menentukan nama-nama kolom yang akan dihapus dan menggunakan parameter axis=1 untuk mengindikasikan penghapusan berdasarkan kolom, serta inplace=True untuk menerapkan perubahan langsung pada DataFrame. Penghapusan kolom URL gambar ini diperlukan karena informasi tersebut tidak relevan untuk pemodelan rekomendasi berbasis konten maupun kolaboratif, dapat mengurangi dimensi data yang tidak perlu, memfokuskan analisis pada fitur-fitur yang lebih bermakna dalam menentukan kemiripan buku atau preferensi pengguna, serta menyederhanakan proses pemodelan dengan menghilangkan potensi kompleksitas pemrosesan data gambar.
+  Proses ini dilakukan dengan menentukan nama-nama kolom yang akan dihapus dan menggunakan parameter `axis=1` untuk mengindikasikan penghapusan berdasarkan kolom, serta `inplace=True` untuk menerapkan perubahan langsung pada DataFrame. Penghapusan kolom URL gambar ini diperlukan karena informasi tersebut tidak relevan untuk pemodelan rekomendasi berbasis konten maupun kolaboratif, dapat mengurangi dimensi data yang tidak perlu, memfokuskan analisis pada fitur-fitur yang lebih bermakna dalam menentukan kemiripan buku atau preferensi pengguna, serta menyederhanakan proses pemodelan dengan menghilangkan potensi kompleksitas pemrosesan data gambar.
 
 - **Penanganan Missing Value**
   
