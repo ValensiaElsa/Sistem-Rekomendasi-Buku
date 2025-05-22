@@ -173,13 +173,14 @@ Dataset ini terdiri dari tiga file utama yang berfungsi untuk membangun sistem r
 
 - **Pengecekan Data Duplikat**
 
-  Selanjutnya, kita memeriksa apakah ada data duplikat di dalam dataset. Berdasarkan hasil pemeriksaan terhadap duplikasi data menggunakan fungsi `.duplicated()` pada dataset users, ditemukan bahwa tidak ada baris duplikat dalam dataset tersebut.
+  Selanjutnya, kita memeriksa apakah ada data duplikat di dalam dataset. Berdasarkan hasil pemeriksaan terhadap duplikasi data menggunakan fungsi `.duplicated()` pada dataset users, ditemukan bahwa **tidak ada baris duplikat** dalam dataset tersebut.
 
 ### Data Understanding untuk Ratings.csv
 - **Pengecekan Informasi Awal**
+  
   ![Ratings Info Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/ratings_info.png)
 
-  Berdasarkan hasil pemeriksaan dataset ratings menggunakan fungsi info(), dataset ini terdiri dari 1.149.780 entri dengan 3 kolom, yaitu User-ID, ISBN, dan Book-Rating. Semua kolom memiliki jumlah data yang tidak hilang (non-null), artinya tidak ada missing value dalam dataset ratings, yang sangat baik untuk kelancaran proses analisis dan model prediksi.
+  Berdasarkan hasil pemeriksaan dataset ratings menggunakan fungsi `info()`, dataset ini terdiri dari 1.149.780 entri dengan 3 kolom, yaitu User-ID, ISBN, dan Book-Rating. Semua kolom memiliki jumlah data yang tidak hilang (non-null), artinya tidak ada missing value dalam dataset ratings, yang sangat baik untuk kelancaran proses analisis dan model prediksi.
 
   Tipe data pada kolom User-ID dan Book-Rating sudah sesuai dengan tipe data yang diharapkan, yaitu int64 untuk data numerik, sedangkan kolom ISBN bertipe object. Untuk kolom ISBN, meskipun bertipe object, ini adalah tipe data yang sesuai karena ISBN bersifat alfanumerik dan terdiri dari karakter yang dapat berbeda.
 
@@ -187,11 +188,11 @@ Dataset ini terdiri dari tiga file utama yang berfungsi untuk membangun sistem r
   
   ![Missing Ratings Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/missing_ratings.png)
   
-  Berdasarkan hasil pemeriksaan menggunakan fungsi isnull(),sum() pada dataset ratings, terlihat bahwa tidak ada nilai yang hilang (missing values) pada ketiga kolom, yaitu User-ID, ISBN, dan Book-Rating. Semua kolom memiliki 0 nilai kosong, yang berarti dataset ini sudah lengkap dan tidak memerlukan penanganan missing values. 
+  Berdasarkan hasil pemeriksaan menggunakan fungsi `isnull().sum()` pada dataset ratings, terlihat bahwa tidak ada nilai yang hilang (missing values) pada ketiga kolom, yaitu User-ID, ISBN, dan Book-Rating. Semua kolom memiliki 0 nilai kosong, yang berarti dataset ini sudah lengkap dan tidak memerlukan penanganan missing values. 
 
 - **Pengecekan Invalid Data**
   
-  Dengan metode yang sama untuk pengecekan ISBN pada dataset books, atribut ISBN pada dataset ratings juga diperiksa. Berdasarkan hasil pemeriksaan, ditemukan bahwa ada karakter non-alfanumerik dalam kolom ISBN pada data ratings. Untuk memastikan integritas data dalam sistem rekomendasi, hal ini perlu segera diperbaiki. ISBN seharusnya hanya berisi angka dan huruf yang valid, tanpa karakter khusus seperti simbol atau spasi. Oleh karena itu, perlu dilakukan pembersihan data dengan memperbaiki entri ISBN yang mengandung karakter non-alfanumerik.
+  Dengan metode yang sama untuk pengecekan ISBN pada dataset books, atribut ISBN pada dataset ratings juga diperiksa. Berdasarkan hasil pemeriksaan, ditemukan bahwa **ada karakter non-alfanumerik dalam kolom ISBN** pada data ratings. Untuk memastikan integritas data dalam sistem rekomendasi, hal ini perlu segera diperbaiki. ISBN seharusnya hanya berisi angka dan huruf yang valid, tanpa karakter khusus seperti simbol atau spasi. Oleh karena itu, perlu dilakukan pembersihan data dengan memperbaiki entri ISBN yang mengandung karakter non-alfanumerik.
 
   ![Ratings Describe Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/ratings_describes.png)
 
@@ -200,7 +201,7 @@ Oleh karena itu, untuk menjaga kualitas rekomendasi dan menghindari data yang ti
 
 - **Pengecekan Data Duplikat**
 
-  Berdasarkan hasil pemeriksaan terhadap data ratings, tidak ditemukan adanya baris duplikat pada dataset. Hal ini menandakan bahwa setiap entri pada data ratings adalah unik, yang penting untuk memastikan bahwa setiap interaksi pengguna dengan buku dihitung secara terpisah dan tidak terjadi redundansi dalam informasi yang diberikan kepada model rekomendasi.
+  Berdasarkan hasil pemeriksaan terhadap data ratings, **tidak ditemukan adanya baris duplikat** pada dataset. Hal ini menandakan bahwa setiap entri pada data ratings adalah unik, yang penting untuk memastikan bahwa setiap interaksi pengguna dengan buku dihitung secara terpisah dan tidak terjadi redundansi dalam informasi yang diberikan kepada model rekomendasi.
 
 ## Exploratory Data Analysis (EDA)
 ### Univariate Analysis
