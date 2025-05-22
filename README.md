@@ -299,7 +299,7 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   
   **Mengubah Invalid Years pada "Years-of-Publication"**
   
-  Selanjutnya, **konversi tipe data atau data type conversion** diterapkan pada kolom **'Year-Of-Publication'**. Mengubah tipe data menjadi integer memastikan bahwa tahun publikasi dapat diolah dengan benar dalam analisis numerik, seperti perhitungan usia buku atau pengelompokan berdasarkan periode publikasi, serta menghindari potensi kesalahan interpretasi jika kolom tersebut masih berupa string atau tipe data lainnya. Untuk mengatasi data tahun publikasi yang jelas-jelas tidak valid, seperti nilai 0 atau tahun yang jauh di masa depan (melebihi 2025), digunakan teknik imputasi dengan nilai mode atau **mode imputation**. Kode yang digunakan adalah sebagai berikut:
+  Selanjutnya, **konversi tipe data atau data type conversion** diterapkan pada kolom **`Year-Of-Publication`**. Mengubah tipe data menjadi integer memastikan bahwa tahun publikasi dapat diolah dengan benar dalam analisis numerik, seperti perhitungan usia buku atau pengelompokan berdasarkan periode publikasi, serta menghindari potensi kesalahan interpretasi jika kolom tersebut masih berupa string atau tipe data lainnya. Untuk mengatasi data tahun publikasi yang jelas-jelas tidak valid, seperti nilai 0 atau tahun yang jauh di masa depan (melebihi 2025), digunakan teknik imputasi dengan nilai mode atau **mode imputation**. Kode yang digunakan adalah sebagai berikut:
    ```python
    mode_year = books['Year-Of-Publication'].mode()[0]
    # Terapkan perubahan pada kolom 'Year-Of-Publication'
@@ -308,7 +308,7 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
    
   **Menghapus Karakter Tidak Valid pada Kolom ISBN**
   
-  Untuk memastikan integritas kode International Standard Book Number (ISBN), diterapkan teknik **penghapusan karakter tidak valid atau invalid character removal**. Teknik ini melibatkan identifikasi dan penghilangan karakter-karakter selain huruf (A-Z, a-z) dan angka (0-9) dari setiap nilai dalam kolom 'ISBN' pada dataset books dan ratings. Kode pembersihan adalah sebagai berikut
+  Untuk memastikan integritas kode International Standard Book Number (ISBN), diterapkan teknik **penghapusan karakter tidak valid atau invalid character removal**. Teknik ini melibatkan identifikasi dan penghilangan karakter-karakter selain huruf (A-Z, a-z) dan angka (0-9) dari setiap nilai dalam kolom `ISBN` pada dataset books dan ratings. Kode pembersihan adalah sebagai berikut
   ```python
   def clean_isbn(isbn):
     return re.sub(r'[^A-Za-z0-9]', '', isbn)
@@ -317,17 +317,21 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
 
   **Mengubah Nilai Invalid Age**
   
-  Pada dataset **users**, penanganan data tidak valid dilakukan pada kolom 'Age' dan 'Location'. Untuk kolom 'Age', digunakan teknik imputasi dengan nilai rata-rata atau **mean imputation** untuk mengganti nilai-nilai usia yang di luar batas wajar (kurang dari 10 atau lebih dari 80 tahun). Asumsi di balik ini adalah bahwa nilai-nilai ekstrem kemungkinan merupakan kesalahan input, dan menggantinya dengan nilai rata-rata usia pengguna secara keseluruhan akan mempertahankan distribusi usia yang lebih realistis dalam dataset.
+  Pada dataset **users**, penanganan data tidak valid dilakukan pada kolom `Age`. Untuk kolom `Age`, digunakan teknik imputasi dengan nilai rata-rata atau **mean imputation** untuk mengganti nilai-nilai usia yang di luar batas wajar (kurang dari 10 atau lebih dari 80 tahun). Asumsi di balik ini adalah bahwa nilai-nilai ekstrem kemungkinan merupakan kesalahan input, dan menggantinya dengan nilai rata-rata usia pengguna secara keseluruhan akan mempertahankan distribusi usia yang lebih realistis dalam dataset. Berikut kodenya:
+  ```python
+  # Mengganti nilai yang lebih besar dari 80 atau lebih kecil dari 10 dengan rata-rata usia
+  users['Age'] = users['Age'].apply(lambda x: mean_age if x < 10 or x > 80 else x)
+  ```
 
   **Memisahkan Lokasi (City, State, Country)**
   
-  Pada kolom 'Location', diterapkan teknik **ekstraksi informasi atau information extraction** dan **pemisahan data atau data splitting**. Informasi lokasi yang awalnya mungkin berupa string gabungan (misalnya, "city, state, country") dipecah menjadi tiga kolom terpisah ('City', 'State', 'Country'). Teknik ekstraksi informasi dan pemisahan data pada kolom 'Location' di dataset users diterapkan dengan tujuan untuk mendapatkan informasi geografis yang lebih terstruktur dan spesifik mengenai pengguna. Alasan utama dilakukannya tahapan ini adalah untuk memungkinkan analisis preferensi pengguna berdasarkan lokasi geografis mereka. Informasi lokasi dalam format string gabungan (seperti "city, state, country") sulit untuk dianalisis secara langsung atau digunakan sebagai fitur dalam model rekomendasi. Dengan memecahnya menjadi kolom-kolom terpisah, kita mendapatkan data yang lebih granular dan mudah diolah.  Berikut adalah hasil setelah data Location dipisah menjadi City, State, dan Country.
+  Pada kolom `Location`, diterapkan teknik **ekstraksi informasi atau information extraction** dan **pemisahan data atau data splitting**. Informasi lokasi yang awalnya berupa string gabungan dipecah menjadi tiga kolom terpisah (`City`, `State`, `Country`). Teknik ekstraksi informasi dan pemisahan data pada kolom `Location` di dataset users diterapkan dengan tujuan untuk mendapatkan informasi geografis yang lebih terstruktur dan spesifik mengenai pengguna. Alasan utama dilakukannya tahapan ini adalah untuk memungkinkan analisis preferensi pengguna berdasarkan lokasi geografis mereka. Informasi lokasi dalam format string gabungan sulit untuk dianalisis secara langsung atau digunakan sebagai fitur dalam model rekomendasi. Dengan memecahnya menjadi kolom-kolom terpisah, kita mendapatkan data yang lebih mudah diolah. Berikut adalah hasil setelah data Location dipisah menjadi City, State, dan Country.
   
   ![Penanganan Lokasi Image](https://raw.githubusercontent.com/ValensiaElsa/Sistem-Rekomendasi-Buku/main/images/penanganan_lokasi.png)
 
   **Menghapus Rating dengan Nilai 0**
   
-  Terakhir, penanganan invalid data 'Book-Rating' pada dataset **ratings** dilakukan dengan teknik **pemfilteran data atau data filtering** dengan menghapus baris-baris di mana nilai pada kolom 'Book-Rating' adalah 0. Proses ini dilakukan dengan memilih baris-baris di mana nilai 'Book-Rating' tidak sama dengan 0.
+  Terakhir, penanganan invalid data `Book-Rating` pada dataset **ratings** dilakukan dengan teknik **pemfilteran data atau data filtering** dengan menghapus baris-baris di mana nilai pada kolom 'Book-Rating' adalah 0. Proses ini dilakukan dengan memilih baris-baris di mana nilai `Book-Rating` tidak sama dengan 0.
   ```python
   ratings = ratings[ratings['Book-Rating'] != 0]
   ratings = ratings.reset_index(drop = True)
