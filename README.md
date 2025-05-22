@@ -387,7 +387,7 @@ Tahapan data preparation penting dilakukan dalam membangun sistem rekomendasi. P
   Selanjutnya, matriks TF-IDF yang merepresentasikan bobot fitur teks diubah tipe datanya menjadi float32. Konversi ini penting dilakukan karena bertujuan untuk mengoptimalkan efisiensi memori dan kecepatan komputasi saat memproses data, terutama karena matriks TF-IDF biasanya berukuran besar dan sparse. Dengan menggunakan tipe data float32, penggunaan ruang penyimpanan berkurang dibandingkan float64, sehingga mempercepat operasi matematika dan pemrosesan algoritma tanpa mengorbankan akurasi yang signifikan. Langkah ini penting dalam content-based filtering untuk menjaga performa sistem tetap responsif dan scalable saat menangani dataset besar.
   
 
-### Persiapan Colaborative Filtering
+### Persiapan Collaborative Filtering
 - **Penghapusan Kolom untuk Menyederhanakan Dataset**
   
   Dalam tahapan persiapan data, dilakukan pemilihan fitur melalui penghapusan kolom untuk menyederhanakan dataset. Proses ini menghapus kolom-kolom **'Year-Of-Publication', 'Publisher', 'Age', 'City', 'State', dan 'Country'** dari DataFrame utama. Tindakan ini diperlukan untuk mengurangi kompleksitas data dan memfokuskan dataset pada fitur-fitur yang dianggap paling relevan untuk tujuan sistem rekomendasi yang akan dibangun. Dengan mengurangi dimensi data, proses komputasi untuk pelatihan model dapat menjadi lebih efisien dan berpotensi meningkatkan kinerja model dengan menghindari noise atau informasi yang tidak perlu sehingga menghasilkan rekomendasi yang lebih tepat sasaran.
